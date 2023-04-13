@@ -95,7 +95,7 @@ export const Contact = () => {
         <div className='space-y-4'>
           {/* //TODO: Replace the address, phone number, and email with your own */}
           <p className='font-semibold'>Dirección: Jairo's Office, 123 Massage Street, Relaxation City, Tranquility</p>
-          <p className='font-semibold'>Teléfono: +1 (555) 123-4567</p>
+          <p className='font-semibold'>Teléfono: +34 600 123456</p>
           <p className='font-semibold'>Correo electrónico: jairo@quirojairoterapia.com</p>
           <div className='w-full h-64'>
             <LoadScript googleMapsApiKey={googleMapsApiKey}>
