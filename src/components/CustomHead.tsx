@@ -6,7 +6,7 @@ interface CustomHeadProps {
   keywords?: string;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://localhost:3000';
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 const defaultDescription = 'QuiroJairoTerapia - Alivio y bienestar en tus manos';
 const defaultKeywords = 'QuiroJairoTerapia, Quiromasajes, Terapia, Alivio, Bienestar, Manos, Masajes';
 
@@ -29,5 +29,3 @@ export const CustomHead = ({ title, description, keywords }: CustomHeadProps) =>
     </Head>
   );
 };
-
-export default CustomHead;
