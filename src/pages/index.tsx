@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { CustomHead, Navbar } from '@/components';
+import { CustomHead, Hero, Navbar } from '@/components';
 import { IMenuItem, Id, LabelMap } from '@/interfaces';
 import { useSmoothScroll } from '@/hooks';
 
@@ -42,11 +42,8 @@ const HomePage: NextPage = () => {
         isMenuOpen={isMenuOpen}
       />
       <main>
-        <section id='inicio' className='flex items-center justify-center min-vh-screen'>
-          <div className='px-4 mx-auto text-white md:px-8 lg:px-16 xl:max-w-5xl bg-navy-blue'>
-            <h1 className='text-4xl font-roboto'>Welcome to QuiroJairoTerapia</h1>
-            <p className='font-sans text-lg text-turquoise'>Alivio y bienestar en tus manos</p>
-          </div>
+        <section id='inicio' className='flex items-center justify-center w-full min-vh-screen'>
+          <Hero />
         </section>
 
         <section id='servicios' className='flex items-center justify-center min-vh-screen'>
