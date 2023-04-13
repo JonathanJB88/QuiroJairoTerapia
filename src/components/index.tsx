@@ -4,3 +4,4 @@ export * from './Hero';
 export * from './Emoji';
 export * from './ListItem';
 export * from './HeaderHeroText';
+export * from './Contact';

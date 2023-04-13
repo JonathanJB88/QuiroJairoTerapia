@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { CustomHead, Hero, Navbar } from '@/components';
+import { Contact, CustomHead, Hero, Navbar } from '@/components';
 import { IMenuItem, Id, LabelMap } from '@/interfaces';
 import { useSmoothScroll } from '@/hooks';
 
@@ -74,11 +74,8 @@ const HomePage: NextPage = () => {
           </div>
         </section>
 
-        <section id='contacto' className='flex items-center justify-center min-vh-screen'>
-          <div className='px-4 mx-auto text-white md:px-8 lg:px-16 xl:max-w-5xl bg-navy-blue'>
-            <h1 className='text-4xl font-roboto'>Contacto</h1>
-            <p className='font-sans text-lg text-turquoise'>Alivio y bienestar en tus manos</p>
-          </div>
+        <section id='contacto' className='flex items-center justify-center w-full min-vh-screen'>
+          <Contact />
         </section>
       </main>
     </div>
