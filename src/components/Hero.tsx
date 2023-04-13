@@ -5,7 +5,7 @@ export const Hero = () => {
     <div className='flex items-center justify-center h-full min-h-screen'>
       <video
         className='absolute inset-0 object-cover w-full h-full'
-        src='/videos/quirojairomasaje.mp4'
+        src='/videos/quirojairoterapia.mp4'
         autoPlay
         muted
         loop

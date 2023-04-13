@@ -45,7 +45,7 @@ export const Contact = () => {
   return (
     <div className='container max-w-screen-xl px-4 py-8 mx-4 mb-2 -mt-12 rounded-md md:mx-auto md:px-8 lg:px-16 bg-light-gray'>
       <h1 className='mb-6 text-2xl font-bold text-left md:text-3xl font-roboto text-navy-blue'>
-        ¡Ponte en contacto con QuiroJairoMasaje!
+        ¡Ponte en contacto con QuiroJairoTerapia!
       </h1>
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8'>
         <form onSubmit={handleSubmit} className='space-y-4'>
@@ -96,7 +96,7 @@ export const Contact = () => {
           {/* //TODO: Replace the address, phone number, and email with your own */}
           <p className='font-semibold'>Dirección: Jairo's Office, 123 Massage Street, Relaxation City, Tranquility</p>
           <p className='font-semibold'>Teléfono: +1 (555) 123-4567</p>
-          <p className='font-semibold'>Correo electrónico: jairo@quirojairomasaje.com</p>
+          <p className='font-semibold'>Correo electrónico: jairo@quirojairoterapia.com</p>
           <div className='w-full h-64'>
             <LoadScript googleMapsApiKey={googleMapsApiKey}>
               <GoogleMap mapContainerStyle={mapContainerStyle} center={officeLocation} zoom={14}>
