@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { IMenuItem, Id } from '@/interfaces';
@@ -75,5 +74,3 @@ export const Navbar = ({ menuItems, activeSection, isMenuOpen, handleClick, togg
     </header>
   );
 };
-
-export default Navbar;
