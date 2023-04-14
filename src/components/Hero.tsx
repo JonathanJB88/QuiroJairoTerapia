@@ -23,7 +23,7 @@ export const Hero = () => {
           <Emoji label='star' symbol='🌟' />
           <Emoji label='raising hands' symbol='🙌' />
         </p>
-        <ul className='flex flex-col space-y-2 text-left text-white md:space-y-4'>
+        <ul className='flex flex-col space-y-2 font-sans text-left text-white md:space-y-4'>
           <ListItem emoji={{ label: 'blue small square', symbol: '🔹' }} text='Alivio del dolor muscular' />
           <ListItem emoji={{ label: 'blue small square', symbol: '🔹' }} text='Reducción de tensiones' />
           <ListItem emoji={{ label: 'blue small square', symbol: '🔹' }} text='Mejora la circulación sanguínea' />

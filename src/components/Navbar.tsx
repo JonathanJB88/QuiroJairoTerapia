@@ -56,7 +56,7 @@ export const Navbar = ({ menuItems, activeSection, isMenuOpen, handleClick, togg
           </svg>
         </button>
       </nav>
-      <nav className={`lg:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
+      <nav className={`lg:hidden font-roboto ${isMenuOpen ? 'block' : 'hidden'}`}>
         {menuItems.map((item) => (
           <div key={item.id} className='py-2 bg-white'>
             <li

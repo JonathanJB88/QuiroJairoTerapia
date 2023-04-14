@@ -5,3 +5,6 @@ export * from './Emoji';
 export * from './ListItem';
 export * from './HeaderHeroText';
 export * from './Contact';
+export * from './ContactItem';
+export * from './Social';
+export * from './ContactForm';
