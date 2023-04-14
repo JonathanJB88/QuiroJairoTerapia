@@ -11,3 +11,9 @@ export type LabelMap = {
 };
 
 export type Content = { title: string; text: string | JSX.Element };
+
+export interface Iservice {
+  title: string;
+  price: string;
+  description: string;
+}
