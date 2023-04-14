@@ -12,3 +12,4 @@ export * from './Footer';
 export * from './ContentModal';
 export * from './Modal';
 export * from './LegalContent';
+export * from './CTAButton';
