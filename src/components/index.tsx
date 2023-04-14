@@ -8,3 +8,7 @@ export * from './Contact';
 export * from './ContactItem';
 export * from './Social';
 export * from './ContactForm';
+export * from './Footer';
+export * from './ContentModal';
+export * from './Modal';
+export * from './LegalContent';

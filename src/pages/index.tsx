@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { Contact, CustomHead, Hero, Navbar } from '@/components';
+import { Contact, CustomHead, Footer, Hero, Navbar } from '@/components';
 import { IMenuItem, Id, LabelMap } from '@/interfaces';
 import { useSmoothScroll } from '@/hooks';
 
@@ -32,7 +32,7 @@ const HomePage: NextPage = () => {
   const pageDescription = `Descubre la sección ${activeSection} en QuiroJairoTerapia y encuentra el alivio y bienestar que buscas.`;
 
   return (
-    <div>
+    <div className='flex flex-col min-h-screen'>
       <CustomHead title={pageTitle} description={pageDescription} />
       <Navbar
         activeSection={activeSection}
@@ -41,7 +41,7 @@ const HomePage: NextPage = () => {
         toggleMenu={toggleMenu}
         isMenuOpen={isMenuOpen}
       />
-      <main>
+      <main className='flex-grow'>
         <section id='inicio' className='flex items-center justify-center w-full min-vh-screen'>
           <Hero />
         </section>
@@ -74,10 +74,11 @@ const HomePage: NextPage = () => {
           </div>
         </section>
 
-        <section id='contacto' className='flex items-center justify-center w-full min-vh-screen'>
+        <section id='contacto' className='flex flex-col items-center justify-center w-full min-vh-screen'>
           <Contact />
         </section>
       </main>
+      <Footer />
     </div>
   );
 };

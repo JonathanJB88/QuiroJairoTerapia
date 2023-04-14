@@ -9,3 +9,5 @@ export type Label = 'Inicio' | 'Servicios' | 'Conoce al terapeuta' | 'Experienci
 export type LabelMap = {
   [key in Id]: Label;
 };
+
+export type Content = { title: string; text: string | JSX.Element };
