@@ -42,7 +42,7 @@ export const Hero = () => {
         {heroDescription}
         {benefitsList}
         <div className='mt-6' />
-        <CTAButton />
+        <CTAButton label='¡Reserva tu cita ahora!' />
       </div>
     </div>
   );

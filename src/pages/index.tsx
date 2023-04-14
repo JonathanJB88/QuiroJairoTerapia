@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { Contact, CustomHead, Footer, Hero, Navbar } from '@/components';
+import { Contact, CustomHead, Footer, Hero, Navbar, Services } from '@/components';
 import { IMenuItem, Id, LabelMap } from '@/interfaces';
 import { useSmoothScroll } from '@/hooks';
 
@@ -46,35 +46,32 @@ const HomePage: NextPage = () => {
           <Hero />
         </section>
 
-        <section id='servicios' className='flex items-center justify-center min-vh-screen'>
-          <div className='px-4 mx-auto text-white md:px-8 lg:px-16 xl:max-w-5xl bg-navy-blue'>
-            <h1 className='text-4xl font-roboto'>Servicios</h1>
-            <p className='font-sans text-lg text-turquoise'>Alivio y bienestar en tus manos</p>
-          </div>
+        <section id='servicios' className='flex items-center justify-center w-full min-vh-screen'>
+          <Services />
         </section>
 
-        <section id='conoce-al-terapeuta' className='flex items-center justify-center min-vh-screen'>
+        <section id='conoce-al-terapeuta' className='flex items-center justify-center w-full min-vh-screen'>
           <div className='px-4 mx-auto text-white md:px-8 lg:px-16 xl:max-w-5xl bg-navy-blue'>
             <h1 className='text-4xl font-roboto'>Conoce al terapeuta</h1>
             <p className='font-sans text-lg text-turquoise'>Alivio y bienestar en tus manos</p>
           </div>
         </section>
 
-        <section id='experiencias' className='flex items-center justify-center min-vh-screen'>
+        <section id='experiencias' className='flex items-center justify-center w-full min-vh-screen'>
           <div className='px-4 mx-auto text-white md:px-8 lg:px-16 xl:max-w-5xl bg-navy-blue'>
             <h1 className='text-4xl font-roboto'>Experiencias</h1>
             <p className='font-sans text-lg text-turquoise'>Alivio y bienestar en tus manos</p>
           </div>
         </section>
 
-        <section id='consejos' className='flex items-center justify-center min-vh-screen'>
+        <section id='consejos' className='flex items-center justify-center w-full min-vh-screen'>
           <div className='px-4 mx-auto text-white md:px-8 lg:px-16 xl:max-w-5xl bg-navy-blue'>
             <h1 className='text-4xl font-roboto'>Consejos</h1>
             <p className='font-sans text-lg text-turquoise'>Alivio y bienestar en tus manos</p>
           </div>
         </section>
 
-        <section id='contacto' className='flex flex-col items-center justify-center w-full min-vh-screen'>
+        <section id='contacto' className='flex items-center justify-center w-full min-vh-screen'>
           <Contact />
         </section>
       </main>

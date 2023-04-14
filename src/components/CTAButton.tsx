@@ -9,16 +9,21 @@ const calendlyConfig = {
   branding: false,
 };
 
-export const CTAButton = () => {
+interface CTAButtonProps {
+  label: string;
+  className?: string;
+}
+
+const defaultClassName =
+  'px-4 py-1 font-sans font-semibold rounded-md text-navy-blue bg-turquoise md:px-8 md:py-2 hover:bg-opacity-80';
+
+export const CTAButton = ({ label, className = defaultClassName }: CTAButtonProps) => {
   const handleButtonClick = useCallback(() => {
     window.Calendly.initPopupWidget(calendlyConfig);
   }, []);
   return (
-    <button
-      onClick={handleButtonClick}
-      className='px-4 py-1 font-sans font-semibold rounded-md text-navy-blue bg-turquoise md:px-8 md:py-2 hover:bg-opacity-80'
-    >
-      ¡Reserva tu cita ahora! <Emoji label='calendar' symbol='📅' />
+    <button onClick={handleButtonClick} className={className}>
+      {label} <Emoji label='calendar' symbol='📅' />
       <Emoji label='pointing right' symbol='👉' />
     </button>
   );

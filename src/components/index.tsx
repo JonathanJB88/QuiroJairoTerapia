@@ -13,3 +13,4 @@ export * from './ContentModal';
 export * from './Modal';
 export * from './LegalContent';
 export * from './CTAButton';
+export * from './Services';
