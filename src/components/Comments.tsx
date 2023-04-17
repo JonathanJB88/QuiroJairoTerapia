@@ -17,7 +17,7 @@ export const Comments = () => {
   }, []);
 
   return (
-    <div className='mt-8'>
+    <div className='mt-8 commentContainer'>
       <div id='commento'></div>
     </div>
   );
