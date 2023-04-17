@@ -21,7 +21,7 @@ export const Navbar = ({ menuItems, activeSection, isMenuOpen, handleClick, togg
         <Link href='/'>
           <div className='flex items-center space-x-2'>
             <Image
-              src='/images/quirojairoterapialogo.png'
+              src='/images/quirojairoterapialogo.jpeg'
               alt='QuiroJairoTerapia'
               width={62}
               height={62}
