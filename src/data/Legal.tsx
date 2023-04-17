@@ -5,8 +5,8 @@ export const privacyPolicyContent: Content[] = [
     title: 'Identificación del responsable del tratamiento de datos',
     text: (
       <>
-        QuiroJairoTerapia (en adelante, "nosotros" o "nuestro"), es el responsable del tratamiento de los datos
-        personales recopilados a través de nuestro sitio web. Nuestros datos de contacto son:
+        {`QuiroJairoTerapia (en adelante, "nosotros" o "nuestro"), es el responsable del tratamiento de los datos
+        personales recopilados a través de nuestro sitio web. Nuestros datos de contacto son:`}
         <ul>
           <li>Nombre completo: Heyson Fajardo Parra</li>
           <li>Dirección: Calle Alpujarras, Leganés, Madrid</li>

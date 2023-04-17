@@ -18,3 +18,6 @@ export * from './CustomArrow';
 export * from './ServicesIntro';
 export * from './ServiceCard';
 export * from './DiscountPackages';
+export * from './Testimonial';
+export * from './Experiences';
+export * from './Comments';

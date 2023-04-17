@@ -18,3 +18,9 @@ export interface Iservice {
   description: string;
   backgroundImageUrl: string;
 }
+
+export interface ITestimonial {
+  imageUrl: string;
+  name: string;
+  message: string;
+}

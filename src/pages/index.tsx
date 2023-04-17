@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { Contact, CustomHead, Footer, Hero, Navbar, Services } from '@/components';
+import { Contact, CustomHead, Experiencies, Footer, Hero, Navbar, Services } from '@/components';
 import { IMenuItem, Id, LabelMap } from '@/interfaces';
 import { useSmoothScroll } from '@/hooks';
 
@@ -51,24 +51,15 @@ const HomePage: NextPage = () => {
         </section>
 
         <section id='conoce-al-terapeuta' className='flex items-center justify-center w-full min-vh-screen'>
-          <div className='px-4 mx-auto text-white md:px-8 lg:px-16 xl:max-w-5xl bg-navy-blue'>
-            <h1 className='text-4xl font-roboto'>Conoce al terapeuta</h1>
-            <p className='font-sans text-lg text-turquoise'>Alivio y bienestar en tus manos</p>
-          </div>
+          {/* Sección sobre mí con información del terapeuta - Jairo */}
         </section>
 
         <section id='experiencias' className='flex items-center justify-center w-full min-vh-screen'>
-          <div className='px-4 mx-auto text-white md:px-8 lg:px-16 xl:max-w-5xl bg-navy-blue'>
-            <h1 className='text-4xl font-roboto'>Experiencias</h1>
-            <p className='font-sans text-lg text-turquoise'>Alivio y bienestar en tus manos</p>
-          </div>
+          <Experiencies />
         </section>
 
         <section id='consejos' className='flex items-center justify-center w-full min-vh-screen'>
-          <div className='px-4 mx-auto text-white md:px-8 lg:px-16 xl:max-w-5xl bg-navy-blue'>
-            <h1 className='text-4xl font-roboto'>Consejos</h1>
-            <p className='font-sans text-lg text-turquoise'>Alivio y bienestar en tus manos</p>
-          </div>
+          {/* Consejos para el cuidado de la salud - Blog */}
         </section>
 
         <section id='contacto' className='flex items-center justify-center w-full min-vh-screen'>
