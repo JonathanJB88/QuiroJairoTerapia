@@ -14,3 +14,7 @@ export * from './Modal';
 export * from './LegalContent';
 export * from './CTAButton';
 export * from './Services';
+export * from './CustomArrow';
+export * from './ServicesIntro';
+export * from './ServiceCard';
+export * from './DiscountPackages';
