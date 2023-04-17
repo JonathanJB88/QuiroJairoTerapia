@@ -149,7 +149,7 @@ términos, no debe utilizar nuestro sitio web.`,
   },
   {
     title: '10. Ley aplicable y jurisdicción',
-    text: ` Estos Términos de Servicio se rigen e interpretan de acuerdo con las leyes de España. Cualquier disputa o
+    text: `Estos Términos de Servicio se rigen e interpretan de acuerdo con las leyes de España. Cualquier disputa o
     reclamación derivada de o relacionada con estos términos se someterá a la jurisdicción exclusiva de los
     tribunales de España.`,
   },
