@@ -16,4 +16,5 @@ export interface Iservice {
   title: string;
   price: string;
   description: string;
+  backgroundImageUrl: string;
 }
