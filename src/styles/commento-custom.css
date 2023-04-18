@@ -1,9 +1,0 @@
-/* Hide "Powered by Commento" text */
-[data-css='c-footer'] {
-  display: none;
-}
-
-/* Hide "Markdown" text */
-[data-css='c-formatting-help'] {
-  display: none;
-}
