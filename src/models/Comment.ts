@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import { Document, Model, Schema, model, models } from 'mongoose';
 
 export interface IComment extends Document {
   postId: Schema.Types.ObjectId;
@@ -20,4 +20,4 @@ const CommentSchema = new Schema<IComment>({
   createdAt: { type: Date, default: Date.now },
 });
 
-export default mongoose.model<IComment>('Comment', CommentSchema);
+export default (models.Comment as Model<IComment>) || model<IComment>('Comment', CommentSchema);

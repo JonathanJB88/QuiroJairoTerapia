@@ -1,4 +1,4 @@
-import mongoose, { ConnectOptions, Error } from 'mongoose';
+import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URI || '';
 
@@ -10,19 +10,12 @@ const dbConnection = async () => {
   if (mongoose.connection.readyState >= 1) {
     return;
   }
-  const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  };
 
   try {
-    await mongoose.connect(MONGODB_URI, options as ConnectOptions);
-
+    await mongoose.connect(MONGODB_URI);
     console.log('Database connected');
   } catch (error) {
-    if (error instanceof Error) console.log(error.message);
+    console.log(error);
     throw new Error('Error connecting to database');
   }
 };
