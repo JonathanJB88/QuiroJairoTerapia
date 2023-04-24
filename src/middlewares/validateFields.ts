@@ -1,7 +1,7 @@
-import { ValidationChain, validationResult } from 'express-validator';
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
+import { ValidationChain, validationResult } from 'express-validator';
 
-const validateFields =
+export const validateFields =
   (handler: NextApiHandler, validationRules: ValidationChain[]) =>
   async (req: NextApiRequest, res: NextApiResponse) => {
     // Run the validation rules
@@ -17,5 +17,3 @@ const validateFields =
 
     return handler(req, res);
   };
-
-export default validateFields;
