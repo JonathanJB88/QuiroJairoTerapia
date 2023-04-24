@@ -1,3 +1,5 @@
+import { CommentType } from '@/interfaces';
+
 export interface IMenuItem {
   id: Id;
   label: Label;
@@ -20,7 +22,12 @@ export interface Iservice {
 }
 
 export interface ITestimonial {
-  imageUrl: string;
-  name: string;
-  message: string;
+  commentId: string;
+  postId: string;
+  userId: string;
+  content: string;
+  rating: number;
+  type: CommentType;
+  approved: boolean;
+  createdAt: Date;
 }
