@@ -1,11 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { check } from 'express-validator';
-import { createUser } from '@/controllers/auth';
-import validateFields from '@/middlewares/validateFields';
-import dbConnection from '@/database/dbConnect';
+import { createUser } from '@/controllers';
+import { validateFields, withDbConnection } from '@/middlewares';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  await dbConnection();
   if (req.method === 'POST') {
     return createUser(req, res);
   } else {
@@ -22,4 +20,4 @@ const validationMiddleware = [
   }),
 ];
 
-export default validateFields(handler, validationMiddleware);
+export default withDbConnection(validateFields(handler, validationMiddleware));

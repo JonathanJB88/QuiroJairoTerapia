@@ -1,10 +1,8 @@
 import type { NextApiResponse, NextApiRequest } from 'next';
-import { revalidateToken } from '@/controllers/auth';
-import validateJWT from '@/middlewares/validarJwt';
-import dbConnection from '@/database/dbConnect';
+import { revalidateToken } from '@/controllers';
+import { validateJWT, withDbConnection } from '@/middlewares';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  await dbConnection();
   if (req.method === 'GET') {
     return revalidateToken(req, res);
   } else {
@@ -13,4 +11,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default validateJWT(handler);
+export default withDbConnection(validateJWT(handler));
