@@ -1,93 +1,76 @@
-import User from '@/models/User';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
-import generateJWT from '@/helpers/jwt';
 
-export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { name, email, password } = req.body;
+import User from '@/models/User';
+import { errorResponse, generateJWT } from '@/helpers';
+
+import { CreateUserBody, LoginUserBody, RevalidateTokenBody } from '@/interfaces';
+
+const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { name, email, password } = req.body as CreateUserBody;
+
+  if (!name || !email || !password) {
+    return errorResponse(res, 400, 'All fields (name, email, password) are required');
+  }
 
   try {
-    let user = await User.findOne({ email });
-    if (user) {
-      return res.status(400).json({
-        ok: false,
-        msg: 'An user with this email already exists',
-      });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return errorResponse(res, 400, 'A user with this email already exists');
     }
-    user = new User({ name, email });
 
-    // Encrypt password
-    const salt = bcrypt.genSaltSync();
-    user.password = bcrypt.hashSync(password, salt);
-    await user.save();
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Generate JWT
-    const token = await generateJWT(user.id, user.name);
+    const newUser = new User({ name, email, password: hashedPassword });
+    await newUser.save();
 
-    res.status(201).json({
-      ok: true,
-      uid: user.id,
-      name: user.name,
-      token,
-    });
+    const token = await generateJWT(newUser.id, newUser.name);
+
+    res.status(201).json({ ok: true, uid: newUser.id, name: newUser.name, token });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
-      ok: false,
-      msg: 'Please contact the administrator',
-    });
+    errorResponse(res, 500, 'Please contact the administrator');
   }
 };
 
-export const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { email, password } = req.body;
+const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { email, password } = req.body as LoginUserBody;
+
+  if (!email || !password) {
+    return errorResponse(res, 400, 'Both email and password are required');
+  }
 
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({
-        ok: false,
-        msg: 'There is no user with this email',
-      });
+      return errorResponse(res, 400, 'There is no user with this email');
     }
 
-    // Confirm passwords
-    const validPassword = bcrypt.compareSync(password, user.password);
-    if (!validPassword) {
-      return res.status(400).json({
-        ok: false,
-        msg: 'Password is incorrect',
-      });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return errorResponse(res, 400, 'Password is incorrect');
     }
 
-    // Generate JWT
     const token = await generateJWT(user.id, user.name);
 
-    res.status(200).json({
-      ok: true,
-      uid: user.id,
-      name: user.name,
-      token,
-    });
+    res.status(200).json({ ok: true, uid: user.id, name: user.name, token });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
-      ok: false,
-      msg: 'Please contact the administrator',
-    });
+    errorResponse(res, 500, 'Please contact the administrator');
   }
 };
 
-export const revalidateToken = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { uid, name } = req.body;
+const revalidateToken = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { uid, name } = req.body as RevalidateTokenBody;
 
-  // Generate JWT
+  if (!uid || !name) {
+    return errorResponse(res, 400, 'Both uid and name are required');
+  }
+
   const token = await generateJWT(uid, name);
 
-  res.status(200).json({
-    ok: true,
-    uid,
-    name,
-    token,
-  });
+  res.status(200).json({ ok: true, uid, name, token });
 };
+
+export { createUser, loginUser, revalidateToken };
