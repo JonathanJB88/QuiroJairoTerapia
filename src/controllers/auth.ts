@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
 
-import User from '@/models/User';
+import User, { IUser } from '@/models/User';
 import { errorResponse, generateJWT } from '@/helpers';
 
-import { CreateUserBody, LoginUserBody, RevalidateTokenBody } from '@/interfaces';
+import { CreateUserBody, CustomNextApiRequest, LoginUserBody, RevalidateTokenRequest } from '@/interfaces';
 
 const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const { name, email, password } = req.body as CreateUserBody;
@@ -14,7 +14,7 @@ const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const existingUser = await User.findOne({ email });
+    const existingUser: IUser | null = await User.findOne({ email });
     if (existingUser) {
       return errorResponse(res, 400, 'A user with this email already exists');
     }
@@ -22,7 +22,7 @@ const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new User({ name, email, password: hashedPassword });
+    const newUser: IUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
 
     const token = await generateJWT(newUser.id, newUser.name);
@@ -42,7 +42,7 @@ const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const user = await User.findOne({ email });
+    const user: IUser | null = await User.findOne({ email });
     if (!user) {
       return errorResponse(res, 400, 'There is no user with this email');
     }
@@ -61,8 +61,8 @@ const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const revalidateToken = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { uid, name } = req.body as RevalidateTokenBody;
+const revalidateToken = async (req: CustomNextApiRequest, res: NextApiResponse) => {
+  const { uid, name } = req as RevalidateTokenRequest;
 
   if (!uid || !name) {
     return errorResponse(res, 400, 'Both uid and name are required');

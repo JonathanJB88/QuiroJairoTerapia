@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export const generateJWT = (uid: string, name: string) => {
+export const generateJWT = (uid: string, name: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     const payload = { uid, name };
     jwt.sign(
@@ -13,7 +13,7 @@ export const generateJWT = (uid: string, name: string) => {
         if (err) {
           console.log(err);
           reject('The token could not be generated');
-        } else {
+        } else if (token) {
           resolve(token);
         }
       }

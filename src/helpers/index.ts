@@ -1,3 +1,3 @@
 export * from './errorResponse';
-export * from './jwt';
+export * from './generateJWT';
 export * from './formatComment';

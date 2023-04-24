@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import Comment from '@/models/Comment';
+import Comment, { IComment } from '@/models/Comment';
 import { errorResponse, formatComment } from '@/helpers';
 
 import { CreateCommentBody, DeleteCommentQuery, GetCommentsQuery, UpdateCommentBody } from '@/interfaces';
@@ -10,13 +10,27 @@ const createComment = async (req: NextApiRequest, res: NextApiResponse) => {
   const { postId, userId, content, rating, type } = req.body as CreateCommentBody;
 
   try {
-    // Check if the user has already created a comment for the post
-    const existingComment = await Comment.findOne({ postId, userId });
-    if (existingComment) {
-      return errorResponse(res, 400, 'User has already created a comment for this post');
+    let existingComment: IComment | null = null;
+
+    if (type === 'comment') {
+      existingComment = await Comment.findOne({ postId, userId });
+    } else if (type === 'review') {
+      existingComment = await Comment.findOne({ userId, type });
     }
 
-    const comment = new Comment({ postId, userId, content, rating, type });
+    if (existingComment) {
+      return errorResponse(res, 400, 'You have already commented or reviewed');
+    }
+
+    const commentData = {
+      postId: type === 'comment' ? postId : undefined,
+      userId,
+      content,
+      rating,
+      type,
+    };
+
+    const comment: IComment = new Comment(commentData);
     await comment.save();
 
     res.status(201).json({
@@ -44,7 +58,7 @@ const getCommentsByTypeOrPost = async (req: NextApiRequest, res: NextApiResponse
   }
 
   try {
-    const comments = await Comment.find(query).sort({ createdAt: -1 }).lean();
+    const comments: IComment[] = await Comment.find(query).sort({ createdAt: -1 }).lean();
     if (!comments.length) {
       return errorResponse(res, 404, 'No comments found');
     }
@@ -64,7 +78,11 @@ const updateComment = async (req: NextApiRequest, res: NextApiResponse) => {
   const { commentId, content, rating, approved } = req.body as UpdateCommentBody;
 
   try {
-    const comment = await Comment.findByIdAndUpdate(commentId, { content, rating, approved }, { new: true });
+    const comment: IComment | null = await Comment.findByIdAndUpdate(
+      commentId,
+      { content, rating, approved },
+      { new: true }
+    );
 
     if (!comment) {
       return errorResponse(res, 404, 'Comment not found');
@@ -85,7 +103,7 @@ const deleteComment = async (req: NextApiRequest, res: NextApiResponse) => {
   const { commentId } = req.query as DeleteCommentQuery;
 
   try {
-    const comment = await Comment.findByIdAndDelete(commentId);
+    const comment: IComment | null = await Comment.findByIdAndDelete(commentId);
 
     if (!comment) {
       return errorResponse(res, 404, 'Comment not found');
@@ -96,7 +114,7 @@ const deleteComment = async (req: NextApiRequest, res: NextApiResponse) => {
       msg: 'Comment deleted successfully',
     });
   } catch (error) {
-    console.log(error);
+    console.log('error deleting comment: ', error);
     errorResponse(res, 500, 'Please contact the administrator');
   }
 };

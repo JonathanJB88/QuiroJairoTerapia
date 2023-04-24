@@ -1,7 +1,7 @@
 import type { NextApiResponse, NextApiHandler, NextApiRequest } from 'next';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { CustomNextApiRequest } from '@/interfaces';
 import { errorResponse } from '@/helpers';
+import { CustomNextApiRequest } from '@/interfaces';
 
 export const validateJWT = (handler: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
   const token = req.headers['x-token'] as string;
@@ -19,6 +19,7 @@ export const validateJWT = (handler: NextApiHandler) => async (req: NextApiReque
     (req as CustomNextApiRequest).uid = uid;
     (req as CustomNextApiRequest).name = name;
   } catch (error) {
+    console.log('Error validating token', error);
     return errorResponse(res, 401, 'Invalid token');
   }
 

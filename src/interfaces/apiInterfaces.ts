@@ -37,7 +37,7 @@ export interface LoginUserBody {
   password: string;
 }
 
-export interface RevalidateTokenBody {
+export interface RevalidateTokenRequest {
   uid: string;
   name: string;
 }
