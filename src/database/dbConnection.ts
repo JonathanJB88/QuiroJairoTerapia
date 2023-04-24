@@ -6,7 +6,7 @@ if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-const dbConnection = async () => {
+export const dbConnection = async (): Promise<void> => {
   if (mongoose.connection.readyState >= 1) {
     return;
   }
@@ -15,9 +15,7 @@ const dbConnection = async () => {
     await mongoose.connect(MONGODB_URI);
     console.log('Database connected');
   } catch (error) {
-    console.log(error);
+    console.error('Error connecting to database: ', error);
     throw new Error('Error connecting to database');
   }
 };
-
-export default dbConnection;
