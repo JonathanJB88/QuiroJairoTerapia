@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { Contact, CustomHead, Experiencies, Footer, Hero, Navbar, Services } from '@/components';
+import { Contact, CustomHead, Experiences, Footer, Hero, Navbar, Services } from '@/components';
 import { IMenuItem, Id, LabelMap } from '@/interfaces';
 import { useSmoothScroll } from '@/hooks';
 
@@ -55,7 +55,7 @@ const HomePage: NextPage = () => {
         </section>
 
         <section id='experiencias' className='flex items-center justify-center w-full min-vh-screen'>
-          <Experiencies />
+          <Experiences />
         </section>
 
         <section id='consejos' className='flex items-center justify-center w-full min-vh-screen'>
