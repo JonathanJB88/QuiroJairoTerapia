@@ -8,14 +8,7 @@ interface ServiceCardProps {
 
 export const ServiceCard = ({ service: { backgroundImageUrl, title, price, description } }: ServiceCardProps) => {
   return (
-    <div
-      className='relative flex flex-col justify-between h-full p-4 md:p-8 text-navy-blue'
-      style={{
-        minWidth: 'calc(33.3333% - 1rem)',
-        margin: '0 1.5rem',
-        boxSizing: 'border-box',
-      }}
-    >
+    <div className='relative flex flex-col justify-between h-full p-4 mx-8 md:p-8 text-navy-blue'>
       <Image
         src={backgroundImageUrl}
         fill
