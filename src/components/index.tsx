@@ -21,3 +21,6 @@ export * from './DiscountPackages';
 export * from './Experiences';
 export * from './TestimonialCard';
 export * from './StarRating';
+export * from './CommentBox';
+export * from './AuthModal';
+export * from './AuthForm';
