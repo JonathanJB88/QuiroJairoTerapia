@@ -8,7 +8,7 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className='fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-75'>
+    <div className='fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-60 backdrop-blur-sm'>
       <div className='flex items-center justify-center min-h-screen p-4'>
         <div className='relative w-full max-w-4xl p-8 mx-4 bg-white rounded shadow-lg'>
           <button className='absolute top-0 right-0 mt-4 mr-4 text-xl font-semibold' onClick={onClose}>
