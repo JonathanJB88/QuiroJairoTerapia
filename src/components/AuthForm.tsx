@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface FormProps {
   toogleIsFlipped: () => void;

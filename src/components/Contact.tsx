@@ -40,7 +40,8 @@ export const Contact = () => {
           <div className='w-full h-64'>
             <LoadScript googleMapsApiKey={googleMapsApiKey}>
               <GoogleMap mapContainerStyle={mapContainerStyle} center={officeLocation} zoom={14}>
-                <Marker position={officeLocation} /> //TODO: Replace the marker with your own
+                {/* //TODO: Replace the marker with your own */}
+                <Marker position={officeLocation} />
               </GoogleMap>
             </LoadScript>
           </div>
