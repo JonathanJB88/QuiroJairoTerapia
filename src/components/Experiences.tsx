@@ -1,11 +1,11 @@
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { testimonials } from '@/data';
-import { CustomArrow, SectionIntro, StarRating, TestimonialCard } from '@/components';
+import { CustomArrow, SectionIntro, StarRating, TestimonialCard, CommentBox } from '@/components';
 import { useWindowSize } from '@/hooks';
 
 import { AiFillSafetyCertificate } from 'react-icons/ai';
-import { useState } from 'react';
 
 const title = 'Experiencias de QuiroJairoTerapia';
 const description =
@@ -21,10 +21,14 @@ export const Experiences = () => {
 
   const last50Testimonials = testimonials.slice(-50);
 
+  const handleCommentSubmit = (rating: number, comment: string) => {
+    console.log({ rating, comment });
+  };
+
   return (
-    <div className='container px-4 py-16 mx-auto text-left select-none md:px-8 lg:px-16'>
+    <div className='container px-4 mx-auto -mt-16 text-left select-none md:px-8 lg:px-16'>
       <SectionIntro title={title} description={description} />
-      <div className='flex flex-row items-center mb-8 text-center md:text-left'>
+      <div className='flex flex-row items-center mb-4 text-center md:text-left'>
         <div className='inline-block mr-2 font-sans'>
           <StarRating rating={averageRating} />
         </div>
@@ -59,6 +63,7 @@ export const Experiences = () => {
           />
         ))}
       </Carousel>
+      <CommentBox onSubmit={handleCommentSubmit} />
     </div>
   );
 };
