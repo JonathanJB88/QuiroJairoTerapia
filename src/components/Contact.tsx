@@ -1,4 +1,3 @@
-import { Toaster } from 'react-hot-toast';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { FaInstagram, FaTwitter, FaWhatsapp, FaMailBulk } from 'react-icons/fa';
 import { ContactForm, ContactItem, Social } from '@/components';
@@ -22,7 +21,6 @@ export const Contact = () => {
 
   return (
     <div className='container max-w-screen-xl px-4 py-8 mx-4 mb-2 -mt-12 rounded-md select-none md:mx-auto md:px-8 lg:px-16 bg-light-gray'>
-      <Toaster />
       <h1 className='mb-6 text-2xl font-bold text-left font-roboto md:text-3xl text-navy-blue'>
         ¡Ponte en contacto con QuiroJairoTerapia!
       </h1>
