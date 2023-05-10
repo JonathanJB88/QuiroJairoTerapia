@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import { AuthForm } from '@/components';
+import { toastNotification } from '@/helpers';
+import { useAuthStore } from '@/hooks';
 
 interface AuthModalProps {
   toggleAuthModal: () => void;
@@ -8,10 +10,24 @@ interface AuthModalProps {
 
 export const AuthModal = ({ toggleAuthModal }: AuthModalProps) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const { errorMessage, status } = useAuthStore();
 
   const toogleIsFlipped = () => {
     setIsFlipped(!isFlipped);
   };
+
+  useEffect(() => {
+    if (errorMessage !== undefined) {
+      toastNotification('error', errorMessage);
+    }
+  }, [errorMessage]);
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      toastNotification('success', '¡Bienvenido!');
+      toggleAuthModal();
+    }
+  }, [status]);
 
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center bg-black backdrop-blur-sm bg-opacity-60'>
