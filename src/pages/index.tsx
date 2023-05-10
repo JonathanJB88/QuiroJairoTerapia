@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import { Contact, CustomHead, Experiences, Footer, Hero, Navbar, Services } from '@/components';
 import { IMenuItem, Id, LabelMap } from '@/interfaces';
 import { useSmoothScroll } from '@/hooks';
+import { Toaster } from 'react-hot-toast';
 
 const menuItems: IMenuItem[] = [
   { id: 'inicio', label: 'Inicio' },
@@ -33,6 +34,7 @@ const HomePage: NextPage = () => {
 
   return (
     <div className='flex flex-col min-h-screen'>
+      <Toaster />
       <CustomHead title={pageTitle} description={pageDescription} />
       <Navbar
         activeSection={activeSection}
