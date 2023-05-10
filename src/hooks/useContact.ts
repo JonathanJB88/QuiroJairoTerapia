@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import { toast } from 'react-hot-toast';
 import emailjs from '@emailjs/browser';
+import { toastNotification } from '@/helpers';
 
 const emailjsServiceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '';
 const emailjsTemplateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '';
@@ -11,10 +11,6 @@ export const useContact = () => {
   const [loading, setLoading] = useState(false);
   const [messageSent, setMessageSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
-  const toastNotification = useCallback((notificationType: 'success' | 'error', message: string) => {
-    toast[notificationType](message);
-  }, []);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
