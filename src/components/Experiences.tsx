@@ -21,10 +21,6 @@ export const Experiences = () => {
 
   const last50Testimonials = testimonials.slice(-50);
 
-  const handleCommentSubmit = (rating: number, comment: string) => {
-    console.log({ rating, comment });
-  };
-
   return (
     <div className='container px-4 mx-auto -mt-16 text-left select-none md:px-8 lg:px-16'>
       <SectionIntro title={title} description={description} />
@@ -63,7 +59,7 @@ export const Experiences = () => {
           />
         ))}
       </Carousel>
-      <CommentBox onSubmit={handleCommentSubmit} />
+      <CommentBox />
     </div>
   );
 };
