@@ -1,7 +1,6 @@
+import Image from 'next/image';
 import { toastNotification } from '@/helpers';
 import { useAuthStore, useForm } from '@/hooks';
-import Image from 'next/image';
-import { useEffect } from 'react';
 
 interface LoginFormFields {
   loginEmail: string;
@@ -39,7 +38,7 @@ export const AuthForm = ({ type, toogleIsFlipped, toggleAuthModal }: FormProps) 
   const button = isLogin ? 'Acceder' : 'Registrarse';
   const ctaButton = isLogin ? 'Registrarse' : 'Acceder';
 
-  const { login, register, status, errorMessage } = useAuthStore();
+  const { login, register, status } = useAuthStore();
   const {
     loginEmail,
     loginPassword,
@@ -86,6 +85,7 @@ export const AuthForm = ({ type, toogleIsFlipped, toggleAuthModal }: FormProps) 
               name='registerName'
               value={registerName}
               onChange={onRegisterInputChange}
+              required
             />
           </div>
         )}
@@ -97,16 +97,19 @@ export const AuthForm = ({ type, toogleIsFlipped, toggleAuthModal }: FormProps) 
             name={isLogin ? 'loginEmail' : 'registerEmail'}
             value={isLogin ? loginEmail : registerEmail}
             onChange={isLogin ? onLoginInputChange : onRegisterInputChange}
+            required
           />
         </div>
         <div className='mb-2'>
           <input
             type='password'
             placeholder='Contraseña'
+            minLength={6}
             className='w-full p-2 font-sans bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-500'
             name={isLogin ? 'loginPassword' : 'registerPassword'}
             value={isLogin ? loginPassword : registerPassword}
             onChange={isLogin ? onLoginInputChange : onRegisterInputChange}
+            required
           />
         </div>
         {!isLogin && (
@@ -114,10 +117,12 @@ export const AuthForm = ({ type, toogleIsFlipped, toggleAuthModal }: FormProps) 
             <input
               type='password'
               placeholder='Confirmar contraseña'
+              minLength={6}
               className='w-full p-2 font-sans bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-500'
               name='registerConfirmPassword'
               value={registerConfirmPassword}
               onChange={onRegisterInputChange}
+              required
             />
           </div>
         )}

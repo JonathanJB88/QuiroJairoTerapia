@@ -19,7 +19,7 @@ const createComment = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (existingComment) {
-      return errorResponse(res, 400, 'You have already commented or reviewed');
+      return errorResponse(res, 400, 'Gracias, pero ya has dejado un comentario.');
     }
 
     const commentData = {
@@ -33,13 +33,10 @@ const createComment = async (req: NextApiRequest, res: NextApiResponse) => {
     const comment: IComment = new Comment(commentData);
     await comment.save();
 
-    res.status(201).json({
-      ok: true,
-      comment: formatComment(comment),
-    });
+    res.status(201).json(formatComment(comment));
   } catch (error) {
     console.log(error);
-    errorResponse(res, 500, 'Please contact the administrator');
+    errorResponse(res, 500, 'Por favor, contacte al administrador');
   }
 };
 
@@ -50,26 +47,23 @@ const getCommentsByTypeOrPost = async (req: NextApiRequest, res: NextApiResponse
   let query = {};
 
   if (postId) {
-    query = { postId, approved: true };
+    query = { postId };
   } else if (type === 'review') {
-    query = { type: 'review', approved: true };
+    query = { type: 'review' };
   } else {
-    return errorResponse(res, 400, 'Invalid query');
+    return errorResponse(res, 400, 'Parámetros inválidos');
   }
 
   try {
     const comments: IComment[] = await Comment.find(query).sort({ createdAt: -1 }).lean();
     if (!comments.length) {
-      return errorResponse(res, 404, 'No comments found');
+      return errorResponse(res, 404, 'No se encontraron comentarios');
     }
 
-    res.status(200).json({
-      ok: true,
-      comments: comments.map((comment) => formatComment(comment)),
-    });
+    res.status(200).json(comments.map((comment) => formatComment(comment)));
   } catch (error) {
     console.log(error);
-    errorResponse(res, 500, 'Please contact the administrator');
+    errorResponse(res, 500, 'Por favor, contacte al administrador');
   }
 };
 
@@ -85,16 +79,13 @@ const updateComment = async (req: NextApiRequest, res: NextApiResponse) => {
     );
 
     if (!comment) {
-      return errorResponse(res, 404, 'Comment not found');
+      return errorResponse(res, 404, 'No se encontró el comentario');
     }
 
-    res.status(200).json({
-      ok: true,
-      comment: formatComment(comment),
-    });
+    res.status(200).json(formatComment(comment));
   } catch (error) {
     console.log(error);
-    errorResponse(res, 500, 'Please contact the administrator');
+    errorResponse(res, 500, 'Por favor, contacte al administrador');
   }
 };
 
@@ -106,16 +97,16 @@ const deleteComment = async (req: NextApiRequest, res: NextApiResponse) => {
     const comment: IComment | null = await Comment.findByIdAndDelete(commentId);
 
     if (!comment) {
-      return errorResponse(res, 404, 'Comment not found');
+      return errorResponse(res, 404, 'No se encontró el comentario');
     }
 
     res.status(200).json({
       ok: true,
-      msg: 'Comment deleted successfully',
+      msg: 'Comentario eliminado correctamente',
     });
   } catch (error) {
-    console.log('error deleting comment: ', error);
-    errorResponse(res, 500, 'Please contact the administrator');
+    console.log('Error al eliminar el comentario: ', error);
+    errorResponse(res, 500, 'Por favor, contacte al administrador');
   }
 };
 

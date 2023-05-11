@@ -33,7 +33,7 @@ export const useForm = <T extends FormState<T>>(
     return true;
   }, [formValidation]);
 
-  const onInputChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = ({ target }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = target;
     setFormState({
       ...formState,
@@ -60,6 +60,7 @@ export const useForm = <T extends FormState<T>>(
   return {
     ...formState,
     formState,
+    setFormState,
     onInputChange,
     onResetForm,
 

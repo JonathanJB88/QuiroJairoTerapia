@@ -35,7 +35,7 @@ export const TestimonialCard = ({
         <div className='flex flex-col h-full space-y-2 font-sans text-left text-navy-blue'>
           <div className='flex items-center justify-between'>
             <div>
-              <StarRating rating={rating} />
+              <StarRating rating={rating} readOnly />
             </div>
             <div>
               <AiFillSafetyCertificate size={20} />
@@ -51,7 +51,7 @@ export const TestimonialCard = ({
         <div className='flex flex-col space-y-2 font-sans text-left text-navy-blue'>
           <div className='flex items-center justify-between'>
             <div>
-              <StarRating rating={rating} />
+              <StarRating rating={rating} readOnly />
             </div>
             <div>
               <AiFillSafetyCertificate size={20} />

@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import apiClient from '@/helpers/apiConfig';
-import { RootState } from '@/store';
-import { onChecking, onLogin, onLogout, cleanErrorMessage } from '@/store';
 import axios from 'axios';
+import apiClient from '@/helpers/apiConfig';
+import { RootState, onChecking, onLogin, onLogout, cleanErrorMessage } from '@/store';
 
 interface LoginData {
   email: string;
@@ -35,9 +34,7 @@ export const useAuthStore = () => {
       dispatch(onLogin({ name: data.name, uid: data.uid }));
     } catch (error) {
       const errorMessage =
-        axios.isAxiosError(error) && error.response?.data.errors.email.msg
-          ? error.response.data.errors.email.msg
-          : 'Usuario/Contraseña inválidos';
+        axios.isAxiosError(error) && error.response?.data.msg ? error.response.data.msg : 'Credenciales Inválidas';
       handleErrorMessage(errorMessage);
     }
   };

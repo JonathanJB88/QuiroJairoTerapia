@@ -1,9 +1,24 @@
 import { useState } from 'react';
 import { AuthModal, StarRating } from '@/components';
-import { useAuthStore } from '@/hooks';
+import { CommentPost, useAuthStore, useCommentStore, useForm } from '@/hooks';
+import autosize from 'autosize';
+import { toastNotification } from '@/helpers';
+
+interface CommentFormFields {
+  content: string;
+  rating: number;
+}
+
+const initialCommentFormFields: CommentFormFields = {
+  content: '',
+  rating: 5,
+};
 
 export const CommentBox = () => {
   const { status, user, logout } = useAuthStore();
+  const { status: commentStatus, postComment } = useCommentStore();
+  const { content, rating, onInputChange, setFormState, onResetForm } =
+    useForm<CommentFormFields>(initialCommentFormFields);
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -20,6 +35,24 @@ export const CommentBox = () => {
     logout();
     toggleDropdown();
     toggleAuthModal();
+    onResetForm();
+  };
+
+  const handleRatingChange = (newRating: number) => {
+    setFormState((prevFormState) => ({ ...prevFormState, rating: newRating }));
+  };
+
+  const handleSubmit = () => {
+    if (!user) return toggleAuthModal();
+    if (!content) return toastNotification('error', 'Por favor, completa todos los campos.');
+    const comment: CommentPost = {
+      userId: user.uid,
+      content,
+      rating,
+      type: 'review',
+    };
+    postComment(comment);
+    onResetForm();
   };
 
   return (
@@ -57,32 +90,33 @@ export const CommentBox = () => {
         <h3 className='text-2xl font-bold font-roboto text-navy-blue'>Escribe tu comentario</h3>
         <textarea
           className='w-full h-32 p-2 bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-500'
-
-          // placeholder={user ? 'Describe tu experiencia aquí...' : 'Inicia sesión para escribir un comentario'}
-          // disabled={!user}
+          placeholder={user ? 'Describe tu experiencia aquí...' : 'Inicia sesión para escribir un comentario.'}
+          disabled={!user}
+          ref={(el) => el && autosize(el)}
+          name='content'
+          value={content}
+          onChange={onInputChange}
         />
         <div className='flex flex-row items-center justify-between'>
           <div className='flex flex-col items-center justify-center md:flex-row'>
             <h2 className='font-bold md:text-xl font-roboto text-navy-blue md:px-2'>Califica el Servicio</h2>
             <div>
-              <StarRating
-                rating={5}
-                // onRatingChange={handleRatingChange}
-                // readOnly={!user}
-              />
+              <StarRating rating={rating || 5} onRatingChange={handleRatingChange} readOnly={!user} />
             </div>
           </div>
           <button
-            //   className={`px-4 py-2 text-white font-semibold rounded-lg
-            //   ${
-            //     user && rating > 0 && comment.trim() ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-400'
-            //   }`
-            // }
             className='flex flex-col items-center px-2 py-1 font-sans text-xs font-semibold rounded-md md:flex-row md:text-sm text-navy-blue bg-turquoise md:px-8 md:py-2 hover:bg-opacity-80'
-            // disabled={!user || rating === 0 || !comment.trim()}
+            type='submit'
+            onClick={handleSubmit}
           >
-            <span className='mr-1'>Publicar</span>
-            <span>comentario</span>
+            {commentStatus === 'loading' ? (
+              <span className='mr-1'>Publicando...</span>
+            ) : (
+              <>
+                <span className='mr-1'>Publicar</span>
+                <span>comentario</span>
+              </>
+            )}
           </button>
         </div>
       </div>

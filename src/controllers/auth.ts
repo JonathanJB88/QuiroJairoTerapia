@@ -10,13 +10,13 @@ const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const { name, email, password } = req.body as CreateUserBody;
 
   if (!name || !email || !password) {
-    return errorResponse(res, 400, 'All fields (name, email, password) are required');
+    return errorResponse(res, 400, 'Todos los campos son requeridos');
   }
 
   try {
     const existingUser: IUser | null = await User.findOne({ email });
     if (existingUser) {
-      return errorResponse(res, 400, 'A user with this email already exists');
+      return errorResponse(res, 400, 'Ya existe un usuario con este correo');
     }
 
     const salt = await bcrypt.genSalt();
@@ -30,7 +30,7 @@ const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(201).json({ ok: true, uid: newUser.id, name: newUser.name, token });
   } catch (error) {
     console.log(error);
-    errorResponse(res, 500, 'Please contact the administrator');
+    errorResponse(res, 500, 'Por favor, contacte al administrador');
   }
 };
 
@@ -38,18 +38,18 @@ const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, password } = req.body as LoginUserBody;
 
   if (!email || !password) {
-    return errorResponse(res, 400, 'Both email and password are required');
+    return errorResponse(res, 400, 'Ambos campos son requeridos');
   }
 
   try {
     const user: IUser | null = await User.findOne({ email });
     if (!user) {
-      return errorResponse(res, 400, 'There is no user with this email');
+      return errorResponse(res, 400, 'No existe un usuario con este correo');
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return errorResponse(res, 400, 'Password is incorrect');
+      return errorResponse(res, 400, 'Contraseña incorrecta');
     }
 
     const token = await generateJWT(user.id, user.name);
@@ -57,7 +57,7 @@ const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json({ ok: true, uid: user.id, name: user.name, token });
   } catch (error) {
     console.log(error);
-    errorResponse(res, 500, 'Please contact the administrator');
+    errorResponse(res, 500, 'Por favor, contacte al administrador');
   }
 };
 
@@ -65,7 +65,7 @@ const revalidateToken = async (req: CustomNextApiRequest, res: NextApiResponse) 
   const { uid, name } = req as RevalidateTokenRequest;
 
   if (!uid || !name) {
-    return errorResponse(res, 400, 'Both uid and name are required');
+    return errorResponse(res, 400, 'Ambos campos son requeridos');
   }
 
   const token = await generateJWT(uid, name);

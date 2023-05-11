@@ -1,8 +1,9 @@
 import { NextPage } from 'next';
 import { Contact, CustomHead, Experiences, Footer, Hero, Navbar, Services } from '@/components';
 import { IMenuItem, Id, LabelMap } from '@/interfaces';
-import { useSmoothScroll } from '@/hooks';
+import { useAuthStore, useSmoothScroll } from '@/hooks';
 import { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
 
 const menuItems: IMenuItem[] = [
   { id: 'inicio', label: 'Inicio' },
@@ -28,9 +29,14 @@ const getTitle = (activeSection: Id): string => {
 
 const HomePage: NextPage = () => {
   const { activeSection, isMenuOpen, scrollToSection, toggleMenu } = useSmoothScroll(menuItems);
+  const { checkAuthToken } = useAuthStore();
 
   const pageTitle = getTitle(activeSection);
   const pageDescription = `Descubre la sección ${activeSection} en QuiroJairoTerapia y encuentra el alivio y bienestar que buscas.`;
+
+  useEffect(() => {
+    checkAuthToken();
+  }, []);
 
   return (
     <div className='flex flex-col min-h-screen'>
