@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { check } from 'express-validator';
 import { getCommentsByTypeOrPost } from '@/controllers';
-import { validateFields, validateJWT, withDbConnection } from '@/middlewares';
+import { validateFields, withDbConnection } from '@/middlewares';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
@@ -30,4 +30,4 @@ const validationMiddleware = [
   }),
 ];
 
-export default withDbConnection(validateJWT(validateFields(handler, validationMiddleware)));
+export default withDbConnection(validateFields(handler, validationMiddleware));
