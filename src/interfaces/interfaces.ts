@@ -1,5 +1,3 @@
-import { CommentType } from '@/interfaces';
-
 export interface IMenuItem {
   id: Id;
   label: Label;
@@ -19,15 +17,4 @@ export interface Iservice {
   price: string;
   description: string;
   backgroundImageUrl: string;
-}
-
-export interface ITestimonial {
-  commentId: string;
-  postId: string;
-  userId: string;
-  content: string;
-  rating: number;
-  type: CommentType;
-  approved: boolean;
-  createdAt: Date;
 }
