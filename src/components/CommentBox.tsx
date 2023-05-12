@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, use } from 'react';
 import { AuthModal, StarRating } from '@/components';
-import { CommentPost, useAuthStore, useCommentStore, useForm } from '@/hooks';
+import { useAuthStore, useCommentStore, useForm } from '@/hooks';
 import autosize from 'autosize';
 import { toastNotification } from '@/helpers';
+import { Comment } from '@/store';
+import { CommentType } from '@/interfaces';
 
 interface CommentFormFields {
   content: string;
@@ -13,6 +15,13 @@ const initialCommentFormFields: CommentFormFields = {
   content: '',
   rating: 5,
 };
+
+export interface CommentToPost extends CommentFormFields {
+  userId: string;
+  type: CommentType;
+  postId?: string;
+  approved?: boolean;
+}
 
 export const CommentBox = () => {
   const { status, user, logout } = useAuthStore();
@@ -42,16 +51,17 @@ export const CommentBox = () => {
     setFormState((prevFormState) => ({ ...prevFormState, rating: newRating }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!user) return toggleAuthModal();
     if (!content) return toastNotification('error', 'Por favor, completa todos los campos.');
-    const comment: CommentPost = {
+    const comment: CommentToPost = {
       userId: user.uid,
       content,
       rating,
       type: 'review',
     };
-    postComment(comment);
+    const { ok, msg } = await postComment(comment);
+    if (ok) toastNotification('success', msg);
     onResetForm();
   };
 
@@ -87,7 +97,7 @@ export const CommentBox = () => {
       {showAuthModal && <AuthModal toggleAuthModal={toggleAuthModal} />}
 
       <div className='flex flex-col space-y-4'>
-        <h3 className='text-2xl font-bold font-roboto text-navy-blue'>Escribe tu comentario</h3>
+        <h3 className='text-2xl font-bold font-roboto text-navy-blue'>Escribe tu reseña</h3>
         <textarea
           className='w-full h-32 p-2 bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-500'
           placeholder={user ? 'Describe tu experiencia aquí...' : 'Inicia sesión para escribir un comentario.'}

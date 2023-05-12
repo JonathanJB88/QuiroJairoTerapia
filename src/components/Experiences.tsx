@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { AiFillSafetyCertificate } from 'react-icons/ai';
 
-import { CustomArrow, SectionIntro, StarRating, TestimonialCard, CommentBox } from '@/components';
-import { useCommentStore, useWindowSize } from '@/hooks';
+import { CustomArrow, SectionIntro, StarRating, ReviewCard, CommentBox } from '@/components';
+import { useAuthStore, useCommentStore, useWindowSize } from '@/hooks';
 import { toastNotification } from '@/helpers';
+import { UserRole } from '@/models/User';
 
 const title = 'Experiencias de QuiroJairoTerapia';
 const description =
@@ -14,26 +15,24 @@ const description =
 export const Experiences = () => {
   const windowSize = useWindowSize();
   const slidePercentage = windowSize.width >= 768 ? 33.33 : 100;
-
-  const { comments, status, errorMessage, getComments } = useCommentStore();
+  const { user } = useAuthStore();
+  const { comments, errorMessage, getComments } = useCommentStore();
   const averageRating = comments.reduce((sum, c) => sum + c.rating, 0) / comments.length;
   const formattedAverage = averageRating.toFixed(1);
 
-  const [expandedTestimonialId, setExpandedTestimonialId] = useState<string>('');
+  const [expandedReviewId, setExpandedReviewId] = useState<string>('');
 
-  const last50Testimonials = comments.slice(-50);
+  const filteredComments = () => {
+    return user && user.role === UserRole.ADMIN ? comments : comments.filter((c) => c.approved);
+  };
+
+  const last50Reviews = filteredComments().slice(0, 50);
 
   useEffect(() => {
     if (errorMessage !== undefined) {
       toastNotification('error', errorMessage);
     }
   }, [errorMessage]);
-
-  useEffect(() => {
-    if (status === 'succeeded') {
-      toastNotification('success', 'Comentario enviado correctamente');
-    }
-  }, [status]);
 
   useEffect(() => {
     getComments('review');
@@ -66,12 +65,12 @@ export const Experiences = () => {
           <CustomArrow clickHandler={clickHanler} hasArrow={hasNext} label={label} />
         )}
       >
-        {last50Testimonials.map((testimonial) => (
-          <TestimonialCard
-            key={testimonial.commentId}
-            testimonial={testimonial}
-            expandedTestimonialId={expandedTestimonialId}
-            setExpandedTestimonialId={setExpandedTestimonialId}
+        {last50Reviews.map((review) => (
+          <ReviewCard
+            key={review.commentId}
+            review={review}
+            expandedReviewId={expandedReviewId}
+            setExpandedReviewId={setExpandedReviewId}
           />
         ))}
       </Carousel>

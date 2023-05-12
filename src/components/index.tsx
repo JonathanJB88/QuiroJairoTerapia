@@ -19,7 +19,7 @@ export * from './SectionIntro';
 export * from './ServiceCard';
 export * from './DiscountPackages';
 export * from './Experiences';
-export * from './TestimonialCard';
+export * from './ReviewCard';
 export * from './StarRating';
 export * from './CommentBox';
 export * from './AuthModal';
