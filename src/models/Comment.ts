@@ -1,5 +1,6 @@
 import { CommentType } from '@/interfaces';
 import { Document, Model, Schema, model, models } from 'mongoose';
+import User from './User';
 
 export interface IComment extends Document {
   postId: string;
@@ -21,7 +22,14 @@ const CommentSchema = new Schema<IComment>(
     approved: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+
+CommentSchema.virtual('user', {
+  ref: User,
+  localField: 'userId',
+  foreignField: '_id',
+  justOne: true,
+});
 
 export default (models.Comment as Model<IComment>) || model<IComment>('Comment', CommentSchema);
