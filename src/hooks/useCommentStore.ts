@@ -3,6 +3,8 @@ import axios from 'axios';
 import apiClient from '@/helpers/apiConfig';
 import {
   RootState,
+  Comment,
+  AppDispatch,
   onLoading,
   onGetComments,
   onPostComment,
@@ -10,10 +12,9 @@ import {
   onDeleteComment,
   onFailed,
   onCleanErrorMessage,
-  Comment,
 } from '@/store';
 import { CommentType } from '@/interfaces';
-import { CommentToPost, CommentToUpdate } from '@/components';
+import { handleErrorMessage } from '@/helpers';
 
 interface CommentResponse {
   ok: boolean;
@@ -21,18 +22,24 @@ interface CommentResponse {
   comment: Comment;
 }
 
+interface CommentDataUpdate {
+  commentId: string;
+  approved: boolean;
+}
+
+interface CommentDataPost {
+  content: string;
+  rating: number;
+  userId: string;
+  type: CommentType;
+  postId?: string;
+}
+
 export const useCommentStore = () => {
   const { status, comments, errorMessage } = useSelector((state: RootState) => state.comment);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleErrorMessage = (message: string) => {
-    dispatch(onFailed(message));
-    setTimeout(() => {
-      dispatch(onCleanErrorMessage());
-    }, 3000);
-  };
-
-  const getComments = async (type: CommentType, postId?: string) => {
+  const getComments = async (type: CommentType, postId?: string): Promise<void> => {
     dispatch(onLoading());
     try {
       const endpoint =
@@ -46,11 +53,12 @@ export const useCommentStore = () => {
         axios.isAxiosError(error) && error.response?.data.msg
           ? error.response.data.msg
           : 'Error al obtener los comentarios';
-      handleErrorMessage(errorMessage);
+
+      handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
     }
   };
 
-  const postComment = async (comment: CommentToPost): Promise<{ ok: boolean; msg: string }> => {
+  const postComment = async (comment: CommentDataPost): Promise<{ ok: boolean; msg: string }> => {
     dispatch(onLoading());
     try {
       const {
@@ -63,17 +71,19 @@ export const useCommentStore = () => {
         axios.isAxiosError(error) && error.response?.data.msg
           ? error.response.data.msg
           : 'Error al crear el comentario';
-      handleErrorMessage(errorMessage);
+
+      handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
       return { ok: false, msg: errorMessage };
     }
   };
 
-  const updateComment = async (comment: CommentToUpdate): Promise<{ ok: boolean; msg: string }> => {
+  const updateComment = async (comment: CommentDataUpdate): Promise<{ ok: boolean; msg: string }> => {
     dispatch(onLoading());
     try {
       const {
         data: { comment: updatedComment, ok, msg },
       } = await apiClient.put<CommentResponse>('/api/comments/update', comment);
+
       dispatch(onUpdateComment(updatedComment));
       return { ok, msg };
     } catch (error) {
@@ -81,7 +91,7 @@ export const useCommentStore = () => {
         axios.isAxiosError(error) && error.response?.data.msg
           ? error.response.data.msg
           : 'Error al actualizar el comentario';
-      handleErrorMessage(errorMessage);
+      handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
       return { ok: false, msg: errorMessage };
     }
   };
@@ -103,7 +113,7 @@ export const useCommentStore = () => {
         axios.isAxiosError(error) && error.response?.data.msg
           ? error.response.data.msg
           : 'Error al eliminar el comentario';
-      handleErrorMessage(errorMessage);
+      handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
       return { ok: false, msg: errorMessage };
     }
   };

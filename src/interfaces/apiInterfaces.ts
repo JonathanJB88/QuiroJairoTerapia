@@ -46,3 +46,11 @@ export interface CustomNextApiRequest extends NextApiRequest {
   uid: string;
   name: string;
 }
+
+export interface CreateCommentData {
+  postId?: string;
+  userId: string;
+  content: string;
+  rating: number;
+  type: CommentType;
+}
