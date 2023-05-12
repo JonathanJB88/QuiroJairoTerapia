@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import apiClient from '@/helpers/apiConfig';
-import { RootState, onChecking, onLogin, onLogout, cleanErrorMessage } from '@/store';
+import { RootState, onChecking, onLogin, onLogout, cleanErrorMessage, User } from '@/store';
 
 interface LoginData {
   email: string;
@@ -26,12 +26,14 @@ export const useAuthStore = () => {
   const login = async ({ email, password }: LoginData) => {
     dispatch(onChecking());
     try {
-      const { data } = await apiClient.post('/api/auth/login', { email, password });
+      const {
+        data: { uid, name, role, token, ok },
+      } = await apiClient.post<User>('/api/auth/login', { email, password });
 
-      localStorage.setItem('token', data.token);
+      localStorage.setItem('token', token);
       localStorage.setItem('token-init-date', new Date().getTime().toString());
 
-      dispatch(onLogin({ name: data.name, uid: data.uid }));
+      dispatch(onLogin({ uid, name, role, ok, token }));
     } catch (error) {
       const errorMessage =
         axios.isAxiosError(error) && error.response?.data.msg ? error.response.data.msg : 'Credenciales Inválidas';
@@ -42,12 +44,14 @@ export const useAuthStore = () => {
   const register = async ({ name, email, password }: RegisterData) => {
     dispatch(onChecking());
     try {
-      const { data } = await apiClient.post('/api/auth/signup', { name, email, password });
+      const {
+        data: { uid, name: username, role, token, ok },
+      } = await apiClient.post<User>('/api/auth/signup', { name, email, password });
 
-      localStorage.setItem('token', data.token);
+      localStorage.setItem('token', token);
       localStorage.setItem('token-init-date', new Date().getTime().toString());
 
-      dispatch(onLogin({ name: data.name, uid: data.uid }));
+      dispatch(onLogin({ uid, name: username, role, ok, token }));
     } catch (error) {
       const errorMessage =
         axios.isAxiosError(error) && error.response?.data.msg ? error.response.data.msg : 'Error al crear usuario';
@@ -60,13 +64,16 @@ export const useAuthStore = () => {
     if (!token) return dispatch(onLogout());
 
     try {
-      const { data } = await apiClient.get('/api/auth/renewToken');
+      const {
+        data: { uid, name, role, token, ok },
+      } = await apiClient.get<User>('/api/auth/renewToken');
 
-      localStorage.setItem('token', data.token);
+      localStorage.setItem('token', token);
       localStorage.setItem('token-init-date', new Date().getTime().toString());
 
-      dispatch(onLogin({ name: data.name, uid: data.uid }));
+      dispatch(onLogin({ uid, name, role, ok, token }));
     } catch (error) {
+      console.log('Failed to renew token: ', error);
       localStorage.clear();
       dispatch(onLogout());
     }
