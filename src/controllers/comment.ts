@@ -27,7 +27,7 @@ const createComment = async (req: NextApiRequest, res: NextApiResponse) => {
     } else if (type === 'review') {
       const existingComment = await Comment.findOne({ userId, type });
       if (existingComment) {
-        return errorResponse(res, 400, 'Gracias, pero ya has dejado una revisión.');
+        return errorResponse(res, 400, 'Gracias, pero ya has dejado tu reseña.');
       }
     }
 
