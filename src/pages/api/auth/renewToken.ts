@@ -1,6 +1,6 @@
 import type { NextApiResponse, NextApiRequest } from 'next';
 import { revalidateToken } from '@/controllers';
-import { validateJWT, withDbConnection } from '@/middlewares';
+import { validateJWT, withDbConnection, methodNotAllowed } from '@/middlewares';
 import { CustomNextApiRequest } from '@/interfaces';
 
 const handlerWrapper = (req: NextApiRequest, res: NextApiResponse) => {
@@ -10,10 +10,8 @@ const handlerWrapper = (req: NextApiRequest, res: NextApiResponse) => {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     return handlerWrapper(req, res);
-  } else {
-    res.setHeader('Allow', 'GET');
-    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+  return methodNotAllowed(req, res);
 };
 
 export default withDbConnection(validateJWT(handler));

@@ -1,15 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { check } from 'express-validator';
 import { createComment } from '@/controllers';
-import { validateFields, validateJWT, withDbConnection } from '@/middlewares';
+import { validateFields, validateJWT, withDbConnection, methodNotAllowed } from '@/middlewares';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     return createComment(req, res);
-  } else {
-    res.setHeader('Allow', 'POST');
-    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+  return methodNotAllowed(req, res);
 };
 
 const validationMiddleware = [
