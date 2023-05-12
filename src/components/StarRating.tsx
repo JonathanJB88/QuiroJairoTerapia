@@ -1,30 +1,3 @@
-// interface StarRatingProps {
-//   rating: number;
-//   readOnly: boolean;
-//   onRatingChange?: (rating: number) => void;
-// }
-
-// export const StarRating = ({ rating, readOnly, onRatingChange = () => {} }: StarRatingProps) => {
-//   const stars = [];
-//   const handleClick = (rating: number) => {
-//     if (!readOnly) {
-//       onRatingChange(rating);
-//     }
-//   };
-//   for (let i = 1; i <= 5; i++) {
-//     stars.push(
-//       <span
-//         key={i}
-//         className={`text-xl cursor-pointer ${i <= rating ? 'text-yellow-500' : 'text-gray-300'}`}
-//         onClick={() => handleClick(i)}
-//       >
-//         &#9733;
-//       </span>
-//     );
-//   }
-//   return <>{stars}</>;
-// };
-
 interface StarRatingProps {
   rating: number;
   readOnly: boolean;
