@@ -7,7 +7,7 @@ export const validateJWT = (handler: NextApiHandler) => async (req: NextApiReque
   const token = req.headers['x-token'] as string;
 
   if (!token) {
-    return errorResponse(res, 401, 'No token provided');
+    return errorResponse(res, 401, 'No se ha enviado el token');
   }
 
   try {
