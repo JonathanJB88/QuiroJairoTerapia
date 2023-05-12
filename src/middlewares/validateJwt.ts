@@ -20,7 +20,7 @@ export const validateJWT = (handler: NextApiHandler) => async (req: NextApiReque
     (req as CustomNextApiRequest).name = name;
   } catch (error) {
     console.log('Error validating token', error);
-    return errorResponse(res, 401, 'Invalid token');
+    return errorResponse(res, 401, 'Token no válido');
   }
 
   return handler(req, res);
