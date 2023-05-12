@@ -1,8 +1,12 @@
+import { UserRole } from '@/models/User';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface User {
+  ok: boolean;
   uid: string;
   name: string;
+  role: UserRole;
+  token: string;
 }
 
 interface AuthState {

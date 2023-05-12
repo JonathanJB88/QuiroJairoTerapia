@@ -4,7 +4,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export interface Comment {
   commentId: string;
   postId: string;
-  userId: string;
+  userId: {
+    _id: string;
+    name: string;
+  };
   content: string;
   rating: number;
   type: CommentType;
@@ -32,6 +35,7 @@ export const commentSlice = createSlice({
       state.status = 'loading';
     },
     onGetComments: (state, { payload }: PayloadAction<Comment[]>) => {
+      state.status = 'succeeded';
       state.comments = payload;
     },
     onPostComment: (state, { payload }: PayloadAction<Comment>) => {
