@@ -3,32 +3,33 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import Comment, { IComment } from '@/models/Comment';
 import { errorResponse, formatComment } from '@/helpers';
 
-import { CreateCommentBody, DeleteCommentQuery, GetCommentsQuery, UpdateCommentBody } from '@/interfaces';
+import {
+  CreateCommentBody,
+  DeleteCommentQuery,
+  GetCommentsQuery,
+  UpdateCommentBody,
+  CreateCommentData,
+} from '@/interfaces';
 
 // Create a comment
 const createComment = async (req: NextApiRequest, res: NextApiResponse) => {
   const { postId, userId, content, rating, type } = req.body as CreateCommentBody;
 
   try {
-    let existingComment: IComment | null = null;
+    const commentData: CreateCommentData = { userId, content, rating, type };
 
     if (type === 'comment') {
-      existingComment = await Comment.findOne({ postId, userId });
+      const existingComment = await Comment.findOne({ postId, userId });
+      if (existingComment) {
+        return errorResponse(res, 400, 'Gracias, pero ya has dejado un comentario en este post.');
+      }
+      commentData.postId = postId;
     } else if (type === 'review') {
-      existingComment = await Comment.findOne({ userId, type });
+      const existingComment = await Comment.findOne({ userId, type });
+      if (existingComment) {
+        return errorResponse(res, 400, 'Gracias, pero ya has dejado una revisión.');
+      }
     }
-
-    if (existingComment) {
-      return errorResponse(res, 400, 'Gracias, pero ya has dejado un comentario.');
-    }
-
-    const commentData = {
-      postId: type === 'comment' ? postId : undefined,
-      userId,
-      content,
-      rating,
-      type,
-    };
 
     const comment: IComment = new Comment(commentData);
     await comment.save();
@@ -49,18 +50,11 @@ const createComment = async (req: NextApiRequest, res: NextApiResponse) => {
 const getCommentsByTypeOrPost = async (req: NextApiRequest, res: NextApiResponse) => {
   const { postId, type } = req.query as GetCommentsQuery;
 
-  let query = {};
-
-  if (postId) {
-    query = { postId };
-  } else if (type === 'review') {
-    query = { type: 'review' };
-  } else {
-    return errorResponse(res, 400, 'Parámetros inválidos');
-  }
-
   try {
-    const comments: IComment[] = await Comment.find(query)
+    const comments: IComment[] = await Comment.find({
+      ...(postId && { postId }),
+      ...(type === 'review' && { type: 'review' }),
+    })
       .sort({ createdAt: -1 })
       .populate('userId', '_id name')
       .lean();
@@ -85,7 +79,6 @@ const updateComment = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!comment) {
       return errorResponse(res, 404, 'No se encontró el comentario');
     }
-
     await comment.populate('userId', '_id name');
 
     res.status(200).json({
@@ -109,7 +102,6 @@ const deleteComment = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!comment) {
       return errorResponse(res, 404, 'No se encontró el comentario');
     }
-    await comment.populate('userId', '_id name');
 
     res.status(200).json({
       ok: true,

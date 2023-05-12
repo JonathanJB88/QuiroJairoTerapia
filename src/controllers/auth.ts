@@ -48,7 +48,7 @@ const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const user: IUser | null = await User.findOne({ email });
+    const user: IUser | null = await User.findOne({ email }).select('+password');
     if (!user) {
       return errorResponse(res, 400, 'No existe un usuario con este correo');
     }
