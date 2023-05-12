@@ -32,10 +32,15 @@ const createComment = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const comment: IComment = new Comment(commentData);
     await comment.save();
+    await comment.populate('userId', '_id name');
 
-    res.status(201).json(formatComment(comment));
+    res.status(200).json({
+      ok: true,
+      msg: 'Comentario creado correctamente',
+      comment: formatComment(comment),
+    });
   } catch (error) {
-    console.log(error);
+    console.log('Error al crear el comentario: ', error);
     errorResponse(res, 500, 'Por favor, contacte al administrador');
   }
 };
@@ -55,7 +60,10 @@ const getCommentsByTypeOrPost = async (req: NextApiRequest, res: NextApiResponse
   }
 
   try {
-    const comments: IComment[] = await Comment.find(query).sort({ createdAt: -1 }).lean();
+    const comments: IComment[] = await Comment.find(query)
+      .sort({ createdAt: -1 })
+      .populate('userId', '_id name')
+      .lean();
     if (!comments.length) {
       return errorResponse(res, 404, 'No se encontraron comentarios');
     }
@@ -69,22 +77,24 @@ const getCommentsByTypeOrPost = async (req: NextApiRequest, res: NextApiResponse
 
 // Update a comment
 const updateComment = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { commentId, content, rating, approved } = req.body as UpdateCommentBody;
+  const { commentId, approved } = req.body as UpdateCommentBody;
 
   try {
-    const comment: IComment | null = await Comment.findByIdAndUpdate(
-      commentId,
-      { content, rating, approved },
-      { new: true }
-    );
+    const comment: IComment | null = await Comment.findByIdAndUpdate(commentId, { approved }, { new: true });
 
     if (!comment) {
       return errorResponse(res, 404, 'No se encontró el comentario');
     }
 
-    res.status(200).json(formatComment(comment));
+    await comment.populate('userId', '_id name');
+
+    res.status(200).json({
+      ok: true,
+      msg: 'Comentario aprobado correctamente',
+      comment: formatComment(comment),
+    });
   } catch (error) {
-    console.log(error);
+    console.log('Error al actualizar el comentario: ', error);
     errorResponse(res, 500, 'Por favor, contacte al administrador');
   }
 };
@@ -99,10 +109,12 @@ const deleteComment = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!comment) {
       return errorResponse(res, 404, 'No se encontró el comentario');
     }
+    await comment.populate('userId', '_id name');
 
     res.status(200).json({
       ok: true,
       msg: 'Comentario eliminado correctamente',
+      comment: formatComment(comment),
     });
   } catch (error) {
     console.log('Error al eliminar el comentario: ', error);
