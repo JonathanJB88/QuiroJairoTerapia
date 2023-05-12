@@ -1,6 +1,6 @@
-import { CommentType } from '@/interfaces';
 import { Document, Model, Schema, model, models } from 'mongoose';
 import User from './User';
+import { CommentType } from '@/interfaces';
 
 export interface IComment extends Document {
   postId: string;
