@@ -1,10 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
 
-import User, { IUser } from '@/models/User';
+import User, { IUser, UserRole } from '@/models/User';
 import { errorResponse, generateJWT } from '@/helpers';
 
 import { CreateUserBody, CustomNextApiRequest, LoginUserBody, RevalidateTokenRequest } from '@/interfaces';
+
+const adminEmails = process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(',') || [];
 
 const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const { name, email, password } = req.body as CreateUserBody;
@@ -23,11 +25,15 @@ const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser: IUser = new User({ name, email, password: hashedPassword });
+    if (adminEmails.includes(email)) {
+      newUser.role = UserRole.ADMIN;
+    }
+
     await newUser.save();
 
     const token = await generateJWT(newUser.id, newUser.name);
 
-    res.status(201).json({ ok: true, uid: newUser.id, name: newUser.name, token });
+    res.status(201).json({ ok: true, uid: newUser.id, name: newUser.name, role: newUser.role, token });
   } catch (error) {
     console.log(error);
     errorResponse(res, 500, 'Por favor, contacte al administrador');
@@ -54,7 +60,7 @@ const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const token = await generateJWT(user.id, user.name);
 
-    res.status(200).json({ ok: true, uid: user.id, name: user.name, token });
+    res.status(200).json({ ok: true, uid: user.id, name: user.name, role: user.role, token });
   } catch (error) {
     console.log(error);
     errorResponse(res, 500, 'Por favor, contacte al administrador');
@@ -68,9 +74,12 @@ const revalidateToken = async (req: CustomNextApiRequest, res: NextApiResponse) 
     return errorResponse(res, 400, 'Ambos campos son requeridos');
   }
 
+  const user: IUser | null = await User.findById(uid);
+  if (!user) return errorResponse(res, 400, 'No existe un usuario con este id');
+
   const token = await generateJWT(uid, name);
 
-  res.status(200).json({ ok: true, uid, name, token });
+  res.status(200).json({ ok: true, uid, name, role: user.role, token });
 };
 
 export { createUser, loginUser, revalidateToken };
