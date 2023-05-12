@@ -27,7 +27,7 @@ export const ReviewCard = ({ review, expandedReviewId, setExpandedReviewId }: Re
     approved,
   } = review;
   const { user } = useAuthStore();
-  const { updateComment, getComments } = useCommentStore();
+  const { updateComment, deleteComment, getComments } = useCommentStore();
 
   const handleClick = (id: string) => (e: MouseEvent) => {
     e.stopPropagation();
@@ -37,7 +37,13 @@ export const ReviewCard = ({ review, expandedReviewId, setExpandedReviewId }: Re
   const handleApprove = async () => {
     const { ok, msg } = await updateComment({ commentId, approved: true });
     if (ok) toastNotification('success', msg);
-    await getComments('review');
+    if (!ok) toastNotification('error', msg);
+  };
+
+  const handleDelete = async () => {
+    const { ok, msg } = await deleteComment(commentId);
+    if (ok) toastNotification('success', msg);
+    if (!ok) toastNotification('error', msg);
   };
 
   const isExpanded = expandedReviewId === commentId;
@@ -54,7 +60,9 @@ export const ReviewCard = ({ review, expandedReviewId, setExpandedReviewId }: Re
             Aprobar
           </button>
         )}
-        <button className='px-3 py-1 text-sm text-white bg-red-500 rounded-md'>Eliminar</button>
+        <button className='px-3 py-1 text-sm text-white bg-red-500 rounded-md' onClick={handleDelete}>
+          Eliminar
+        </button>
       </div>
     );
 
