@@ -36,7 +36,7 @@ const HomePage: NextPage = () => {
 
   useEffect(() => {
     checkAuthToken();
-  }, []);
+  }, [checkAuthToken]);
 
   return (
     <div className='flex flex-col min-h-screen'>

@@ -24,7 +24,7 @@ export const AuthModal = () => {
       toastNotification('success', '¡Bienvenido!');
       toggleAuthModal();
     }
-  }, [status]);
+  }, [status, toggleAuthModal]);
 
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center bg-black backdrop-blur-sm bg-opacity-60'>

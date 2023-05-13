@@ -24,18 +24,19 @@ export const ContactForm = ({
   handlers: { handleChange, handleSubmit },
 }: ContactFormProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const currentTextareaRef = textareaRef.current;
 
   useEffect(() => {
-    if (textareaRef.current) {
-      autosize(textareaRef.current);
+    if (currentTextareaRef) {
+      autosize(currentTextareaRef);
     }
 
     return () => {
-      if (textareaRef.current) {
-        autosize.destroy(textareaRef.current);
+      if (currentTextareaRef) {
+        autosize.destroy(currentTextareaRef);
       }
     };
-  }, []);
+  }, [currentTextareaRef]);
 
   return (
     <form onSubmit={handleSubmit} className='space-y-4'>

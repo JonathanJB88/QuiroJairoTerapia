@@ -27,7 +27,7 @@ export const Experiences = () => {
 
   useEffect(() => {
     getComments('review');
-  }, []);
+  }, [getComments]);
 
   return (
     <div className='container px-4 mx-auto -mt-16 text-left select-none md:px-8 lg:px-16'>

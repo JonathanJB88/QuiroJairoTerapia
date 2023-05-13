@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import autosize from 'autosize';
 import { AuthModal, StarRating } from '@/components';
 import { useAuthStore, useSubmitComment, useUIStore } from '@/hooks';
@@ -10,24 +10,25 @@ export const CommentBox = () => {
   const { content, rating, isPosting, onInputChange, handleRatingChange, handleSubmit, onResetForm } =
     useSubmitComment();
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     logout();
     onResetForm();
     resetUI();
-  };
+  }, [logout, onResetForm, resetUI]);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const currentTextareaRef = textareaRef.current;
 
   useEffect(() => {
-    if (textareaRef.current) {
-      autosize(textareaRef.current);
+    if (currentTextareaRef) {
+      autosize(currentTextareaRef);
     }
     return () => {
-      if (textareaRef.current) {
-        autosize.destroy(textareaRef.current);
+      if (currentTextareaRef) {
+        autosize.destroy(currentTextareaRef);
       }
     };
-  }, []);
+  }, [currentTextareaRef]);
 
   const userDropdown = useMemo(
     () =>
@@ -52,7 +53,7 @@ export const CommentBox = () => {
           )}
         </div>
       ),
-    [status, user, showDropdown]
+    [status, user, showDropdown, toggleDropdown, handleLogout]
   );
 
   const loginButton = useMemo(
@@ -62,7 +63,7 @@ export const CommentBox = () => {
           Iniciar Sesión
         </button>
       ),
-    [status]
+    [status, toggleAuthModal]
   );
 
   return (

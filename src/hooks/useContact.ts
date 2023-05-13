@@ -59,7 +59,7 @@ export const useContact = () => {
       }
       setLoading(false);
     },
-    [formValues, messageSent, errorMessage, toastNotification]
+    [formValues, messageSent, errorMessage]
   );
 
   return { ...formValues, formValues, loading, messageSent, errorMessage, handleChange, handleSubmit };
