@@ -71,7 +71,6 @@ export const useCommentStore = () => {
         axios.isAxiosError(error) && error.response?.data.msg
           ? error.response.data.msg
           : 'Error al crear el comentario';
-
       handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
       return { ok: false, msg: errorMessage };
     }
