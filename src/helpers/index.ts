@@ -6,3 +6,4 @@ export * from './apiConfig';
 export * from './toastNotification';
 export * from './setToken';
 export * from './handleErrorMessage';
+export * from './validators';
