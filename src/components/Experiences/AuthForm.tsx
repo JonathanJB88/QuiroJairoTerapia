@@ -1,69 +1,115 @@
 import Image from 'next/image';
-import { toastNotification } from '@/helpers';
-import { useAuthStore, useForm } from '@/hooks';
+import { useAuthStore, useAuthentication, useUIStore } from '@/hooks';
+import { AuthInputField } from '@/components';
 
-interface LoginFormFields {
-  loginEmail: string;
-  loginPassword: string;
-}
-
-interface RegisterFormFields {
-  registerName: string;
-  registerEmail: string;
-  registerPassword: string;
-  registerConfirmPassword: string;
-}
-
-const initialLoginFormFields: LoginFormFields = {
-  loginEmail: '',
-  loginPassword: '',
-};
-
-const initialRegisterFormFields: RegisterFormFields = {
-  registerName: '',
-  registerEmail: '',
-  registerPassword: '',
-  registerConfirmPassword: '',
-};
+export type AuthFormType = 'login' | 'register';
 
 interface FormProps {
   toogleIsFlipped: () => void;
-  type: 'login' | 'register';
-  toggleAuthModal: () => void;
+  type: AuthFormType;
 }
 
-export const AuthForm = ({ type, toogleIsFlipped, toggleAuthModal }: FormProps) => {
-  const isLogin = type === 'login';
-  const h2 = isLogin ? 'Acceder para dejar una reseña' : 'Registrarse y dejar una reseña';
-  const button = isLogin ? 'Acceder' : 'Registrarse';
-  const ctaButton = isLogin ? 'Registrarse' : 'Acceder';
+interface InputField {
+  name: string;
+  type: string;
+  placeholder: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error: string | null | undefined;
+  minLength?: number;
+  display: boolean;
+}
 
-  const { login, register, status } = useAuthStore();
+export const AuthForm = ({ type, toogleIsFlipped }: FormProps) => {
   const {
     loginEmail,
     loginPassword,
-    onInputChange: onLoginInputChange,
-  } = useForm<LoginFormFields>(initialLoginFormFields);
-  const {
+    loginFormValidation,
+    onLoginInputChange,
+    onResetLoginForm,
     registerName,
     registerEmail,
     registerPassword,
     registerConfirmPassword,
-    onInputChange: onRegisterInputChange,
-  } = useForm<RegisterFormFields>(initialRegisterFormFields);
+    registerFormValidation,
+    onRegisterInputChange,
+    onResetRegisterForm,
+    formSubmit,
+  } = useAuthentication(type);
+  const { status } = useAuthStore();
+  const { toggleAuthModal } = useUIStore();
 
-  const loginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    login({ email: loginEmail, password: loginPassword });
-  };
+  const isLogin = type === 'login';
 
-  const registerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (registerPassword !== registerConfirmPassword) {
-      toastNotification('error', 'Las contraseñas no coinciden');
-      return;
-    }
-    register({ name: registerName, email: registerEmail, password: registerPassword });
+  const inputFields: InputField[] = [
+    {
+      name: 'registerName',
+      type: 'text',
+      placeholder: 'Nombre',
+      minLength: 3,
+      value: registerName,
+      onChange: onRegisterInputChange,
+      error: registerFormValidation.registerName,
+      display: !isLogin,
+    },
+    {
+      name: 'registerEmail',
+      type: 'email',
+      placeholder: 'Correo electrónico',
+      value: registerEmail,
+      onChange: onRegisterInputChange,
+      error: registerFormValidation.registerEmail,
+      display: !isLogin,
+    },
+    {
+      name: 'loginEmail',
+      type: 'email',
+      placeholder: 'Correo electrónico',
+      value: loginEmail,
+      onChange: onLoginInputChange,
+      error: loginFormValidation.loginEmail,
+      display: isLogin,
+    },
+    {
+      name: 'registerPassword',
+      type: 'password',
+      placeholder: 'Contraseña',
+      minLength: 6,
+      value: registerPassword,
+      onChange: onRegisterInputChange,
+      error: registerFormValidation.registerPassword,
+      display: !isLogin,
+    },
+    {
+      name: 'loginPassword',
+      type: 'password',
+      placeholder: 'Contraseña',
+      value: loginPassword,
+      onChange: onLoginInputChange,
+      error: loginFormValidation.loginPassword,
+      display: isLogin,
+    },
+    {
+      name: 'registerConfirmPassword',
+      type: 'password',
+      placeholder: 'Confirmar contraseña',
+      minLength: 6,
+      value: registerConfirmPassword,
+      onChange: onRegisterInputChange,
+      error: registerFormValidation.registerConfirmPassword,
+      display: !isLogin,
+    },
+  ];
+
+  const h2 = isLogin ? 'Acceder para dejar una reseña' : 'Registrarse y dejar una reseña';
+  const button = isLogin ? 'Acceder' : 'Registrarse';
+  const ctaButton = isLogin ? '¿No tienes una cuenta?, Regístrate' : '¿Ya tienes una cuenta?, Accede';
+  const buttonText = status === 'checking' ? 'Validando...' : button;
+
+  const handleFlipResetForm = () => {
+    if (isLogin) onResetLoginForm();
+    else onResetRegisterForm();
+    toogleIsFlipped();
   };
 
   return (
@@ -75,67 +121,32 @@ export const AuthForm = ({ type, toogleIsFlipped, toggleAuthModal }: FormProps) 
         <Image width={120} height={120} src='/images/quirojairoterapialogo.jpeg' alt='Logo' className='mb-3' />
         <h2 className='font-bold text-navy-blue font-roboto'>{h2}</h2>
       </div>
-      <form onSubmit={isLogin ? loginSubmit : registerSubmit}>
-        {!isLogin && (
-          <div className='mb-2'>
-            <input
-              type='text'
-              placeholder='Nombre'
-              className='w-full p-2 font-sans bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-500'
-              name='registerName'
-              value={registerName}
-              onChange={onRegisterInputChange}
-              required
-            />
-          </div>
-        )}
-        <div className='mb-2'>
-          <input
-            type='email'
-            placeholder='Correo electrónico'
-            className='w-full p-2 font-sans bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-500'
-            name={isLogin ? 'loginEmail' : 'registerEmail'}
-            value={isLogin ? loginEmail : registerEmail}
-            onChange={isLogin ? onLoginInputChange : onRegisterInputChange}
-            required
-          />
-        </div>
-        <div className='mb-2'>
-          <input
-            type='password'
-            placeholder='Contraseña'
-            minLength={6}
-            className='w-full p-2 font-sans bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-500'
-            name={isLogin ? 'loginPassword' : 'registerPassword'}
-            value={isLogin ? loginPassword : registerPassword}
-            onChange={isLogin ? onLoginInputChange : onRegisterInputChange}
-            required
-          />
-        </div>
-        {!isLogin && (
-          <div className='mb-2'>
-            <input
-              type='password'
-              placeholder='Confirmar contraseña'
-              minLength={6}
-              className='w-full p-2 font-sans bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-500'
-              name='registerConfirmPassword'
-              value={registerConfirmPassword}
-              onChange={onRegisterInputChange}
-              required
-            />
-          </div>
+      <form onSubmit={formSubmit} noValidate>
+        {inputFields.map(
+          (inputField) =>
+            inputField.display && (
+              <AuthInputField
+                key={inputField.name}
+                name={inputField.name}
+                type={inputField.type}
+                placeholder={inputField.placeholder}
+                minLength={inputField.minLength}
+                value={inputField.value}
+                onChange={inputField.onChange}
+                error={inputField.error}
+              />
+            )
         )}
         <button
           className='w-full py-2 mt-3 font-sans font-semibold rounded-md text-navy-blue bg-turquoise hover:bg-opacity-80'
           type='submit'
         >
-          {status === 'checking' ? 'Validando...' : button}
+          {buttonText}
         </button>
       </form>
 
       <div className='flex justify-end mt-4'>
-        <button className='font-sans text-xs underline text-navy-blue md:text-sm' onClick={toogleIsFlipped}>
+        <button className='font-sans text-xs underline text-navy-blue md:text-sm' onClick={handleFlipResetForm}>
           {ctaButton}
         </button>
       </div>

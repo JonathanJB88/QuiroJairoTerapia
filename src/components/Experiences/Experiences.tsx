@@ -2,11 +2,9 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { AiFillSafetyCertificate } from 'react-icons/ai';
-
 import { CustomArrow, SectionIntro, StarRating, ReviewCard, CommentBox } from '@/components';
-import { useAuthStore, useCommentStore, useWindowSize } from '@/hooks';
+import { useAuthStore, useCommentStore, useReviewData, useWindowSize } from '@/hooks';
 import { toastNotification } from '@/helpers';
-import { UserRole } from '@/models/User';
 
 const title = 'Experiencias de QuiroJairoTerapia';
 const description =
@@ -17,16 +15,9 @@ export const Experiences = () => {
   const slidePercentage = windowSize.width >= 768 ? 33.33 : 100;
   const { user } = useAuthStore();
   const { comments, errorMessage, getComments } = useCommentStore();
-  const averageRating = comments.reduce((sum, c) => sum + c.rating, 0) / comments.length;
-  const formattedAverage = averageRating.toFixed(1);
+  const { averageRating, formattedAverage, recentReviews } = useReviewData(user, comments);
 
   const [expandedReviewId, setExpandedReviewId] = useState<string>('');
-
-  const filteredComments = () => {
-    return user && user.role === UserRole.ADMIN ? comments : comments.filter((c) => c.approved);
-  };
-
-  const last50Reviews = filteredComments().slice(0, 50);
 
   useEffect(() => {
     if (errorMessage !== undefined) {
@@ -49,6 +40,7 @@ export const Experiences = () => {
         <AiFillSafetyCertificate size={24} className='ml-2' />
       </div>
       <Carousel
+        key={recentReviews.length}
         className='mb-8 overflow-visible'
         showThumbs={false}
         showStatus={false}
@@ -58,14 +50,14 @@ export const Experiences = () => {
         stopOnHover
         centerMode
         centerSlidePercentage={slidePercentage}
-        renderArrowPrev={(clickHanler, hasPrev, label) => (
-          <CustomArrow clickHandler={clickHanler} hasArrow={hasPrev} label={label} />
+        renderArrowPrev={(clickHandler, hasPrev, label) => (
+          <CustomArrow clickHandler={clickHandler} hasArrow={hasPrev} label={label} />
         )}
-        renderArrowNext={(clickHanler, hasNext, label) => (
-          <CustomArrow clickHandler={clickHanler} hasArrow={hasNext} label={label} />
+        renderArrowNext={(clickHandler, hasNext, label) => (
+          <CustomArrow clickHandler={clickHandler} hasArrow={hasNext} label={label} />
         )}
       >
-        {last50Reviews.map((review) => (
+        {recentReviews.map((review) => (
           <ReviewCard
             key={review.commentId}
             review={review}
