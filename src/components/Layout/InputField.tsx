@@ -1,4 +1,4 @@
-interface AuthInputFieldProps {
+interface InputFieldProps {
   name: string;
   type: string;
   placeholder: string;
@@ -10,7 +10,7 @@ interface AuthInputFieldProps {
 
 const inputClassName = 'w-full p-2 font-sans border rounded-md border-navy-blue focus:outline-none';
 
-export const AuthInputField = ({ name, type, placeholder, value, onChange, error, minLength }: AuthInputFieldProps) => (
+export const InputField = ({ name, type, placeholder, value, onChange, error, minLength }: InputFieldProps) => (
   <div className='mb-2'>
     <input
       type={type}

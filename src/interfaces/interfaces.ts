@@ -18,3 +18,15 @@ export interface Iservice {
   description: string;
   backgroundImageUrl: string;
 }
+
+export interface InputFieldType {
+  name: string;
+  type: string;
+  placeholder: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error: string | null | undefined;
+  minLength?: number;
+  display?: boolean;
+  ref?: React.RefObject<HTMLTextAreaElement>;
+}

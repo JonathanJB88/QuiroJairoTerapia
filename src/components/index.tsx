@@ -25,4 +25,4 @@ export * from './Experiences/CommentBox';
 export * from './Experiences/AuthModal';
 export * from './Experiences/AuthForm';
 export * from './Experiences/AdminButtons';
-export * from './Experiences/AuthInputField';
+export * from './Layout/InputField';
