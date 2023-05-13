@@ -33,7 +33,7 @@ export const useSubmitComment = () => {
   };
   const handleSubmit = async () => {
     if (!user) return toggleAuthModal();
-    if (!content) return toastNotification('error', 'Por favor, completa todos los campos.');
+    if (!content) return toastNotification('error', 'Por favor, escribe un comentario para publicar.');
     const comment: CommentToPost = {
       userId: user.uid,
       content,
