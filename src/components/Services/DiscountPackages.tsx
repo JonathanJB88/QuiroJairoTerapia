@@ -19,7 +19,7 @@ export const DiscountPackages = () => {
       <div className='mt-2 text-right'>
         <CTAButton
           label='¡Reserva!'
-          className='px-2 py-1 font-sans text-xs font-semibold rounded-md md:text-sm text-navy-blue bg-turquoise hover:bg-opacity-80'
+          className='px-2 py-1 font-sans text-xs font-semibold transition-all duration-200 ease-in-out rounded-md md:text-sm text-navy-blue bg-turquoise hover:bg-opacity-80'
         />
       </div>
     </div>

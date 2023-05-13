@@ -7,7 +7,7 @@ interface ContactItemProps {
 }
 
 export const ANCHOR_CLASS =
-  'flex items-center justify-start text-navy-blue hover:text-turquoise transition-colors duration-300';
+  'flex items-center justify-start text-navy-blue hover:text-turquoise transition-all duration-200 ease-in-out';
 
 export const ContactItem = ({ icon, type, contact }: ContactItemProps) => {
   const link = type === 'mail' ? `mailto:${contact}` : `https://wa.me/${contact}`;

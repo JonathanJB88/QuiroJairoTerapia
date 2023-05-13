@@ -15,7 +15,7 @@ interface CTAButtonProps {
 }
 
 const defaultClassName =
-  'px-4 py-1 font-sans text-base md:text-lg font-semibold rounded-md text-navy-blue bg-turquoise md:px-8 md:py-2 hover:bg-opacity-80';
+  'px-4 py-1 font-sans text-base md:text-lg font-semibold rounded-md text-navy-blue bg-turquoise md:px-8 md:py-2 hover:bg-opacity-80 transition-all duration-200 ease-in-out';
 
 export const CTAButton = ({ label, className }: CTAButtonProps) => {
   const handleButtonClick = useCallback(() => {

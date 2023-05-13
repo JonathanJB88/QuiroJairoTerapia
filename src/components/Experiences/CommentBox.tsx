@@ -6,7 +6,6 @@ import { useAuthStore, useSubmitComment, useUIStore } from '@/hooks';
 export const CommentBox = () => {
   const { status, user, logout } = useAuthStore();
   const { showAuthModal, showDropdown, toggleAuthModal, toggleDropdown, resetUI } = useUIStore();
-
   const { content, rating, isPosting, onInputChange, handleRatingChange, handleSubmit, onResetForm } =
     useSubmitComment();
 
@@ -35,7 +34,7 @@ export const CommentBox = () => {
       status === 'authenticated' && (
         <div className='relative'>
           <button
-            className='flex space-x-2 text-xs font-semibold text-navy-blue focus:outline-none'
+            className='flex space-x-2 text-xs font-semibold transition-all duration-200 ease-in-out text-navy-blue hover:text-turquoise'
             onClick={toggleDropdown}
           >
             <span>{user?.name}</span>
@@ -44,7 +43,7 @@ export const CommentBox = () => {
           {showDropdown && (
             <div className='absolute right-0 mt-2 bg-white rounded shadow-md'>
               <button
-                className='block w-full px-2 py-1 text-xs font-semibold text-left text-navy-blue hover:bg-gray-100'
+                className='block w-full px-2 py-1 text-xs font-semibold text-left transition-all duration-200 ease-in-out text-navy-blue hover:text-turquoise'
                 onClick={handleLogout}
               >
                 Logout
@@ -59,7 +58,10 @@ export const CommentBox = () => {
   const loginButton = useMemo(
     () =>
       status === 'unauthenticated' && (
-        <button className='text-xs font-semibold text-navy-blue focus:outline-none' onClick={toggleAuthModal}>
+        <button
+          className='text-xs font-semibold transition-all duration-200 ease-in-out text-navy-blue hover:text-turquoise'
+          onClick={toggleAuthModal}
+        >
           Iniciar Sesión
         </button>
       ),
@@ -93,7 +95,7 @@ export const CommentBox = () => {
             </div>
           </div>
           <button
-            className='flex flex-col items-center px-2 py-1 font-sans text-xs font-semibold rounded-md md:flex-row md:text-sm text-navy-blue bg-turquoise md:px-8 md:py-2 hover:bg-opacity-80'
+            className='flex flex-col items-center px-2 py-1 font-sans text-xs font-semibold transition-all duration-200 ease-in-out rounded-md md:flex-row md:text-sm text-navy-blue bg-turquoise md:px-8 md:py-2 hover:bg-opacity-80'
             type='submit'
             onClick={handleSubmit}
           >

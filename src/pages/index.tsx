@@ -1,9 +1,9 @@
-import { NextPage } from 'next';
-import { Contact, CustomHead, Experiences, Footer, Hero, Navbar, Services } from '@/components';
-import { IMenuItem, Id, LabelMap } from '@/interfaces';
-import { useAuthStore, useSmoothScroll } from '@/hooks';
-import { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
+import { NextPage } from 'next';
+import { Toaster } from 'react-hot-toast';
+import { ChatButton, Contact, CustomHead, Experiences, Footer, Hero, Navbar, Services } from '@/components';
+import { useAuthStore, useSmoothScroll } from '@/hooks';
+import { IMenuItem, Id, LabelMap } from '@/interfaces';
 
 const menuItems: IMenuItem[] = [
   { id: 'inicio', label: 'Inicio' },
@@ -75,6 +75,7 @@ const HomePage: NextPage = () => {
         </section>
       </main>
       <Footer />
+      <ChatButton />
     </div>
   );
 };

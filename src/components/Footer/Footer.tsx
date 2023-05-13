@@ -3,10 +3,11 @@ import { FaRegFileAlt } from 'react-icons/fa';
 import { Modal, ContentModal, PrivacyPolicyContent, TermsOfServiceContent } from '@/components';
 
 const ModalContentTypes = ['privacy', 'terms', null] as const;
-type ModalContentType = typeof ModalContentTypes[number];
+type ModalContentType = (typeof ModalContentTypes)[number];
+
+const currentYear = new Date().getFullYear();
 
 export const Footer = () => {
-  const currentYear = new Date().getFullYear();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContentType, setModalContentType] = useState<ModalContentType>(null);
 
@@ -24,12 +25,18 @@ export const Footer = () => {
               <span className='font-semibold font-roboto'>© {currentYear} QuiroJairoTerapia</span>
             </div>
             <div className='flex justify-center mt-4 space-x-3 text-xs md:text-sm md:space-x-0 md:space-y-2 md:mt-0 md:flex-col md:justify-start'>
-              <button className='flex items-center space-x-1 font-sans' onClick={() => handleModal('privacy')}>
+              <button
+                className='flex items-center space-x-1 font-sans transition-all duration-200 ease-in-out hover:underline'
+                onClick={() => handleModal('privacy')}
+              >
                 <FaRegFileAlt />
                 <span>Política de Privacidad</span>
               </button>
 
-              <button className='flex items-center space-x-1 font-sans' onClick={() => handleModal('terms')}>
+              <button
+                className='flex items-center space-x-1 font-sans transition-all duration-200 ease-in-out hover:underline'
+                onClick={() => handleModal('terms')}
+              >
                 <FaRegFileAlt />
                 <span>Términos de Servicio</span>
               </button>

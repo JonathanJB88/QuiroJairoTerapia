@@ -28,7 +28,7 @@ export const ServiceCard = ({ service: { backgroundImageUrl, title, price, descr
         <div className='mb-4 text-right md:mb-2'>
           <CTAButton
             label='¡Reserva!'
-            className='px-2 py-1 font-sans text-xs font-semibold rounded-md md:text-sm text-navy-blue bg-turquoise hover:bg-opacity-80'
+            className='px-2 py-1 font-sans text-xs font-semibold transition-all duration-200 ease-in-out rounded-md md:text-sm text-navy-blue bg-turquoise hover:bg-opacity-80'
           />
         </div>
       </div>

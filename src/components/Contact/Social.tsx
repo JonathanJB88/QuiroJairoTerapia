@@ -11,7 +11,7 @@ export const Social = ({ Icon, href }: SocialProps) => {
       href={href}
       target='_blank'
       rel='noopener noreferrer'
-      className='transition-colors duration-300 text-turquoise hover:text-navy-blue'
+      className='transition-all duration-200 ease-in-out text-turquoise hover:text-navy-blue'
     >
       <Icon size={32} />
     </a>

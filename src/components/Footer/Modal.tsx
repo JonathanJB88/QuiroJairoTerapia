@@ -15,7 +15,10 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
             &times;
           </button>
           {children}
-          <button className='absolute bottom-0 right-0 mt-4 mb-2 mr-4 text-xs font-semibold' onClick={onClose}>
+          <button
+            className='absolute bottom-0 right-0 mt-4 mb-2 mr-4 text-xs font-semibold transition-all duration-200 ease-in-out hover:underline'
+            onClick={onClose}
+          >
             Cerrar
           </button>
         </div>

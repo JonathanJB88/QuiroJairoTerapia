@@ -128,7 +128,7 @@ export const AuthForm = ({ type, toogleIsFlipped }: FormProps) => {
             )
         )}
         <button
-          className='w-full py-2 mt-3 font-sans font-semibold rounded-md text-navy-blue bg-turquoise hover:bg-opacity-80'
+          className='w-full py-2 mt-3 font-sans font-semibold transition-all duration-200 ease-in-out rounded-md text-navy-blue bg-turquoise hover:bg-opacity-80'
           type='submit'
         >
           {buttonText}
@@ -136,7 +136,10 @@ export const AuthForm = ({ type, toogleIsFlipped }: FormProps) => {
       </form>
 
       <div className='flex justify-end mt-4'>
-        <button className='font-sans text-xs underline text-navy-blue md:text-sm' onClick={handleFlipResetForm}>
+        <button
+          className='font-sans text-xs underline transition-all duration-200 ease-in-out text-navy-blue md:text-sm hover:text-opacity-80'
+          onClick={handleFlipResetForm}
+        >
           {ctaButton}
         </button>
       </div>

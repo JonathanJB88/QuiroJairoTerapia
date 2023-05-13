@@ -26,3 +26,4 @@ export * from './Experiences/AuthModal';
 export * from './Experiences/AuthForm';
 export * from './Experiences/AdminButtons';
 export * from './Layout/InputField';
+export * from './Quirobot/ChatButton';
