@@ -83,7 +83,7 @@ export const useContact = () => {
       }
       setLoading(false);
     },
-    [name, email, phone, message]
+    [name, email, phone, message, isFormValid, onResetForm]
   );
 
   return { name, email, phone, message, loading, isFormValid, formValidation, onInputChange, handleSubmit };
