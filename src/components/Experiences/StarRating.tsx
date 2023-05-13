@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 interface StarRatingProps {
   rating: number;
   readOnly: boolean;
@@ -5,25 +7,29 @@ interface StarRatingProps {
 }
 
 export const StarRating = ({ rating, readOnly, onRatingChange = () => {} }: StarRatingProps) => {
-  const handleClick = (rating: number) => {
-    if (!readOnly) {
-      onRatingChange(rating);
-    }
-  };
+  const handleClick = useCallback(
+    (newRating: number) => {
+      if (!readOnly) {
+        onRatingChange(newRating);
+      }
+    },
+    [readOnly, onRatingChange]
+  );
 
-  const stars = [];
   const percentageRating = (rating % 1) * 100;
 
-  for (let i = 1; i <= 5; i++) {
-    stars.push(
+  const stars = Array.from({ length: 5 }, (_, i) => {
+    const starRating = i + 1;
+    return (
       <div
-        key={i}
+        key={starRating}
         className='relative inline-block w-6 h-6 text-xl text-gray-300 cursor-pointer'
-        onClick={() => handleClick(i)}
+        onClick={() => handleClick(starRating)}
+        aria-label={`Rate ${starRating} out of 5`}
       >
         <span className='absolute inset-0'>&#9733;</span>
-        {i <= Math.floor(rating) && <span className='absolute inset-0 text-yellow-500'>&#9733;</span>}
-        {i === Math.ceil(rating) && (
+        {starRating <= Math.floor(rating) && <span className='absolute inset-0 text-yellow-500'>&#9733;</span>}
+        {starRating === Math.ceil(rating) && (
           <span
             className='absolute inset-0 text-yellow-500'
             style={{
@@ -35,7 +41,7 @@ export const StarRating = ({ rating, readOnly, onRatingChange = () => {} }: Star
         )}
       </div>
     );
-  }
+  });
 
   return <>{stars}</>;
 };

@@ -1,10 +1,8 @@
 import { Dispatch, MouseEvent, SetStateAction } from 'react';
 import { AiFillSafetyCertificate } from 'react-icons/ai';
-import { StarRating } from '@/components';
-import { formatDate, toastNotification } from '@/helpers';
+import { AdminButtons, StarRating } from '@/components';
+import { formatDate } from '@/helpers';
 import { Comment } from '@/store';
-import { useAuthStore, useCommentStore } from '@/hooks';
-import { UserRole } from '@/models/User';
 
 export interface CommentToUpdate {
   commentId: string;
@@ -26,24 +24,10 @@ export const ReviewCard = ({ review, expandedReviewId, setExpandedReviewId }: Re
     commentId,
     approved,
   } = review;
-  const { user } = useAuthStore();
-  const { updateComment, deleteComment, getComments } = useCommentStore();
 
   const handleClick = (id: string) => (e: MouseEvent) => {
     e.stopPropagation();
     setExpandedReviewId(expandedReviewId === id ? '' : id);
-  };
-
-  const handleApprove = async () => {
-    const { ok, msg } = await updateComment({ commentId, approved: true });
-    if (ok) toastNotification('success', msg);
-    if (!ok) toastNotification('error', msg);
-  };
-
-  const handleDelete = async () => {
-    const { ok, msg } = await deleteComment(commentId);
-    if (ok) toastNotification('success', msg);
-    if (!ok) toastNotification('error', msg);
   };
 
   const isExpanded = expandedReviewId === commentId;
@@ -51,20 +35,6 @@ export const ReviewCard = ({ review, expandedReviewId, setExpandedReviewId }: Re
   const modalStyle = isExpanded
     ? 'absolute top-0 p-6 w-full bg-light-gray h-full rounded-lg shadow-xl cursor-pointer z-50 overflow-y-auto'
     : 'hidden';
-
-  const renderAdminButtons = () =>
-    user?.role === UserRole.ADMIN && (
-      <div className='flex justify-end mt-2 space-x-2'>
-        {!approved && (
-          <button className='px-3 py-1 text-sm text-white bg-green-500 rounded-md' onClick={handleApprove}>
-            Aprobar
-          </button>
-        )}
-        <button className='px-3 py-1 text-sm text-white bg-red-500 rounded-md' onClick={handleDelete}>
-          Eliminar
-        </button>
-      </div>
-    );
 
   return (
     <div className='relative'>
@@ -102,7 +72,7 @@ export const ReviewCard = ({ review, expandedReviewId, setExpandedReviewId }: Re
           <p className='text-sm text-blue-500'>Mostrar menos</p>
         </div>
         <p className='text-sm font-semibold text-right'>- {username}</p>
-        {renderAdminButtons()}
+        <AdminButtons commentId={commentId} approved={approved} />
       </div>
     </div>
   );
