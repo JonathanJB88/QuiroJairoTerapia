@@ -1,4 +1,5 @@
 import autosize from 'autosize';
+import { useEffect, useRef } from 'react';
 
 interface ContactFormProps {
   loading: boolean;
@@ -22,6 +23,20 @@ export const ContactForm = ({
   values: { name, email, phone, message },
   handlers: { handleChange, handleSubmit },
 }: ContactFormProps) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      autosize(textareaRef.current);
+    }
+
+    return () => {
+      if (textareaRef.current) {
+        autosize.destroy(textareaRef.current);
+      }
+    };
+  }, []);
+
   return (
     <form onSubmit={handleSubmit} className='space-y-4'>
       <input
@@ -52,7 +67,7 @@ export const ContactForm = ({
         required
       />
       <textarea
-        ref={(el) => el && autosize(el)}
+        ref={textareaRef}
         name='message'
         placeholder='Escribe tu mensaje aquí...'
         value={message}
