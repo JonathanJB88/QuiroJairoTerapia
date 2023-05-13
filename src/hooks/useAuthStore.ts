@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import apiClient from '@/helpers/apiConfig';
@@ -51,7 +52,7 @@ export const useAuthStore = () => {
     }
   };
 
-  const checkAuthToken = async () => {
+  const checkAuthToken = useCallback(async () => {
     const token = localStorage.getItem('token');
     if (!token) return dispatch(onLogout());
 
@@ -68,7 +69,7 @@ export const useAuthStore = () => {
       localStorage.clear();
       dispatch(onLogout());
     }
-  };
+  }, [dispatch]);
 
   const logout = () => {
     localStorage.clear();
