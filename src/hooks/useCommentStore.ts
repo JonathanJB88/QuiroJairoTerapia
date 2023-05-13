@@ -15,6 +15,7 @@ import {
 } from '@/store';
 import { CommentType } from '@/interfaces';
 import { handleErrorMessage } from '@/helpers';
+import { useCallback } from 'react';
 
 interface CommentResponse {
   ok: boolean;
@@ -39,24 +40,26 @@ export const useCommentStore = () => {
   const { status, comments, errorMessage } = useSelector((state: RootState) => state.comment);
   const dispatch = useDispatch<AppDispatch>();
 
-  const getComments = async (type: CommentType, postId?: string): Promise<void> => {
-    dispatch(onLoading());
-    try {
-      const endpoint =
-        type === 'review'
-          ? `/api/comments/get-by-post?type=${type}`
-          : `/api/comments/get-by-post?type=${type}&postId=${postId}`;
-      const { data } = await apiClient.get<Comment[]>(endpoint);
-      dispatch(onGetComments(data));
-    } catch (error) {
-      const errorMessage =
-        axios.isAxiosError(error) && error.response?.data.msg
-          ? error.response.data.msg
-          : 'Error al obtener los comentarios';
-
-      handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
-    }
-  };
+  const getComments = useCallback(
+    async (type: CommentType, postId?: string): Promise<void> => {
+      dispatch(onLoading());
+      try {
+        const endpoint =
+          type === 'review'
+            ? `/api/comments/get-by-post?type=${type}`
+            : `/api/comments/get-by-post?type=${type}&postId=${postId}`;
+        const { data } = await apiClient.get<Comment[]>(endpoint);
+        dispatch(onGetComments(data));
+      } catch (error) {
+        const errorMessage =
+          axios.isAxiosError(error) && error.response?.data.msg
+            ? error.response.data.msg
+            : 'Error al obtener los comentarios';
+        handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
+      }
+    },
+    [dispatch]
+  );
 
   const postComment = async (comment: CommentDataPost): Promise<{ ok: boolean; msg: string }> => {
     dispatch(onLoading());

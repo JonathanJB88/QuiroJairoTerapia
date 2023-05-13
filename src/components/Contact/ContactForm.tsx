@@ -1,30 +1,42 @@
-import autosize from 'autosize';
 import { useEffect, useRef } from 'react';
+import autosize from 'autosize';
+import { useContact } from '@/hooks';
+import { InputField } from '@/components';
+import { InputFieldType } from '@/interfaces';
 
-interface ContactFormProps {
-  loading: boolean;
-  values: {
-    name: string;
-    email: string;
-    phone: string;
-    message: string;
-  };
-  handlers: {
-    handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-    handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  };
-}
+const textareaClassname = 'w-full p-2 font-sans border rounded-md border-navy-blue focus:outline-none h-32';
 
-const inputClassName =
-  'w-full px-4 py-2 border rounded-md border-navy-blue focus:outline-none focus:ring-2 focus:ring-turquoise';
-
-export const ContactForm = ({
-  loading,
-  values: { name, email, phone, message },
-  handlers: { handleChange, handleSubmit },
-}: ContactFormProps) => {
+export const ContactForm = () => {
+  const { name, email, phone, message, loading, formValidation, onInputChange, handleSubmit } = useContact();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const currentTextareaRef = textareaRef.current;
+
+  const inputFields: InputFieldType[] = [
+    {
+      name: 'name',
+      type: 'text',
+      placeholder: 'Tu nombre',
+      value: name,
+      onChange: onInputChange,
+      error: formValidation.name,
+    },
+    {
+      name: 'email',
+      type: 'email',
+      placeholder: 'Tu correo electrónico',
+      value: email,
+      onChange: onInputChange,
+      error: formValidation.email,
+    },
+    {
+      name: 'phone',
+      type: 'tel',
+      placeholder: 'Tu número de teléfono',
+      value: phone,
+      onChange: onInputChange,
+      error: formValidation.phone,
+    },
+  ];
 
   useEffect(() => {
     if (currentTextareaRef) {
@@ -39,46 +51,25 @@ export const ContactForm = ({
   }, [currentTextareaRef]);
 
   return (
-    <form onSubmit={handleSubmit} className='space-y-4'>
-      <input
-        type='text'
-        name='name'
-        placeholder='Tu nombre'
-        value={name}
-        onChange={handleChange}
-        className={inputClassName}
-        required
-      />
-      <input
-        type='email'
-        name='email'
-        placeholder='Tu correo electrónico'
-        value={email}
-        onChange={handleChange}
-        className={inputClassName}
-        required
-      />
-      <input
-        type='tel'
-        name='phone'
-        placeholder='Tu número de teléfono'
-        value={phone}
-        onChange={handleChange}
-        className={inputClassName}
-        required
-      />
+    <form onSubmit={handleSubmit} className='space-y-4' noValidate>
+      {inputFields.map((inputField) => (
+        <InputField key={inputField.name} {...inputField} />
+      ))}
       <textarea
         ref={textareaRef}
         name='message'
         placeholder='Escribe tu mensaje aquí...'
         value={message}
-        onChange={handleChange}
-        className={`${inputClassName} h-32`}
+        onChange={onInputChange}
+        className={`${textareaClassname} ${
+          formValidation.message ? 'border-red-500' : 'focus:ring-2 focus:ring-turquoise'
+        }`}
         required
       />
+      {formValidation.message && <p className='p-1 font-sans text-xs text-red-500'>{formValidation.message}</p>}
       <button
         type='submit'
-        className='px-4 py-2 font-semibold transition-colors duration-300 border rounded-md text-navy-blue border-navy-blue hover:bg-navy-blue hover:text-white'
+        className='px-2 py-1 font-sans text-xs font-semibold rounded-md md:flex-row md:text-sm text-navy-blue bg-turquoise md:px-8 md:py-2 hover:bg-opacity-80'
       >
         {loading ? 'Enviando tu mensaje...' : 'Envía tu mensaje'}
       </button>

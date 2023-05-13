@@ -1,23 +1,13 @@
 import Image from 'next/image';
 import { useAuthStore, useAuthentication, useUIStore } from '@/hooks';
-import { AuthInputField } from '@/components';
+import { InputField } from '@/components';
+import { InputFieldType } from '@/interfaces';
 
 export type AuthFormType = 'login' | 'register';
 
 interface FormProps {
   toogleIsFlipped: () => void;
   type: AuthFormType;
-}
-
-interface InputField {
-  name: string;
-  type: string;
-  placeholder: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error: string | null | undefined;
-  minLength?: number;
-  display: boolean;
 }
 
 export const AuthForm = ({ type, toogleIsFlipped }: FormProps) => {
@@ -41,7 +31,7 @@ export const AuthForm = ({ type, toogleIsFlipped }: FormProps) => {
 
   const isLogin = type === 'login';
 
-  const inputFields: InputField[] = [
+  const inputFields: InputFieldType[] = [
     {
       name: 'registerName',
       type: 'text',
@@ -125,7 +115,7 @@ export const AuthForm = ({ type, toogleIsFlipped }: FormProps) => {
         {inputFields.map(
           (inputField) =>
             inputField.display && (
-              <AuthInputField
+              <InputField
                 key={inputField.name}
                 name={inputField.name}
                 type={inputField.type}

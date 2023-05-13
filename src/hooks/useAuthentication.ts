@@ -1,4 +1,4 @@
-import { toastNotification } from '@/helpers';
+import { toastNotification, nameValidator, emailValidator, passwordValidator } from '@/helpers';
 import { FormValidators, useAuthStore, useForm } from '@/hooks';
 import { AuthFormType } from '@/components';
 
@@ -27,30 +27,14 @@ const initialRegisterFormFields: RegisterFormFields = {
 };
 
 const loginFormValidations: FormValidators<LoginFormFields> = {
-  loginEmail: {
-    validator: (value) => /\S+@\S+\.\S+/.test(value),
-    message: 'Formato de correo inválido',
-  },
-  loginPassword: {
-    validator: (value) => value.length >= 6,
-    message: 'La contraseña debe tener al menos 6 caracteres',
-  },
+  loginEmail: emailValidator,
+  loginPassword: passwordValidator,
 };
 
 const registerFormValidations: FormValidators<RegisterFormFields> = {
-  registerName: {
-    validator: (value) => value.trim().length > 2,
-    message: 'El nombre es requerido y debe ser de más de tres caracteres',
-  },
-  registerEmail: {
-    validator: (value) => /\S+@\S+\.\S+/.test(value),
-    message: 'Formato de correo inválido',
-  },
-  registerPassword: {
-    validator: (value) => value.length >= 6,
-    message: 'La contraseña debe tener al menos 6 caracteres',
-    dependentFields: ['registerConfirmPassword'],
-  },
+  registerName: nameValidator,
+  registerEmail: emailValidator,
+  registerPassword: { ...passwordValidator, dependentFields: ['registerConfirmPassword'] },
   registerConfirmPassword: {
     validator: (value: string, state: RegisterFormFields) => value === state.registerPassword,
     message: 'Las contraseñas no coinciden',
