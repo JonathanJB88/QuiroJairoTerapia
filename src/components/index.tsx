@@ -27,4 +27,5 @@ export * from './Experiences/AuthForm';
 export * from './Experiences/AdminButtons';
 export * from './Layout/InputField';
 export * from './Quirobot/ChatButton';
-export * from './Quirobot/BubbleChatBox';
+export * from './Quirobot/BubbleChat';
+export * from './Quirobot/QuirobotChat';
