@@ -4,7 +4,7 @@ import { useContact } from '@/hooks';
 import { InputField } from '@/components';
 import { InputFieldType } from '@/interfaces';
 
-const textareaClassname = 'w-full p-2 font-sans border rounded-md border-navy-blue focus:outline-none h-32';
+const textareaClassname = 'w-full p-2 font-sans border rounded-md focus:outline-none h-32';
 
 export const ContactForm = () => {
   const { name, email, phone, message, loading, formValidation, onInputChange, handleSubmit } = useContact();
@@ -62,7 +62,9 @@ export const ContactForm = () => {
         value={message}
         onChange={onInputChange}
         className={`${textareaClassname} ${
-          formValidation.message ? 'border-red-500' : 'focus:ring-2 focus:ring-turquoise'
+          formValidation.message
+            ? 'border-red-500'
+            : 'focus:ring-2 focus:ring-turquoise border-navy-blue focus:border-transparent'
         }`}
         required
       />

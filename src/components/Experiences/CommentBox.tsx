@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import autosize from 'autosize';
+import { RiArrowDropDownLine } from 'react-icons/ri';
 import { AuthModal, StarRating } from '@/components';
 import { useAuthStore, useSubmitComment, useUIStore } from '@/hooks';
 
@@ -34,11 +35,11 @@ export const CommentBox = () => {
       status === 'authenticated' && (
         <div className='relative'>
           <button
-            className='flex space-x-2 text-xs font-semibold transition-all duration-200 ease-in-out text-navy-blue hover:text-turquoise'
+            className='flex items-center space-x-2 text-xs font-semibold transition-all duration-200 ease-in-out text-navy-blue hover:text-turquoise'
             onClick={toggleDropdown}
           >
             <span>{user?.name}</span>
-            <span>&#x25BC;</span>
+            <RiArrowDropDownLine size={30} />
           </button>
           {showDropdown && (
             <div className='absolute right-0 mt-2 bg-white rounded shadow-md'>
@@ -79,7 +80,7 @@ export const CommentBox = () => {
       <div className='flex flex-col space-y-4'>
         <h3 className='text-2xl font-bold font-roboto text-navy-blue'>Escribe tu reseña</h3>
         <textarea
-          className='w-full h-32 p-2 border rounded-md border-navy-blue focus:outline-none focus:ring-2 focus:ring-turquoise'
+          className='w-full h-32 p-2 border rounded-md border-navy-blue-lighter focus:border-transparent focus:outline-none focus:ring-2 focus:ring-turquoise'
           placeholder={user ? 'Describe tu experiencia aquí...' : 'Inicia sesión para escribir un comentario.'}
           disabled={!user}
           ref={textareaRef}
