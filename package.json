@@ -20,6 +20,7 @@
     "autosize": "^6.0.1",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
+    "daisyui": "^2.51.6",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
     "express-validator": "^7.0.1",
