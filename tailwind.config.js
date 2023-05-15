@@ -21,7 +21,11 @@ module.exports = {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
         roboto: ['Roboto', ...defaultTheme.fontFamily.sans],
       },
+      animation: {
+        // Bounces 5 times 1s equals 2 seconds
+        'pulse-short': 'pulse 1s ease-in-out 2',
+      },
     },
   },
-  plugins: [require('daisyui')],
+  plugins: [],
 };
