@@ -4,7 +4,7 @@ import { errorResponse } from '@/helpers';
 
 interface ChatResponseData {
   ok: boolean;
-  result: CreateChatCompletionResponse;
+  message: CreateChatCompletionResponse['choices'][0]['message'];
 }
 
 const organization = process.env.NEXT_PUBLIC_OPENAI_ORGANIZATION_ID;
@@ -22,13 +22,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ChatResponseDat
     });
 
     if (!completion.data.choices) {
-      return errorResponse(res, 400, 'No se pudo completar la solicitud');
+      return errorResponse(res, 400, 'Ups! Algo salió mal. Intenta de nuevo.');
     }
-
-    res.status(200).json({ ok: true, result: completion.data });
+    res.status(200).json({ ok: true, message: completion.data.choices[0].message });
   } catch (error) {
     console.log(error);
-    errorResponse(res, 500, 'Por favor, contacte al administrador');
+    errorResponse(res, 500, 'Ups! Algo salió mal. Por favor, contacta al administrador.');
   }
 };
 
