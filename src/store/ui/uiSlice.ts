@@ -3,12 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 interface UIState {
   showDropdown: boolean;
   showAuthModal: boolean;
+  showChatBox: boolean;
   resetFormFlag: boolean;
 }
 
 const initialState: UIState = {
   showDropdown: false,
   showAuthModal: false,
+  showChatBox: false,
   resetFormFlag: false,
 };
 
@@ -25,6 +27,9 @@ export const uiSlice = createSlice({
     onToggleResetFormFlag: (state) => {
       state.resetFormFlag = !state.resetFormFlag;
     },
+    onToggleChatBox: (state) => {
+      state.showChatBox = !state.showChatBox;
+    },
     onResetUI: (state) => {
       state.showDropdown = false;
       state.showAuthModal = false;
@@ -33,4 +38,5 @@ export const uiSlice = createSlice({
   },
 });
 
-export const { onToggleDropdown, onToggleAuthModal, onToggleResetFormFlag, onResetUI } = uiSlice.actions;
+export const { onToggleDropdown, onToggleAuthModal, onToggleResetFormFlag, onToggleChatBox, onResetUI } =
+  uiSlice.actions;
