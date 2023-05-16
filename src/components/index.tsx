@@ -29,3 +29,6 @@ export * from './Layout/InputField';
 export * from './Quirobot/ChatButton';
 export * from './Quirobot/BubbleChat';
 export * from './Quirobot/QuirobotChat';
+export * from './Quirobot/ChatHeader';
+export * from './Quirobot/Message';
+export * from './Quirobot/QuirobotChatForm';
