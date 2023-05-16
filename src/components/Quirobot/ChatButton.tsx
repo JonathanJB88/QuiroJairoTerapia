@@ -1,12 +1,14 @@
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { BubbleChat, QuirobotChat } from '@/components';
+import { useUIStore } from '@/hooks';
 
 const quirobotCta = '¡Hola!👋 Soy Quirobot. ¿Buscas el masaje ideal? ¡Chatea conmigo ahora! 😊';
 const baseClass = 'transition-all duration-200 ease-in-out opacity-0';
 
 export const ChatButton = () => {
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+  const { showChatBox, toggleChatBox } = useUIStore();
 
   const bubbleClass = isBubbleVisible ? `${baseClass} opacity-100 visible` : `${baseClass} invisible`;
 
@@ -37,7 +39,7 @@ export const ChatButton = () => {
           <div className={bubbleClass}>
             <BubbleChat message={quirobotCta} direction='end' />
           </div>
-          <button className='w-16 h-16 overflow-hidden rounded-full'>
+          <button onClick={toggleChatBox} className='w-16 h-16 overflow-hidden rounded-full'>
             <Image
               src='/images/quirobot.jpeg'
               alt='quirobot'
@@ -48,7 +50,7 @@ export const ChatButton = () => {
           </button>
         </div>
       </div>
-      <QuirobotChat />
+      {showChatBox && <QuirobotChat />}
     </>
   );
 };

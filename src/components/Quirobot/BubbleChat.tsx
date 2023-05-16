@@ -4,9 +4,10 @@ interface BubbleChatProps {
   message: string;
   direction: 'start' | 'end';
   username?: string;
+  animation?: boolean;
 }
 
-export const BubbleChat = ({ message, direction, username }: BubbleChatProps) => {
+export const BubbleChat = ({ message, direction, username, animation }: BubbleChatProps) => {
   const [time, setTime] = useState<string | null>(null);
 
   useEffect(() => {
@@ -14,8 +15,9 @@ export const BubbleChat = ({ message, direction, username }: BubbleChatProps) =>
   }, []);
 
   // Base styles for the bubble.
-  let bubbleStyles =
-    'flex p-2 flex-col shadow-sm text-xs md:text-sm rounded-xl bg-light-gray drop-shadow shadow-navy-blue-lighter';
+  let bubbleStyles = `flex p-2 flex-col shadow-sm text-xs md:text-sm rounded-xl bg-light-gray drop-shadow shadow-navy-blue-lighter ${
+    animation ? 'animate-pulse-short' : ''
+  }`;
   let textStyles = 'flex items-center text-sm font-sans font-medium';
 
   // Conditionally append classes based on the direction prop.
@@ -40,7 +42,7 @@ export const BubbleChat = ({ message, direction, username }: BubbleChatProps) =>
       <div className={bubbleStyles}>
         <div className={textStyles}>
           <p>{username ? username : 'Quirobot'}</p>
-          <time className='mx-1 text-xs opacity-50 '>{time}</time>
+          <time className='mx-1 text-xs opacity-50'>{time}</time>
         </div>
         {message}
       </div>
