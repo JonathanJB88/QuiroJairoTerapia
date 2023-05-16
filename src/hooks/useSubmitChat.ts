@@ -1,4 +1,4 @@
-import { FormEvent, useEffect } from 'react';
+import { FormEvent } from 'react';
 import { FormValidators, useForm, useChatbotStore } from '@/hooks';
 import { toastNotification } from '@/helpers';
 
@@ -48,16 +48,13 @@ export const useSubmitChat = () => {
     clearChat();
   };
 
-  useEffect(() => {
-    if (errorMessage) toastNotification('error', errorMessage);
-  }, [errorMessage]);
-
   return {
     chatMessages,
     loading,
     message,
     formValidation,
     isFormValid,
+    errorMessage,
     onInputChange,
     handleSubmit,
     sendMessageAndResetForm,

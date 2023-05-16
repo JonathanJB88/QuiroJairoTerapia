@@ -3,6 +3,7 @@ import autosize from 'autosize';
 import { HiHome } from 'react-icons/hi';
 import { IoIosSend } from 'react-icons/io';
 import { useSubmitChat } from '@/hooks';
+import { toastNotification } from '@/helpers';
 
 const textareaClassname = 'w-full h-10 p-2 font-sans text-sm border rounded-md focus:outline-none';
 
@@ -12,6 +13,7 @@ export const QuirobotChatForm = () => {
     message,
     loading,
     formValidation,
+    errorMessage,
     onInputChange,
     handleSubmit,
     handleResetChat,
@@ -19,6 +21,7 @@ export const QuirobotChatForm = () => {
   } = useSubmitChat();
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   useEffect(() => {
     const currentTextareaRef = textareaRef.current;
     if (!currentTextareaRef) return;
@@ -31,6 +34,10 @@ export const QuirobotChatForm = () => {
       autosize.destroy(currentTextareaRef);
     };
   }, [textareaRef, chatMessages, loading, handleResetChat]);
+
+  useEffect(() => {
+    if (errorMessage) toastNotification('error', errorMessage);
+  }, [errorMessage]);
 
   return (
     <form onSubmit={handleSubmit} className='flex items-center p-2 space-x-1 bg-light-gray md:rounded-b-xl'>

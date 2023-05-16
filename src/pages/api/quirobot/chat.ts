@@ -21,9 +21,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ChatResponseDat
       messages,
     });
 
-    // if (!completion.data.choices) {
-    //   return errorResponse(res, 400, 'Ups! Algo salió mal. Intenta de nuevo.');
-    // }
+    if (!completion.data.choices) {
+      return errorResponse(res, 400, 'Ups! Algo salió mal. Intenta de nuevo.');
+    }
     res.status(200).json({ ok: true, message: completion.data.choices[0].message });
   } catch (error) {
     console.log(error);
