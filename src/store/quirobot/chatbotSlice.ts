@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { prompt } from '@/data';
 
 export enum Role {
   SYSTEM = 'system',
@@ -18,8 +19,8 @@ interface ChatbotState {
 }
 
 const initialChatMessages: ChatMessage[] = [
-  { role: Role.SYSTEM, content: 'Eres un asistente muy eficiente que responde consultas' },
-  { role: Role.ASSISTANT, content: 'Hola, ¿en qué puedo ayudarte?' },
+  { role: Role.SYSTEM, content: prompt.system },
+  { role: Role.ASSISTANT, content: prompt.assistant },
 ];
 
 const initialState: ChatbotState = {
