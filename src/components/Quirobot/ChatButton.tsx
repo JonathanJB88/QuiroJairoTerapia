@@ -39,15 +39,19 @@ export const ChatButton = () => {
           <div className={bubbleClass}>
             <BubbleChat message={quirobotCta} direction='end' />
           </div>
-          <button onClick={toggleChatBox} className='w-16 h-16 overflow-hidden rounded-full'>
-            <Image
-              src='/images/quirobot.jpeg'
-              alt='quirobot'
-              width={64}
-              height={64}
-              className='rounded-full animate-pulse-short'
-            />
-          </button>
+          <div className='w-16 h-16 rounded-full shadow-md drop-shadow-md shadow-navy-blue'>
+            <div className='w-full h-full overflow-hidden rounded-full'>
+              <button onClick={toggleChatBox} className='w-full h-full'>
+                <Image
+                  src='/images/myquirobot.jpeg'
+                  alt='quirobot'
+                  width={64}
+                  height={64}
+                  className='rounded-full animate-pulse-short'
+                />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       {showChatBox && <QuirobotChat />}
