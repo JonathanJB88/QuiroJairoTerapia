@@ -32,3 +32,4 @@ export * from './Quirobot/QuirobotChat';
 export * from './Quirobot/ChatHeader';
 export * from './Quirobot/Message';
 export * from './Quirobot/QuirobotChatForm';
+export * from './Quirobot/MyLink';

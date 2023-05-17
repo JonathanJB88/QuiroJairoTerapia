@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import Linkify from 'react-linkify';
+import { MyLink } from '@/components';
 
 interface BubbleChatProps {
   message: string;
@@ -44,7 +46,15 @@ export const BubbleChat = ({ message, direction, username, animation }: BubbleCh
           <p>{username ? username : 'Quirobot'}</p>
           <time className='mx-1 text-xs opacity-50'>{time}</time>
         </div>
-        {message}
+        <Linkify
+          componentDecorator={(decoratedHref, decoratedText, key) => (
+            <MyLink key={key} href={decoratedHref}>
+              {decoratedText}
+            </MyLink>
+          )}
+        >
+          {message}
+        </Linkify>
       </div>
     </div>
   );
