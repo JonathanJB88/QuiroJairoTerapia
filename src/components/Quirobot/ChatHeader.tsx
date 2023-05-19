@@ -7,6 +7,9 @@ export const ChatHeader = () => {
 
   return (
     <div
+      role='button'
+      aria-label='Toggle chatbox'
+      tabIndex={0}
       onClick={toggleChatBox}
       className='flex items-center justify-between p-2 text-white cursor-pointer bg-turquoise md:rounded-t-xl'
     >

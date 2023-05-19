@@ -59,6 +59,8 @@ export const ContactForm = () => {
         ref={textareaRef}
         name='message'
         placeholder='Escribe tu mensaje aquí...'
+        rows={2}
+        aria-label='Escribe tu mensaje aquí'
         value={message}
         onChange={onInputChange}
         className={`${textareaClassname} ${

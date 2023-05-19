@@ -82,6 +82,8 @@ export const CommentBox = () => {
         <textarea
           className='w-full h-32 p-2 border rounded-md border-navy-blue-lighter focus:border-transparent focus:outline-none focus:ring-2 focus:ring-turquoise'
           placeholder={user ? 'Describe tu experiencia aquí...' : 'Inicia sesión para escribir un comentario.'}
+          rows={2}
+          aria-label={user ? 'Describe tu experiencia aquí' : 'Inicia sesión para escribir un comentario.'}
           disabled={!user}
           ref={textareaRef}
           name='content'

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Linkify from 'react-linkify';
 import { MyLink } from '@/components';
 
@@ -16,28 +16,25 @@ export const BubbleChat = ({ message, direction, username, animation }: BubbleCh
     setTime(new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' }));
   }, []);
 
-  // Base styles for the bubble.
-  let bubbleStyles = `flex p-2 flex-col shadow-sm text-xs md:text-sm rounded-xl bg-light-gray drop-shadow shadow-navy-blue-lighter ${
-    animation ? 'animate-pulse-short' : ''
-  }`;
-  let textStyles = 'flex items-center text-sm font-sans font-medium';
+  const bubbleStyles = useMemo(() => {
+    let styles = `flex p-2 flex-col shadow-sm text-xs md:text-sm rounded-xl bg-light-gray drop-shadow shadow-navy-blue-lighter ${
+      animation ? 'animate-pulse-short' : ''
+    }`;
+    styles += direction === 'end' ? ' items-end text-right' : ' items-start text-left';
+    return styles;
+  }, [direction, animation]);
 
-  // Conditionally append classes based on the direction prop.
-  if (direction === 'end') {
-    bubbleStyles += ' items-end text-right';
-    textStyles += ' justify-end';
-  } else {
-    bubbleStyles += ' items-start text-left';
-    textStyles += ' justify-start';
-  }
+  const textStyles = useMemo(() => {
+    let styles = 'flex items-center text-sm font-sans font-medium';
+    styles += direction === 'end' ? ' justify-end' : ' justify-start';
+    return styles;
+  }, [direction]);
 
-  // Align the container div to the left or right based on the direction
-  let containerStyles = 'flex flex-col m-1 ml-2 text-navy-blue font-sans w-auto';
-  if (direction === 'end') {
-    containerStyles += ' items-end';
-  } else {
-    containerStyles += ' items-start';
-  }
+  const containerStyles = useMemo(() => {
+    let styles = 'flex flex-col m-1 ml-2 text-navy-blue font-sans w-auto';
+    styles += direction === 'end' ? ' items-end' : ' items-start';
+    return styles;
+  }, [direction]);
 
   return (
     <div className={containerStyles}>

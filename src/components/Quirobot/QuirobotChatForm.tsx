@@ -5,7 +5,7 @@ import { IoIosSend } from 'react-icons/io';
 import { useSubmitChat } from '@/hooks';
 import { toastNotification } from '@/helpers';
 
-const textareaClassname = 'w-full h-10 p-2 font-sans text-sm border rounded-md focus:outline-none';
+const textareaClassname = 'flex-1 p-2 font-sans text-sm border rounded-md focus:outline-none';
 
 export const QuirobotChatForm = () => {
   const {
@@ -48,7 +48,9 @@ export const QuirobotChatForm = () => {
             ? 'border-red-500'
             : 'focus:ring-2 focus:ring-turquoise border-navy-blue focus:border-transparent'
         }`}
-        placeholder='Escribe tu pregunta...'
+        placeholder='Escribe tu consulta...'
+        rows={1}
+        aria-label='Escribe tu consulta'
         ref={textareaRef}
         maxLength={300}
         name='message'
@@ -61,7 +63,7 @@ export const QuirobotChatForm = () => {
           }
         }}
       />
-      <span className='text-xs opacity-50 text-navy-blue'>{message.length}/300</span>
+      <span className='p-1 text-xs opacity-50 text-navy-blue'>{message.length}/300</span>
       <button type='submit'>
         <IoIosSend className='w-8 h-8 cursor-pointer text-turquoise' />
       </button>
