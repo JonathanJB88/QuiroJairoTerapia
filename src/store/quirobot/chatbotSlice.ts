@@ -37,11 +37,11 @@ export const chatbotSlice = createSlice({
       const { payload: message } = action;
       state.loading = true;
       state.errorMessage = undefined;
-      state.chatMessages = [...state.chatMessages, { role: Role.USER, content: message }];
+      state.chatMessages.push({ role: Role.USER, content: message });
     },
     onSendMessageSuccess: (state, action: PayloadAction<ChatMessage>) => {
       const { payload: message } = action;
-      state.chatMessages = [...state.chatMessages, message];
+      state.chatMessages.push(message);
       state.loading = false;
     },
     onSendMessageFailure: (state, action: PayloadAction<string | undefined>) => {
