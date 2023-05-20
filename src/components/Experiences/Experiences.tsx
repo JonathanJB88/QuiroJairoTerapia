@@ -1,4 +1,3 @@
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { AiFillSafetyCertificate } from 'react-icons/ai';
