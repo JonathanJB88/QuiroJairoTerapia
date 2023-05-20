@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
-import { NextPage } from 'next';
+import { GetStaticProps, NextPage } from 'next';
 import { Toaster } from 'react-hot-toast';
-import { ChatButton, Contact, CustomHead, Experiences, Footer, Hero, Navbar, Services } from '@/components';
+import { Blog, ChatButton, Contact, CustomHead, Experiences, Footer, Hero, Navbar, Services } from '@/components';
 import { useAuthStore, useSmoothScroll } from '@/hooks';
-import { IMenuItem, Id, LabelMap } from '@/interfaces';
+import { IMenuItem, Id, LabelMap, Post } from '@/interfaces';
+import { getAllPosts } from '@/lib';
 
 const menuItems: IMenuItem[] = [
   { id: 'inicio', label: 'Inicio' },
@@ -27,7 +28,11 @@ const getTitle = (activeSection: Id): string => {
   return `${labelMap[activeSection]} - QuiroJairoTerapia`;
 };
 
-const HomePage: NextPage = () => {
+interface HomePageProps {
+  posts: Post[];
+}
+
+const HomePage: NextPage<HomePageProps> = ({ posts }) => {
   const { activeSection, isMenuOpen, scrollToSection, toggleMenu } = useSmoothScroll(menuItems);
   const { checkAuthToken } = useAuthStore();
 
@@ -67,7 +72,7 @@ const HomePage: NextPage = () => {
         </section>
 
         <section id='consejos' className='flex items-center justify-center w-full min-vh-screen'>
-          {/* Consejos para el cuidado de la salud - Blog */}
+          <Blog posts={posts} />
         </section>
 
         <section id='contacto' className='flex items-center justify-center w-full min-vh-screen'>
@@ -81,3 +86,13 @@ const HomePage: NextPage = () => {
 };
 
 export default HomePage;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const posts = await getAllPosts();
+
+  return {
+    props: {
+      posts,
+    },
+  };
+};
