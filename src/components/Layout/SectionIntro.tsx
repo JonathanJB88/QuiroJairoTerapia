@@ -6,8 +6,8 @@ interface SectionIntroProps {
 export const SectionIntro = ({ title, description }: SectionIntroProps) => {
   return (
     <>
-      <h2 className='mb-4 text-3xl font-extrabold md:text-4xl text-light-gray font-roboto text-shadow'>{title}</h2>
-      <p className='mb-4 font-sans text-base md:text-lg text-light-gray text-shadow'>{description}</p>
+      <h2 className='mb-1 text-2xl font-extrabold md:text-3xl text-light-gray font-roboto text-shadow'>{title}</h2>
+      <p className='mb-4 font-sans text-sm md:text-base text-light-gray text-shadow'>{description}</p>
     </>
   );
 };

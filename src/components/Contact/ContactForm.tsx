@@ -73,7 +73,7 @@ export const ContactForm = () => {
       {formValidation.message && <p className='p-1 font-sans text-xs text-red-500'>{formValidation.message}</p>}
       <button
         type='submit'
-        className='px-2 py-1 font-sans text-xs font-semibold transition-all duration-200 ease-in-out rounded-md md:flex-row md:text-sm text-navy-blue bg-turquoise md:px-8 md:py-2 hover:bg-opacity-80'
+        className='px-2 py-1 font-sans text-xs font-semibold transition-all duration-200 ease-in-out rounded-md md:text-sm text-navy-blue bg-turquoise md:px-8 md:py-2 hover:bg-opacity-80'
       >
         {loading ? 'Enviando tu mensaje...' : 'Envía tu mensaje'}
       </button>
