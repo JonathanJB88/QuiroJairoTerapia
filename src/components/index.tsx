@@ -33,3 +33,5 @@ export * from './Quirobot/ChatHeader';
 export * from './Quirobot/Message';
 export * from './Quirobot/QuirobotChatForm';
 export * from './Quirobot/MyLink';
+export * from './Blog/Blog';
+export * from './Blog/CarouselPostCard';
