@@ -21,12 +21,25 @@ interface BlockContentType {
   style: string;
 }
 
+export interface AuthorType {
+  name: string;
+  avatar: string;
+  bio: string;
+  slug: string;
+}
+
+export interface CategoryType {
+  title: string;
+  _id: string;
+}
+
 export interface Post {
+  _id: string;
   title: string;
   slug: string;
   publishedAt: string;
   mainImage: MainImageType;
   body: BlockContentType[];
-  authorName: string;
-  authorImage: ImageType;
+  author: AuthorType;
+  categories: CategoryType[];
 }

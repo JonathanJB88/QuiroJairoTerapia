@@ -11,6 +11,7 @@ export const sanityClient = createClient({
 });
 
 const postSelection = `
+_id,
 title,
 'slug': slug.current,
 publishedAt,
@@ -27,9 +28,16 @@ body[]{
     ...
   }
 },
-'authorName': author->name,
-'authorSlug': author->slug.current,
-'authorImage': author->image.asset->url,
+author->{
+  name,
+ 'avatar': image.asset->url,
+  'bio': bio[0].children[0].text,
+  'slug': slug.current
+},
+'categories': categories[]->{
+  title,
+  _id,
+}
 `;
 
 export const getAllPosts = async (): Promise<Post[]> => {
