@@ -29,7 +29,7 @@ export const Experiences = () => {
   }, [getComments]);
 
   return (
-    <div className='container px-4 mx-auto -mt-16 text-left select-none md:px-8 lg:px-16'>
+    <div className='container px-4 mx-auto mb-10 text-left select-none md:mb-5 md:px-8 lg:px-16'>
       <SectionIntro title={title} description={description} />
       <div className='flex flex-row items-center mb-4 text-center md:text-left'>
         <div className='inline-block mr-2 font-sans'>

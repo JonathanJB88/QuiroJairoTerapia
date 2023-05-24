@@ -14,7 +14,7 @@ export const Services = () => {
   const slidePercentage = windowSize.width >= 768 ? 33.33 : 100;
 
   return (
-    <div className='container px-4 mx-auto select-none md:-mt-12 md:px-8 lg:px-16'>
+    <div className='container px-4 mx-auto select-none md:px-8 lg:px-16'>
       <SectionIntro title={title} description={description} />
       <Carousel
         className='mb-8 overflow-visible'
