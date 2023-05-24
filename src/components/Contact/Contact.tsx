@@ -17,7 +17,7 @@ const officeLocation = {
 
 export const Contact = () => {
   return (
-    <div className='container max-w-screen-xl px-4 py-8 mx-4 mb-2 -mt-12 rounded-md select-none md:mx-auto md:px-8 lg:px-16 bg-light-gray'>
+    <div className='p-6 mx-6 mb-2 rounded-md select-none md:p-10 md:mx-auto bg-light-gray'>
       <h1 className='mb-6 text-2xl font-bold text-left font-roboto md:text-3xl text-navy-blue'>
         ¡Ponte en contacto con QuiroJairoTerapia!
       </h1>
