@@ -3,8 +3,8 @@ import { GetStaticProps, NextPage } from 'next';
 import { Toaster } from 'react-hot-toast';
 import { Blog, ChatButton, Contact, CustomHead, Experiences, Footer, Hero, Navbar, Services } from '@/components';
 import { useAuthStore, useSmoothScroll } from '@/hooks';
-import { IMenuItem, Id, LabelMap, Post } from '@/interfaces';
 import { getAllPosts } from '@/lib';
+import { IMenuItem, Id, LabelMap, Post } from '@/interfaces';
 
 const menuItems: IMenuItem[] = [
   { id: 'inicio', label: 'Inicio' },
@@ -44,7 +44,7 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
   }, [checkAuthToken]);
 
   return (
-    <div className='flex flex-col min-h-screen'>
+    <div className='flex flex-col min-vh-screen'>
       <Toaster />
       <CustomHead title={pageTitle} description={pageDescription} />
       <Navbar
@@ -55,27 +55,27 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
         isMenuOpen={isMenuOpen}
       />
       <main className='flex-grow'>
-        <section id='inicio' className='flex items-center justify-center w-full min-vh-screen'>
+        <section id='inicio' className='flex flex-col justify-start w-full py-4'>
           <Hero />
         </section>
 
-        <section id='servicios' className='flex items-center justify-center w-full min-vh-screen'>
+        <section id='servicios' className='flex flex-col justify-start w-full py-4'>
           <Services />
         </section>
 
-        <section id='conoce-al-terapeuta' className='flex items-center justify-center w-full min-vh-screen'>
+        <section id='conoce-al-terapeuta' className='flex flex-col justify-start w-full py-4'>
           {/* Sección sobre mí con información del terapeuta - Jairo */}
         </section>
 
-        <section id='experiencias' className='flex items-center justify-center w-full min-vh-screen'>
+        <section id='experiencias' className='flex flex-col justify-start w-full py-4'>
           <Experiences />
         </section>
 
-        <section id='consejos' className='flex items-center justify-center w-full min-vh-screen'>
-          <Blog posts={posts} />
+        <section id='consejos' className='flex flex-col justify-start w-full py-4'>
+          <Blog posts={posts} scrollToSection={scrollToSection} />
         </section>
 
-        <section id='contacto' className='flex items-center justify-center w-full min-vh-screen'>
+        <section id='contacto' className='flex flex-col justify-start w-full py-4'>
           <Contact />
         </section>
       </main>
