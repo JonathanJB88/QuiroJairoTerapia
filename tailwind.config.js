@@ -25,6 +25,9 @@ module.exports = {
         // Bounces 5 times 1s equals 2 seconds
         'pulse-short': 'pulse 1s ease-in-out 2',
       },
+      fontSize: {
+        '2xs': '.65rem',
+      },
     },
   },
   plugins: [],
