@@ -17,7 +17,7 @@ const CommentSchema = new Schema<IComment>(
     postId: { type: String },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     content: { type: String, required: true },
-    rating: { type: Number, required: true, min: 1, max: 5 },
+    rating: { type: Number, min: 1, max: 5 },
     type: { type: String, required: true, enum: ['review', 'comment'] },
     approved: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
