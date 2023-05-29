@@ -12,6 +12,7 @@ export const useSmoothScroll = (menuItems: IMenuItem[]) => {
 
       menuItems.forEach((item) => {
         const element = document.getElementById(item.id) as HTMLElement;
+        if (!element) return;
         const rect = element.getBoundingClientRect();
 
         if (rect.top <= headerHeight && rect.bottom >= headerHeight) {
