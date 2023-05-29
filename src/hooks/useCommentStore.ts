@@ -30,7 +30,7 @@ interface CommentDataUpdate {
 
 interface CommentDataPost {
   content: string;
-  rating: number;
+  rating: number | null;
   userId: string;
   type: CommentType;
   postId?: string;
@@ -39,6 +39,74 @@ interface CommentDataPost {
 export const useCommentStore = () => {
   const { status, comments, errorMessage } = useSelector((state: RootState) => state.comment);
   const dispatch = useDispatch<AppDispatch>();
+
+  const postComment = useCallback(
+    async (comment: CommentDataPost): Promise<{ ok: boolean; msg: string }> => {
+      dispatch(onLoading());
+      try {
+        const {
+          data: { comment: postedComment, ok, msg },
+        } = await apiClient.post<CommentResponse>('/api/comments/create', comment);
+        dispatch(onPostComment(postedComment));
+        return { ok, msg };
+      } catch (error) {
+        const errorMessage =
+          axios.isAxiosError(error) && error.response?.data.msg
+            ? error.response.data.msg
+            : 'Error al crear el comentario';
+        handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
+        return { ok: false, msg: errorMessage };
+      }
+    },
+    [dispatch]
+  );
+
+  const updateComment = useCallback(
+    async (comment: CommentDataUpdate): Promise<{ ok: boolean; msg: string }> => {
+      dispatch(onLoading());
+      try {
+        const {
+          data: { comment: updatedComment, ok, msg },
+        } = await apiClient.put<CommentResponse>('/api/comments/update', comment);
+
+        dispatch(onUpdateComment(updatedComment));
+        return { ok, msg };
+      } catch (error) {
+        const errorMessage =
+          axios.isAxiosError(error) && error.response?.data.msg
+            ? error.response.data.msg
+            : 'Error al actualizar el comentario';
+        handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
+        return { ok: false, msg: errorMessage };
+      }
+    },
+    [dispatch]
+  );
+
+  const deleteComment = useCallback(
+    async (commentId: string): Promise<{ ok: boolean; msg: string }> => {
+      dispatch(onLoading());
+      try {
+        const {
+          data: {
+            comment: { commentId: deletedCommentId },
+            ok,
+            msg,
+          },
+        } = await apiClient.delete<CommentResponse>(`/api/comments/delete?commentId=${commentId}`);
+        dispatch(onDeleteComment(deletedCommentId));
+        return { ok, msg };
+      } catch (error) {
+        const errorMessage =
+          axios.isAxiosError(error) && error.response?.data.msg
+            ? error.response.data.msg
+            : 'Error al eliminar el comentario';
+        handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
+        return { ok: false, msg: errorMessage };
+      }
+    },
+    [dispatch]
+  );
 
   const getComments = useCallback(
     async (type: CommentType, postId?: string): Promise<void> => {
@@ -61,64 +129,9 @@ export const useCommentStore = () => {
     [dispatch]
   );
 
-  const postComment = async (comment: CommentDataPost): Promise<{ ok: boolean; msg: string }> => {
-    dispatch(onLoading());
-    try {
-      const {
-        data: { comment: postedComment, ok, msg },
-      } = await apiClient.post<CommentResponse>('/api/comments/create', comment);
-      dispatch(onPostComment(postedComment));
-      return { ok, msg };
-    } catch (error) {
-      const errorMessage =
-        axios.isAxiosError(error) && error.response?.data.msg
-          ? error.response.data.msg
-          : 'Error al crear el comentario';
-      handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
-      return { ok: false, msg: errorMessage };
-    }
-  };
-
-  const updateComment = async (comment: CommentDataUpdate): Promise<{ ok: boolean; msg: string }> => {
-    dispatch(onLoading());
-    try {
-      const {
-        data: { comment: updatedComment, ok, msg },
-      } = await apiClient.put<CommentResponse>('/api/comments/update', comment);
-
-      dispatch(onUpdateComment(updatedComment));
-      return { ok, msg };
-    } catch (error) {
-      const errorMessage =
-        axios.isAxiosError(error) && error.response?.data.msg
-          ? error.response.data.msg
-          : 'Error al actualizar el comentario';
-      handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
-      return { ok: false, msg: errorMessage };
-    }
-  };
-
-  const deleteComment = async (commentId: string): Promise<{ ok: boolean; msg: string }> => {
-    dispatch(onLoading());
-    try {
-      const {
-        data: {
-          comment: { commentId: deletedCommentId },
-          ok,
-          msg,
-        },
-      } = await apiClient.delete<CommentResponse>(`/api/comments/delete?commentId=${commentId}`);
-      dispatch(onDeleteComment(deletedCommentId));
-      return { ok, msg };
-    } catch (error) {
-      const errorMessage =
-        axios.isAxiosError(error) && error.response?.data.msg
-          ? error.response.data.msg
-          : 'Error al eliminar el comentario';
-      handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
-      return { ok: false, msg: errorMessage };
-    }
-  };
+  const cleanCommentsState = useCallback(() => {
+    dispatch(onGetComments([]));
+  }, [dispatch]);
 
   return {
     //Props
@@ -130,5 +143,6 @@ export const useCommentStore = () => {
     postComment,
     updateComment,
     deleteComment,
+    cleanCommentsState,
   };
 };
