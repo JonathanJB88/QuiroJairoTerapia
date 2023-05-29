@@ -16,7 +16,7 @@ const createComment = async (req: NextApiRequest, res: NextApiResponse) => {
   const { postId, userId, content, rating, type } = req.body as CreateCommentBody;
 
   try {
-    const commentData: CreateCommentData = { userId, content, rating, type };
+    const commentData: CreateCommentData = { userId, content, type };
 
     if (type === 'comment') {
       const existingComment = await Comment.findOne({ postId, userId });
@@ -29,6 +29,7 @@ const createComment = async (req: NextApiRequest, res: NextApiResponse) => {
       if (existingComment) {
         return errorResponse(res, 400, 'Gracias, pero ya has dejado tu reseña.');
       }
+      commentData.rating = rating;
     }
 
     const comment: IComment = new Comment(commentData);
@@ -37,7 +38,7 @@ const createComment = async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).json({
       ok: true,
-      msg: 'Comentario creado correctamente',
+      msg: 'Comentario creado correctamente, espere a que sea aprobado por un administrador.',
       comment: formatComment(comment),
     });
   } catch (error) {
