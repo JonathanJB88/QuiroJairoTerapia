@@ -41,3 +41,8 @@ export * from './Blog/AllBlogPosts';
 export * from './Blog/PostsLoading';
 export * from './Blog/LatestPosts';
 export * from './Blog/PostImage';
+export * from './Blog/ShareButtons';
+export * from './Blog/PostMeta';
+export * from './Blog/Breadcrumb';
+export * from './Blog/PostBody';
+export * from './Blog/CommentList';
