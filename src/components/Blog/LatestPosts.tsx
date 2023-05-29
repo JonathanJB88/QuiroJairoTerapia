@@ -1,5 +1,6 @@
 import { PostImage, PostInfo, SectionIntro } from '@/components';
 import { Post } from '@/interfaces';
+import Link from 'next/link';
 
 interface LatestPostsProps {
   posts: Post[];
