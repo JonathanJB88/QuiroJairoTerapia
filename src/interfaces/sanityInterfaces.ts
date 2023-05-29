@@ -8,17 +8,42 @@ interface MainImageType {
   alt: string;
 }
 
-interface AuthorReferenceType {
-  name: string;
-  slug: string;
-  image: ImageType;
+export interface MarkDefType {
+  _key: string;
+  _type: string;
+  href: string;
 }
 
-interface BlockContentType {
-  children: (string | AuthorReferenceType)[];
+export interface ChildType {
+  _key: string;
   _type: string;
-  markDefs: any[];
-  style: string;
+  text: string;
+  marks: string[];
+}
+
+export enum BlockType {
+  Block = 'block',
+  Image = 'image',
+}
+
+export enum StyleType {
+  H1 = 'h1',
+  H2 = 'h2',
+  H3 = 'h3',
+  H4 = 'h4',
+  Blockquote = 'blockquote',
+  Normal = 'normal',
+}
+
+export interface BlockContentType {
+  _type: BlockType;
+  _key: string;
+  style: StyleType;
+  listItem?: string;
+  markDefs: MarkDefType[];
+  children: ChildType[];
+  level?: number;
+  asset?: ImageType;
 }
 
 export interface AuthorType {

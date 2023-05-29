@@ -51,6 +51,6 @@ export interface CreateCommentData {
   postId?: string;
   userId: string;
   content: string;
-  rating: number;
+  rating?: number;
   type: CommentType;
 }
