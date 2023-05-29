@@ -13,7 +13,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 const validationMiddleware = [
   check('userId', 'userId is required').not().isEmpty(),
   check('content', 'Content is required').not().isEmpty(),
-  check('rating', 'Rating is required and must be between 1 and 5').isInt({ min: 1, max: 5 }),
+  check('rating')
+    .if((value, { req }) => req.body?.type === 'review')
+    .isInt({ min: 1, max: 5 })
+    .withMessage('Rating is required and must be between 1 and 5 when type is review'),
   check('type', 'Type is required and must be either review or comment').isIn(['review', 'comment']),
   check('postId')
     .if((value, { req }) => req.body?.type === 'comment')
