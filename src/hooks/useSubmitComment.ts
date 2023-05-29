@@ -5,7 +5,7 @@ import { toastNotification } from '@/helpers';
 
 interface CommentFormFields {
   content: string;
-  rating: number;
+  rating: number | null;
 }
 
 interface CommentToPost extends CommentFormFields {
@@ -20,7 +20,7 @@ const initialCommentFormFields: CommentFormFields = {
   rating: 5,
 };
 
-export const useSubmitComment = () => {
+export const useSubmitComment = (type: CommentType, postId?: string) => {
   const { user } = useAuthStore();
   const { postComment } = useCommentStore();
   const { toggleAuthModal } = useUIStore();
@@ -37,8 +37,9 @@ export const useSubmitComment = () => {
     const comment: CommentToPost = {
       userId: user.uid,
       content,
-      rating,
-      type: 'review',
+      rating: type === 'review' ? rating : null,
+      type,
+      postId,
     };
     setIsPosting(true);
     const { ok, msg } = await postComment(comment);
