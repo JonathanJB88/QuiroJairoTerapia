@@ -1,8 +1,8 @@
+import { useMemo } from 'react';
 import { UserRole } from '@/models/User';
 import { Comment, User } from '@/store';
-import { useMemo } from 'react';
 
-export const useReviewData = (user: User | null, comments: Comment[]) => {
+export const useReviewsData = (user: User | null, comments: Comment[]) => {
   const averageRating = useMemo(() => {
     const totalRating = comments.reduce((sum, c) => sum + c.rating, 0);
     return comments.length ? totalRating / comments.length : 0;
