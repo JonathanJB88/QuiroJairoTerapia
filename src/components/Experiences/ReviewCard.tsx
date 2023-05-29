@@ -20,7 +20,7 @@ export const ReviewCard = ({ review, expandedReviewId, setExpandedReviewId }: Re
     rating,
     createdAt,
     content,
-    userId: { name: username },
+    user: { name: username },
     commentId,
     approved,
   } = review;
