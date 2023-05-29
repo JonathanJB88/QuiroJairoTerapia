@@ -23,10 +23,26 @@ mainImage{
   alt
 },
 body[]{
-  ...,
+  _type,
+  _key,
+  style,
+  listItem,
+  markDefs[]{
+    _key,
+    _type,
+    href
+  },
   children[]{
-    ...
-  }
+    _key,
+    _type,
+    text,
+    marks[]
+  },
+  level,
+  asset->{
+    _id,
+    url
+  },
 },
 author->{
   name,
@@ -43,4 +59,11 @@ author->{
 export const getAllPosts = async (): Promise<Post[]> => {
   const posts = await sanityClient.fetch<Post[]>(`*[_type == "post"]{${postSelection}} | order(publishedAt desc)`);
   return posts;
+};
+
+export const getPostBySlug = async (slug: string): Promise<Post> => {
+  const post = await sanityClient.fetch<Post>(`*[_type == "post" && slug.current == $slug][0]{${postSelection}}`, {
+    slug,
+  });
+  return post;
 };
