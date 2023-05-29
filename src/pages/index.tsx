@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { GetStaticProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { Toaster } from 'react-hot-toast';
 import { Blog, ChatButton, Contact, CustomHead, Experiences, Footer, Hero, Navbar, Services } from '@/components';
 import { useAuthStore, useSmoothScroll } from '@/hooks';
 import { getAllPosts } from '@/lib';
 import { IMenuItem, Id, LabelMap, Post } from '@/interfaces';
 
-const menuItems: IMenuItem[] = [
+export const menuItems: IMenuItem[] = [
   { id: 'inicio', label: 'Inicio' },
   { id: 'servicios', label: 'Servicios' },
   { id: 'conoce-al-terapeuta', label: 'Conoce al terapeuta' },
@@ -35,13 +36,15 @@ interface HomePageProps {
 const HomePage: NextPage<HomePageProps> = ({ posts }) => {
   const { activeSection, isMenuOpen, scrollToSection, toggleMenu } = useSmoothScroll(menuItems);
   const { checkAuthToken } = useAuthStore();
+  const { query } = useRouter();
 
   const pageTitle = getTitle(activeSection);
   const pageDescription = `Descubre la sección ${activeSection} en QuiroJairoTerapia y encuentra el alivio y bienestar que buscas.`;
 
   useEffect(() => {
     checkAuthToken();
-  }, [checkAuthToken]);
+    if (query.section) scrollToSection(query.section as Id);
+  }, [checkAuthToken, query.section]);
 
   return (
     <div className='flex flex-col min-vh-screen'>
