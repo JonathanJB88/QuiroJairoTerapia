@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { AiFillSafetyCertificate } from 'react-icons/ai';
 import { CustomArrow, SectionIntro, StarRating, ReviewCard, CommentBox } from '@/components';
-import { useAuthStore, useCommentStore, useReviewData, useWindowSize } from '@/hooks';
+import { useAuthStore, useCommentStore, useReviewsData, useWindowSize } from '@/hooks';
 import { toastNotification } from '@/helpers';
 
 const title = 'Experiencias de QuiroJairoTerapia';
@@ -13,8 +13,8 @@ export const Experiences = () => {
   const windowSize = useWindowSize();
   const slidePercentage = windowSize.width >= 768 ? 33.33 : 100;
   const { user } = useAuthStore();
-  const { comments, errorMessage, getComments } = useCommentStore();
-  const { averageRating, formattedAverage, recentReviews } = useReviewData(user, comments);
+  const { comments, errorMessage, getComments, cleanCommentsState } = useCommentStore();
+  const { averageRating, formattedAverage, recentReviews } = useReviewsData(user, comments);
 
   const [expandedReviewId, setExpandedReviewId] = useState<string>('');
 
@@ -26,6 +26,10 @@ export const Experiences = () => {
 
   useEffect(() => {
     getComments('review');
+
+    return () => {
+      cleanCommentsState();
+    };
   }, [getComments]);
 
   return (
@@ -65,7 +69,7 @@ export const Experiences = () => {
           />
         ))}
       </Carousel>
-      <CommentBox />
+      <CommentBox type='review' />
     </div>
   );
 };
