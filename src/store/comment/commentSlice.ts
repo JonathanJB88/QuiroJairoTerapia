@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export interface Comment {
   commentId: string;
   postId: string;
-  userId: {
+  user: {
     _id: string;
     name: string;
   };
