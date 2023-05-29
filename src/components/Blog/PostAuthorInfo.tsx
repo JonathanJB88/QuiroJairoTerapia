@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import { AuthorType } from '@/interfaces';
+import { formatDate } from '@/helpers';
 
 interface PostAuthorInfoProps {
   author: AuthorType;
-  postDate: string;
+  postDate?: string;
 }
 
 export const PostAuthorInfo = ({ author, postDate }: PostAuthorInfoProps) => {
@@ -21,7 +22,7 @@ export const PostAuthorInfo = ({ author, postDate }: PostAuthorInfoProps) => {
       <div className='font-sans'>
         <p className='text-xs font-medium md:text-base text-shadow text-light-gray'>{author.name}</p>
         <p className='text-2xs md:text-xs text-light-gray'>{author.bio}</p>
-        <p className='text-2xs md:text-2xs opacity-80 text-light-gray'>{postDate}</p>
+        {postDate && <p className='text-2xs md:text-2xs opacity-80 text-light-gray'>{postDate}</p>}
       </div>
     </div>
   );
