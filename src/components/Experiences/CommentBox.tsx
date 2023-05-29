@@ -3,12 +3,20 @@ import autosize from 'autosize';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 import { AuthModal, StarRating } from '@/components';
 import { useAuthStore, useSubmitComment, useUIStore } from '@/hooks';
+import { CommentType } from '@/interfaces';
 
-export const CommentBox = () => {
+interface CommentBoxProps {
+  type: CommentType;
+  postId?: string;
+}
+
+export const CommentBox = ({ type, postId }: CommentBoxProps) => {
   const { status, user, logout } = useAuthStore();
   const { showAuthModal, showDropdown, toggleAuthModal, toggleDropdown, resetUI } = useUIStore();
-  const { content, rating, isPosting, onInputChange, handleRatingChange, handleSubmit, onResetForm } =
-    useSubmitComment();
+  const { content, rating, isPosting, onInputChange, handleRatingChange, handleSubmit, onResetForm } = useSubmitComment(
+    type,
+    postId
+  );
 
   const handleLogout = useCallback(() => {
     logout();
@@ -78,9 +86,11 @@ export const CommentBox = () => {
       {showAuthModal && <AuthModal />}
 
       <div className='flex flex-col space-y-4'>
-        <h3 className='text-2xl font-bold font-roboto text-navy-blue'>Escribe tu reseña</h3>
+        <h3 className='text-lg font-bold md:text-xl font-roboto text-navy-blue'>
+          Escribe tu {type === 'review' ? 'reseña' : 'comentario'}
+        </h3>
         <textarea
-          className='w-full h-32 p-2 border rounded-md border-navy-blue-lighter focus:border-transparent focus:outline-none focus:ring-2 focus:ring-turquoise'
+          className='w-full h-32 p-2 text-sm border rounded-md md:text-base border-navy-blue-lighter focus:border-transparent focus:outline-none focus:ring-2 focus:ring-turquoise'
           placeholder={user ? 'Describe tu experiencia aquí...' : 'Inicia sesión para escribir un comentario.'}
           rows={2}
           aria-label={user ? 'Describe tu experiencia aquí' : 'Inicia sesión para escribir un comentario.'}
@@ -90,13 +100,15 @@ export const CommentBox = () => {
           value={content}
           onChange={onInputChange}
         />
-        <div className='flex flex-row items-center justify-between'>
-          <div className='flex flex-col items-center justify-center md:flex-row'>
-            <h2 className='font-bold md:text-xl font-roboto text-navy-blue md:px-2'>Califica el Servicio</h2>
-            <div>
-              <StarRating rating={rating || 5} onRatingChange={handleRatingChange} readOnly={!user} />
+        <div className={`flex flex-row items-center ${type === 'review' ? 'justify-between' : 'justify-end'}`}>
+          {type === 'review' && (
+            <div className='flex flex-col items-center justify-center md:flex-row'>
+              <h2 className='font-bold md:text-xl font-roboto text-navy-blue md:px-2'>Califica el Servicio</h2>
+              <div>
+                <StarRating rating={rating || 5} onRatingChange={handleRatingChange} readOnly={!user} />
+              </div>
             </div>
-          </div>
+          )}
           <button
             className='flex flex-col items-center px-2 py-1 font-sans text-xs font-semibold transition-all duration-200 ease-in-out rounded-md md:flex-row md:text-sm text-navy-blue bg-turquoise md:px-8 md:py-2 hover:bg-opacity-80'
             type='submit'
