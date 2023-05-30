@@ -30,25 +30,27 @@ export const ChatButton = () => {
 
   return (
     <>
-      <div className='fixed z-50 bottom-4 right-4 md:bottom-6 md:right-6'>
+      <div className='fixed z-50 bottom-4 right-4'>
         <div className='flex items-center'>
           <div className={bubbleClass}>
             <BubbleChat message={quirobotCta} direction='end' />
           </div>
-          <div className='w-16 h-16 rounded-full shadow-md drop-shadow-md shadow-navy-blue'>
-            <div className='w-full h-full overflow-hidden rounded-full'>
-              <button onClick={toggleChatBox}>
-                <Image
-                  src='/images/myquirobot.jpeg'
-                  alt='quirobot'
-                  width={64}
-                  height={64}
-                  onMouseEnter={() => setIsBubbleVisible(true)}
-                  onMouseLeave={() => setIsBubbleVisible(false)}
-                />
-              </button>
-            </div>
-          </div>
+
+          <button
+            onClick={toggleChatBox}
+            className='relative w-16 h-16 rounded-full shadow-md aspect-square drop-shadow-md shadow-navy-blue'
+          >
+            <Image
+              src='/images/quirobot_picture.jpeg'
+              alt='quirobot'
+              className='object-fill rounded-full'
+              loading='lazy'
+              fill
+              sizes='(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1280px'
+              onMouseEnter={() => setIsBubbleVisible(true)}
+              onMouseLeave={() => setIsBubbleVisible(false)}
+            />
+          </button>
         </div>
       </div>
       {showChatBox && <QuirobotChat />}
