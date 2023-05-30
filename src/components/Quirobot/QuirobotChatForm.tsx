@@ -33,7 +33,7 @@ export const QuirobotChatForm = () => {
       if (!currentTextareaRef) return;
       autosize.destroy(currentTextareaRef);
     };
-  }, [textareaRef, chatMessages, loading, handleResetChat]);
+  }, [chatMessages, loading, handleResetChat]);
 
   useEffect(() => {
     if (errorMessage) toastNotification('error', errorMessage);
