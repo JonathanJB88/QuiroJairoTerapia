@@ -14,6 +14,7 @@ export const PostAuthorInfo = ({ author, postDate }: PostAuthorInfoProps) => {
         <Image
           src={author.avatar}
           alt={author.name}
+          loading='lazy'
           fill
           sizes='(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1280px'
           className='p-0.5 border-2 rounded-full border-light-gray shadow-md'
