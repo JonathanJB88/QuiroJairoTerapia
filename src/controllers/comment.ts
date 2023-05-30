@@ -9,6 +9,7 @@ import {
   GetCommentsQuery,
   UpdateCommentBody,
   CreateCommentData,
+  LikeCommentBody,
 } from '@/interfaces';
 
 // Create a comment
@@ -115,4 +116,29 @@ const deleteComment = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export { createComment, getCommentsByTypeOrPost, updateComment, deleteComment };
+const likeComment = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { commentId, userId } = req.body as LikeCommentBody;
+
+  try {
+    const comment: IComment | null = await Comment.findById(commentId);
+
+    if (!comment) return errorResponse(res, 404, 'No se encontró el comentario');
+
+    if (comment.likes.includes(userId)) return errorResponse(res, 400, 'Ya has dado like a este comentario');
+
+    comment.likes.push(userId);
+    await comment.save();
+    await comment.populate('userId', '_id name');
+
+    res.status(200).json({
+      ok: true,
+      msg: 'Like agregado correctamente',
+      comment: formatComment(comment),
+    });
+  } catch (error) {
+    console.log('Error al dar like al comentario: ', error);
+    errorResponse(res, 500, 'Por favor, contacte al administrador');
+  }
+};
+
+export { createComment, getCommentsByTypeOrPost, updateComment, deleteComment, likeComment };
