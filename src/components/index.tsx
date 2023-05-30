@@ -47,3 +47,4 @@ export * from './Blog/Breadcrumb';
 export * from './Blog/PostBody';
 export * from './Blog/CommentList';
 export * from './Blog/LikeButton';
+export * from './Contact/ScrollToTopButton';
