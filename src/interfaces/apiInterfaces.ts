@@ -1,3 +1,4 @@
+import { Schema } from 'mongoose';
 import { NextApiRequest } from 'next';
 
 export interface CreateCommentBody {
@@ -45,6 +46,11 @@ export interface RevalidateTokenRequest {
 export interface CustomNextApiRequest extends NextApiRequest {
   uid: string;
   name: string;
+}
+
+export interface LikeCommentBody {
+  commentId: string;
+  userId: Schema.Types.ObjectId;
 }
 
 export interface CreateCommentData {

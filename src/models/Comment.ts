@@ -9,6 +9,7 @@ export interface IComment extends Document {
   rating: number;
   type: CommentType;
   approved: boolean;
+  likes: Schema.Types.ObjectId[];
   createdAt: Date;
 }
 
@@ -20,6 +21,7 @@ const CommentSchema = new Schema<IComment>(
     rating: { type: Number, min: 1, max: 5 },
     type: { type: String, required: true, enum: ['review', 'comment'] },
     approved: { type: Boolean, default: false },
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     createdAt: { type: Date, default: Date.now },
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }

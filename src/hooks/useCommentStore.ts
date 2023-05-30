@@ -129,6 +129,30 @@ export const useCommentStore = () => {
     [dispatch]
   );
 
+  const likeComment = useCallback(
+    async (commentId: string, userId: string): Promise<{ ok: boolean; msg: string }> => {
+      dispatch(onLoading());
+      try {
+        const {
+          data: { ok, msg, comment },
+        } = await apiClient.put<CommentResponse>(`/api/comments/like`, {
+          commentId,
+          userId,
+        });
+        dispatch(onUpdateComment(comment));
+        return { ok, msg };
+      } catch (error) {
+        const errorMessage =
+          axios.isAxiosError(error) && error.response?.data.msg
+            ? error.response.data.msg
+            : 'Error al dar like al comentario';
+        handleErrorMessage(errorMessage, dispatch, onFailed, onCleanErrorMessage);
+        return { ok: false, msg: errorMessage };
+      }
+    },
+    [dispatch]
+  );
+
   const cleanCommentsState = useCallback(() => {
     dispatch(onGetComments([]));
   }, [dispatch]);
@@ -143,6 +167,7 @@ export const useCommentStore = () => {
     postComment,
     updateComment,
     deleteComment,
+    likeComment,
     cleanCommentsState,
   };
 };

@@ -12,6 +12,7 @@ export interface Comment {
   rating: number;
   type: CommentType;
   approved: boolean;
+  likes: string[];
   createdAt: Date;
 }
 
