@@ -10,6 +10,7 @@ export interface ICommentFormatted {
   rating: number;
   type: CommentType;
   approved: boolean;
+  likes: Schema.Types.ObjectId[];
   createdAt: Date;
 }
 
@@ -21,5 +22,6 @@ export const formatComment = (comment: IComment): ICommentFormatted => ({
   rating: comment.rating,
   type: comment.type,
   approved: comment.approved,
+  likes: comment.likes,
   createdAt: comment.createdAt,
 });
