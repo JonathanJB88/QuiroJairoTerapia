@@ -2,6 +2,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { InputField, PostImage, PostInfo, PostsLoading, SectionIntro } from '@/components';
 import { useBlogPosts } from '@/hooks';
 import { Post } from '@/interfaces';
+import Link from 'next/link';
 
 interface AllBlogPostsProps {
   posts: Post[];
@@ -38,9 +39,11 @@ export const AllBlogPosts: React.FC<AllBlogPostsProps> = ({ posts, handleLatestP
         <div className='grid grid-cols-1 gap-2 md:gap-4 md:grid-cols-3'>
           {items.map((post) => (
             <div key={post._id} className='mb-4 md:mb-2'>
-              <div className='relative w-full h-40 mb-2 rounded-lg md:h-60 md:mr-4'>
-                <PostImage post={post} />
-              </div>
+              <Link href={`/blog/${post.slug}`}>
+                <div className='relative w-full h-40 mb-2 rounded-lg md:h-60 md:mr-4'>
+                  <PostImage post={post} />
+                </div>
+              </Link>
               <PostInfo post={post} />
             </div>
           ))}

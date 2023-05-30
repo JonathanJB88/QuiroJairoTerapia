@@ -29,9 +29,11 @@ export const LatestPosts = ({ posts, handleAllPosts }: LatestPostsProps) => {
         <div className='grid grid-cols-1 gap-8 md:grid-cols-5'>
           {/* Left column */}
           <div className='space-y-6 rounded-lg md:p-3 md:border-2 border-light-gray md:col-span-3'>
-            <div className='relative w-full h-40 rounded-lg md:h-96'>
-              <PostImage post={leftPost} />
-            </div>
+            <Link href={`/blog/${leftPost.slug}`}>
+              <div className='relative w-full h-40 rounded-lg md:h-96'>
+                <PostImage post={leftPost} />
+              </div>
+            </Link>
             <PostInfo post={leftPost} />
           </div>
 
@@ -39,9 +41,11 @@ export const LatestPosts = ({ posts, handleAllPosts }: LatestPostsProps) => {
           <div className='flex flex-col justify-center space-y-8 md:col-span-2'>
             {rightPosts.map((post) => (
               <div key={post._id} className='flex flex-col space-x-0 space-y-4 md:flex-row md:space-x-4 md:space-y-0'>
-                <div className='relative flex-shrink-0 w-full h-40 rounded-lg md:w-80'>
-                  <PostImage post={post} />
-                </div>
+                <Link href={`/blog/${post.slug}`}>
+                  <div className='relative flex-shrink-0 w-full h-40 rounded-lg md:w-80'>
+                    <PostImage post={post} />
+                  </div>
+                </Link>
                 <PostInfo post={post} />
               </div>
             ))}
