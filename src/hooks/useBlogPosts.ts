@@ -17,7 +17,7 @@ export const useBlogPosts = (posts: Post[]) => {
     formState: { query },
     onInputChange,
   } = useForm<SearchState>(initialSearchState);
-  const { debouncedValue } = useDebouncedValue(query);
+  const debouncedValue = useDebouncedValue<string>(query);
   const [items, setItems] = useState<Post[]>(posts.slice(0, 10));
   const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
   const [hasMore, setHasMore] = useState(true);

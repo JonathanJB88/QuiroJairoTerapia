@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
+import { useDebouncedValue } from '@/hooks';
 
 export type FormValidators<T> = {
   [key in keyof T]?: {
@@ -20,10 +21,47 @@ export const useForm = <T extends FormState<T>>(
   const [formValidation, setFormValidation] = useState<Partial<Record<keyof T, string | null>>>(
     {} as Partial<Record<keyof T, string | null>>
   );
+  const [lastChangedField, setLastChangedField] = useState<{ name: keyof T; value: T[keyof T] } | null>(null);
+
+  const debouncedValue = useDebouncedValue(lastChangedField, 500);
 
   useEffect(() => {
     setFormState(initialForm);
   }, [initialForm]);
+
+  const validateField = useCallback(
+    (name: keyof T, value: T[keyof T], updatedState: T) => {
+      if (formValidations[name]) {
+        const { validator, message } = formValidations[name]!;
+        setFormValidation((prevValidationState) => ({
+          ...prevValidationState,
+          [name]: validator(value, updatedState) ? null : message,
+        }));
+      }
+    },
+    [formValidations]
+  );
+
+  useEffect(() => {
+    if (debouncedValue !== null) {
+      validateField(debouncedValue.name, debouncedValue.value, formState);
+    }
+  }, [debouncedValue, validateField, formState]);
+
+  const onInputChange = ({ target }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = target;
+    setFormState((prevState) => {
+      const updatedState = { ...prevState, [name as keyof T]: value };
+      return updatedState;
+    });
+
+    setLastChangedField({ name: name as keyof T, value: value as T[keyof T] });
+  };
+
+  const onResetForm = () => {
+    setFormState(initialForm);
+    setFormValidation({} as Partial<Record<keyof T, string | null>>);
+  };
 
   const isFormValid = useMemo(() => {
     for (const formValue of Object.keys(formValidation)) {
@@ -32,45 +70,12 @@ export const useForm = <T extends FormState<T>>(
     return true;
   }, [formValidation]);
 
-  const onInputChange = ({ target }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = target;
-    setFormState((prevState) => {
-      const updatedState = { ...prevState, [name as keyof T]: value };
-
-      if (formValidations[name as keyof T]?.dependentFields) {
-        for (const dependentField of formValidations[name as keyof T]!.dependentFields!) {
-          const { validator, message } = formValidations[dependentField]!;
-          setFormValidation((prevValidationState) => ({
-            ...prevValidationState,
-            [dependentField]: validator(updatedState[dependentField], updatedState) ? null : message,
-          }));
-        }
-      }
-
-      return updatedState;
-    });
-
-    if (formValidations[name as keyof T]) {
-      const { validator, message } = formValidations[name as keyof T]!;
-      setFormValidation((prevValidationState) => ({
-        ...prevValidationState,
-        [name as keyof T]: validator(value as T[keyof T], formState) ? null : message,
-      }));
-    }
-  };
-
-  const onResetForm = () => {
-    setFormState(initialForm);
-    setFormValidation({} as Partial<Record<keyof T, string | null>>);
-  };
-
   return {
     ...formState,
     formState,
     setFormState,
     onInputChange,
     onResetForm,
-
     ...formValidation,
     formValidation,
     isFormValid,

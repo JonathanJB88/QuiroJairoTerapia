@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export const useDebouncedValue = (input: string = '', time: number = 500) => {
+export const useDebouncedValue = <T>(input: T, time: number = 500): T => {
   const [debouncedValue, setDebouncedValue] = useState(input);
 
   useEffect(() => {
@@ -13,7 +13,5 @@ export const useDebouncedValue = (input: string = '', time: number = 500) => {
     };
   }, [input]);
 
-  return {
-    debouncedValue,
-  };
+  return debouncedValue;
 };
