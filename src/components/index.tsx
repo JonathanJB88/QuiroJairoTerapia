@@ -46,3 +46,4 @@ export * from './Blog/PostMeta';
 export * from './Blog/Breadcrumb';
 export * from './Blog/PostBody';
 export * from './Blog/CommentList';
+export * from './Blog/LikeButton';
