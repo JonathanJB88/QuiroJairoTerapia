@@ -3,13 +3,13 @@ import autosize from 'autosize';
 import { useContact } from '@/hooks';
 import { InputField } from '@/components';
 import { InputFieldType } from '@/interfaces';
+import { toastNotification } from '@/helpers';
 
 const textareaClassname = 'w-full p-2 font-sans border rounded-md focus:outline-none h-32';
 
 export const ContactForm = () => {
   const { name, email, phone, message, loading, formValidation, onInputChange, handleSubmit } = useContact();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const currentTextareaRef = textareaRef.current;
 
   const inputFields: InputFieldType[] = [
     {
@@ -39,6 +39,7 @@ export const ContactForm = () => {
   ];
 
   useEffect(() => {
+    const currentTextareaRef = textareaRef.current;
     if (currentTextareaRef) {
       autosize(currentTextareaRef);
     }
@@ -48,7 +49,11 @@ export const ContactForm = () => {
         autosize.destroy(currentTextareaRef);
       }
     };
-  }, [currentTextareaRef]);
+  }, []);
+
+  useEffect(() => {
+    if (formValidation.message) return toastNotification('error', formValidation.message);
+  }, [formValidation.message]);
 
   return (
     <form onSubmit={handleSubmit} className='space-y-4' noValidate>
@@ -70,7 +75,7 @@ export const ContactForm = () => {
         }`}
         required
       />
-      {formValidation.message && <p className='p-1 font-sans text-xs text-red-500'>{formValidation.message}</p>}
+
       <button
         type='submit'
         className='px-2 py-1 font-sans text-xs font-semibold transition-all duration-200 ease-in-out rounded-md md:text-sm text-navy-blue bg-turquoise md:px-8 md:py-2 hover:bg-opacity-80'
