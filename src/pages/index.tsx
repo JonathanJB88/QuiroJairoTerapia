@@ -2,7 +2,18 @@ import { useEffect } from 'react';
 import { GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { Toaster } from 'react-hot-toast';
-import { Blog, ChatButton, Contact, CustomHead, Experiences, Footer, Hero, Navbar, Services } from '@/components';
+import {
+  Blog,
+  ChatButton,
+  Contact,
+  CustomHead,
+  Experiences,
+  Footer,
+  Hero,
+  Navbar,
+  ScrollToTopButton,
+  Services,
+} from '@/components';
 import { useAuthStore, useSmoothScroll } from '@/hooks';
 import { getAllPosts } from '@/lib';
 import { IMenuItem, Id, LabelMap, Post } from '@/interfaces';
@@ -78,8 +89,9 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
           <Blog posts={posts} scrollToSection={scrollToSection} />
         </section>
 
-        <section id='contacto' className='flex flex-col justify-start w-full py-4'>
+        <section id='contacto' className='relative flex flex-col justify-start w-full py-4'>
           <Contact />
+          <ScrollToTopButton onClick={() => scrollToSection('inicio')} />
         </section>
       </main>
       <Footer />
