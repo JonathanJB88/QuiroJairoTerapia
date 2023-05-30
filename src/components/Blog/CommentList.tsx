@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { AiOutlineLike } from 'react-icons/ai';
 import { useAuthStore, useCommentsData, useCommentStore } from '@/hooks';
 import { formatDate, toastNotification } from '@/helpers';
-import { AdminButtons } from '../Experiences/AdminButtons';
+import { AdminButtons, LikeButton } from '@/components';
 
 interface CommentListProps {
   postId: string;
@@ -10,8 +9,13 @@ interface CommentListProps {
 
 export const CommentList: React.FC<CommentListProps> = ({ postId }) => {
   const { user } = useAuthStore();
-  const { comments, errorMessage, status, getComments } = useCommentStore();
+  const { comments, errorMessage, getComments, likeComment } = useCommentStore();
   const { recentComments } = useCommentsData(user, comments);
+
+  const handleLikeClick = async (commentId: string) => {
+    const { ok, msg } = await likeComment(commentId, user?.uid!);
+    if (ok) return toastNotification('success', msg);
+  };
 
   useEffect(() => {
     if (errorMessage !== undefined && errorMessage !== 'No se encontraron comentarios') {
@@ -23,13 +27,11 @@ export const CommentList: React.FC<CommentListProps> = ({ postId }) => {
     getComments('comment', postId);
   }, [postId, getComments]);
 
-  if (status === 'loading') return <p className='text-center'>Cargando...</p>;
-
   if (recentComments.length === 0) {
     return (
       <div>
-        <h3>No comments yet!</h3>
-        <p>Be the first to comment on this post!</p>
+        <h3>Todavía no hay comentarios!</h3>
+        <p>Sé el primero en comentar este post!</p>
       </div>
     );
   }
@@ -43,13 +45,7 @@ export const CommentList: React.FC<CommentListProps> = ({ postId }) => {
             <small className='mx-2 mt-1 text-light-gray text-2xs'>{formatDate(new Date(comment.createdAt))}</small>
           </div>
           <p className='px-2 mt-2 text-gray-900'>{comment.content}</p>
-          <button
-            type='button'
-            className='flex items-center mt-2 space-x-1 font-medium transition-all duration-200 ease-in-out text-turquoise hover:text-navy-blue'
-          >
-            <AiOutlineLike />
-            <span>Me gusta</span>
-          </button>
+          <LikeButton likes={comment.likes?.length} onClick={() => handleLikeClick(comment.commentId)} />
           <AdminButtons commentId={comment.commentId} approved={comment.approved} />
         </div>
       ))}
