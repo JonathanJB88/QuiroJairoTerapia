@@ -13,8 +13,9 @@ export const ServiceCard = ({ service: { backgroundImageUrl, title, price, descr
         src={backgroundImageUrl}
         fill
         alt={`${title} background`}
-        quality={100}
         className='absolute z-0 rounded-lg'
+        loading='lazy'
+        sizes='(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1280px'
       />
       <div className='absolute inset-0 bg-black rounded-lg opacity-60 z-5' />
       <div className='relative z-10 flex flex-col h-full text-left text-light-gray'>
