@@ -24,6 +24,7 @@ export const ChatHeader = () => {
                 height={64}
                 className='rounded-full animate-pulse-short'
               />
+              <span className='absolute bottom-0 right-0 w-2 h-2 bg-green-500 border-2 border-white rounded-full'></span>
             </button>
           </div>
         </div>
