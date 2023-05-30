@@ -27,7 +27,7 @@ export const ShareButtons = ({ title, currentPath }: ShareButtonsProps) => {
   return (
     <div className='grid grid-cols-2 gap-4 md:grid-cols-1'>
       <div className='flex items-center space-x-3'>
-        <div className='p-1 rounded-sm bg-light-gray'>
+        <div className='p-1 rounded-md shadow-md bg-light-gray'>
           <IoIosCopy
             size={32}
             className='transition-all duration-200 ease-in-out cursor-pointer text-turquoise hover:text-navy-blue'
@@ -37,19 +37,19 @@ export const ShareButtons = ({ title, currentPath }: ShareButtonsProps) => {
         <p className='font-sans text-light-gray text-shadow'>Copia el enlace</p>
       </div>
       <div className='flex items-center space-x-3'>
-        <div className='p-1 rounded-sm bg-light-gray'>
+        <div className='p-1 rounded-md shadow-md bg-light-gray'>
           <Social Icon={FaFacebookF} href={facebookShareLink} />
         </div>
         <p className='font-sans text-light-gray text-shadow'>Facebook</p>
       </div>
       <div className='flex items-center space-x-3'>
-        <div className='p-1 rounded-sm bg-light-gray'>
+        <div className='p-1 rounded-md shadow-md bg-light-gray'>
           <Social Icon={FaTwitter} href={twitterShareLink} />
         </div>
         <p className='font-sans text-light-gray text-shadow'>Twitter</p>
       </div>
       <div className='flex items-center space-x-3'>
-        <div className='p-1 rounded-sm bg-light-gray'>
+        <div className='p-1 rounded-md shadow-md bg-light-gray'>
           <Social Icon={FaWhatsapp} href={whatsappShareLink} />
         </div>
         <p className='font-sans text-light-gray text-shadow'>Whatsapp</p>
