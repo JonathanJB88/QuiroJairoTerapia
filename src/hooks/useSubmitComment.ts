@@ -1,7 +1,7 @@
-import { CommentType } from '@/interfaces';
-import { useAuthStore, useCommentStore, useForm, useUIStore } from '@/hooks';
 import { useState } from 'react';
+import { FormValidators, useAuthStore, useCommentStore, useForm, useUIStore } from '@/hooks';
 import { toastNotification } from '@/helpers';
+import { CommentType } from '@/interfaces';
 
 interface CommentFormFields {
   content: string;
@@ -24,8 +24,12 @@ export const useSubmitComment = (type: CommentType, postId?: string) => {
   const { user } = useAuthStore();
   const { postComment } = useCommentStore();
   const { toggleAuthModal } = useUIStore();
-  const { content, rating, onInputChange, setFormState, onResetForm } =
-    useForm<CommentFormFields>(initialCommentFormFields);
+  const {
+    formState: { content, rating },
+    onInputChange,
+    setFormState,
+    onResetForm,
+  } = useForm<CommentFormFields>(initialCommentFormFields);
 
   const [isPosting, setIsPosting] = useState(false);
   const handleRatingChange = (newRating: number) => {
@@ -34,6 +38,11 @@ export const useSubmitComment = (type: CommentType, postId?: string) => {
   const handleSubmit = async () => {
     if (!user) return toggleAuthModal();
     if (!content) return toastNotification('error', 'Por favor, escribe un comentario para publicar.');
+    if (content.length < 10)
+      return toastNotification(
+        'error',
+        `${type === 'review' ? 'Tu reseña' : 'Tu comentario'} debe tener al menos 10 caracteres.`
+      );
     const comment: CommentToPost = {
       userId: user.uid,
       content,
