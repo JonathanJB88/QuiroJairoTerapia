@@ -2,6 +2,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
+  mode: 'jit',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
@@ -24,6 +25,14 @@ module.exports = {
       animation: {
         // Bounces 5 times 1s equals 2 seconds
         'pulse-short': 'pulse 1s ease-in-out 2',
+        'expand-in': 'expand-in 0.2s linear both',
+      },
+      keyframes: {
+        'expand-in': {
+          '0%': { 'letter-spacing': '-.2em', transform: 'translateZ(-700px) translateY(-100px)', opacity: '0' },
+          '40%': { opacity: '0.6' },
+          '100%': { 'letter-spacing': 'normal', transform: 'translateZ(0) translateY(0)', opacity: '1' },
+        },
       },
       fontSize: {
         '2xs': '.65rem',
