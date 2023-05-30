@@ -108,7 +108,16 @@ export const AuthForm = ({ type, toogleIsFlipped }: FormProps) => {
         &times;
       </button>
       <div className='flex flex-col items-center mb-4'>
-        <Image width={120} height={120} src='/images/quirojairoterapialogo.jpeg' alt='Logo' className='mb-3' />
+        <div className='relative w-20 h-20 mb-2'>
+          <Image
+            src='/images/quirojairoterapialogo.jpeg'
+            alt='QuiroJairoTerapia'
+            style={{ filter: 'drop-shadow(0 0 1px black)', objectFit: 'cover' }}
+            loading='lazy'
+            fill
+            sizes='(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1280px'
+          />
+        </div>
         <h2 className='font-bold text-navy-blue font-roboto'>{h2}</h2>
       </div>
       <form onSubmit={formSubmit} noValidate>
