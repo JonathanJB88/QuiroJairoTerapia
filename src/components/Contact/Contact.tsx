@@ -1,6 +1,6 @@
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { FaInstagram, FaTwitter, FaWhatsapp, FaMailBulk } from 'react-icons/fa';
-import { ContactForm, ContactItem, Social } from '@/components';
+import { ContactForm, ContactItem, ScrollToTopButton, Social } from '@/components';
 
 const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_API || '';
 
