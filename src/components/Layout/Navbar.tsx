@@ -18,22 +18,24 @@ export const Navbar = ({ menuItems, activeSection, isMenuOpen, handleClick, togg
   return (
     <header className='sticky top-0 left-0 z-50 w-full py-3 bg-white'>
       <nav className='container flex items-center justify-between mx-auto font-roboto'>
-        <Link href='/'>
-          <div className='flex items-center space-x-2'>
+        <button onClick={() => handleClick('inicio')} className='flex items-center'>
+          <div className='relative w-16 h-16 mx-2'>
             <Image
               src='/images/quirojairoterapialogo.jpeg'
               alt='QuiroJairoTerapia'
-              width={62}
-              height={62}
-              className='w-auto h-auto'
+              style={{ filter: 'drop-shadow(0 0 1px black)', objectFit: 'cover' }}
+              loading='lazy'
+              fill
+              sizes='(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1280px'
             />
-
-            <div className='flex flex-col'>
-              <span className='mb-1 text-xl select-none text-navy-blue'>QuiroJairoTerapia</span>
-              <span className='text-sm select-none text-navy-blue'>Alivio y bienestar en tus manos</span>
-            </div>
           </div>
-        </Link>
+
+          <div className='flex flex-col items-start'>
+            <span className='mb-1 text-xl select-none text-navy-blue'>QuiroJairoTerapia</span>
+            <span className='text-sm select-none text-navy-blue'>Alivio y bienestar en tus manos</span>
+          </div>
+        </button>
+
         <div className='hidden lg:flex'>
           {menuItems.map((item) => (
             <li
