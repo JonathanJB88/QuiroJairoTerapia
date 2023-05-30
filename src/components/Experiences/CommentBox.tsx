@@ -4,11 +4,15 @@ import { RiArrowDropDownLine } from 'react-icons/ri';
 import { AuthModal, StarRating } from '@/components';
 import { useAuthStore, useSubmitComment, useUIStore } from '@/hooks';
 import { CommentType } from '@/interfaces';
+import { toastNotification } from '@/helpers';
 
 interface CommentBoxProps {
   type: CommentType;
   postId?: string;
 }
+
+const textareaClass =
+  'w-full p-2 font-sans text-sm border md:text-base rounded-md focus:outline-none h-32 focus:ring-2 focus:ring-turquoise border-navy-blue focus:border-transparent';
 
 export const CommentBox = ({ type, postId }: CommentBoxProps) => {
   const { status, user, logout } = useAuthStore();
@@ -18,16 +22,38 @@ export const CommentBox = ({ type, postId }: CommentBoxProps) => {
     postId
   );
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const handleLogout = useCallback(() => {
     logout();
     onResetForm();
     resetUI();
   }, [logout, onResetForm, resetUI]);
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const currentTextareaRef = textareaRef.current;
+  const handleOutsideClick = useCallback(
+    (event: MouseEvent) => {
+      if (
+        showDropdown &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        textareaRef.current &&
+        !textareaRef.current.contains(event.target as Node)
+      ) {
+        toggleDropdown();
+      }
+    },
+    [showDropdown, toggleDropdown]
+  );
+
+  const checkIfTextareaIsFocused = useCallback(() => {
+    if (document.activeElement === textareaRef.current && showDropdown) {
+      toggleDropdown();
+    }
+  }, [showDropdown, toggleDropdown]);
 
   useEffect(() => {
+    const currentTextareaRef = textareaRef.current;
     if (currentTextareaRef) {
       autosize(currentTextareaRef);
     }
@@ -36,12 +62,21 @@ export const CommentBox = ({ type, postId }: CommentBoxProps) => {
         autosize.destroy(currentTextareaRef);
       }
     };
-  }, [currentTextareaRef]);
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('focusin', checkIfTextareaIsFocused);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('focusin', checkIfTextareaIsFocused);
+    };
+  }, [handleOutsideClick, checkIfTextareaIsFocused]);
 
   const userDropdown = useMemo(
     () =>
       status === 'authenticated' && (
-        <div className='relative'>
+        <div className='relative' ref={dropdownRef}>
           <button
             className='flex items-center space-x-2 text-xs font-semibold transition-all duration-200 ease-in-out text-navy-blue hover:text-turquoise'
             onClick={toggleDropdown}
@@ -90,7 +125,7 @@ export const CommentBox = ({ type, postId }: CommentBoxProps) => {
           Escribe tu {type === 'review' ? 'reseña' : 'comentario'}
         </h3>
         <textarea
-          className='w-full h-32 p-2 text-sm border rounded-md md:text-base border-navy-blue-lighter focus:border-transparent focus:outline-none focus:ring-2 focus:ring-turquoise'
+          className={`${textareaClass} ${!user ? 'cursor-not-allowed' : ''}`}
           placeholder={user ? 'Describe tu experiencia aquí...' : 'Inicia sesión para escribir un comentario.'}
           rows={2}
           aria-label={user ? 'Describe tu experiencia aquí' : 'Inicia sesión para escribir un comentario.'}
