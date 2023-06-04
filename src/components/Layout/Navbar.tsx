@@ -1,39 +1,26 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { IMenuItem, Id } from '@/interfaces';
+import { RefObject } from 'react';
+import { Logo } from '@/components';
+import { IMenuItem, MenuItems } from '@/interfaces';
 
 interface NavbarProps {
-  activeSection: Id;
-  handleClick: (id: Id) => void;
+  headerRef: RefObject<HTMLHeadingElement>;
+  activeSection: MenuItems;
+  handleClick: (id: MenuItems) => void;
   menuItems: IMenuItem[];
   isMenuOpen: boolean;
   toggleMenu: () => void;
 }
 
-export const Navbar = ({ menuItems, activeSection, isMenuOpen, handleClick, toggleMenu }: NavbarProps) => {
-  const activeSectionClass = (id: Id) => {
+export const Navbar = ({ headerRef, menuItems, activeSection, isMenuOpen, handleClick, toggleMenu }: NavbarProps) => {
+  const activeSectionClass = (id: MenuItems) => {
     return activeSection === id ? 'text-turquoise underline' : 'text-navy-blue';
   };
 
   return (
-    <header className='sticky top-0 left-0 z-50 w-full py-3 bg-white'>
+    <header ref={headerRef} className='sticky top-0 left-0 z-50 w-full py-3 bg-white'>
       <nav className='container flex items-center justify-between mx-auto font-roboto'>
-        <button onClick={() => handleClick('inicio')} className='flex items-center'>
-          <div className='relative w-16 h-16 mx-2'>
-            <Image
-              src='/images/quirojairoterapialogo.jpeg'
-              alt='QuiroJairoTerapia'
-              style={{ filter: 'drop-shadow(0 0 1px black)', objectFit: 'cover' }}
-              loading='lazy'
-              fill
-              sizes='(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1280px'
-            />
-          </div>
-
-          <div className='flex flex-col items-start'>
-            <span className='mb-1 text-xl select-none text-navy-blue'>QuiroJairoTerapia</span>
-            <span className='text-sm select-none text-navy-blue'>Alivio y bienestar en tus manos</span>
-          </div>
+        <button onClick={() => handleClick(MenuItems.INICIO)} className='flex items-center ml-2'>
+          <Logo />
         </button>
 
         <div className='hidden lg:flex'>
