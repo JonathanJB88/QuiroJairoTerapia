@@ -1,6 +1,6 @@
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScriptNext, Marker } from '@react-google-maps/api';
 import { FaInstagram, FaTwitter, FaWhatsapp, FaMailBulk } from 'react-icons/fa';
-import { ContactForm, ContactItem, ScrollToTopButton, Social } from '@/components';
+import { ContactForm, ContactItem, Social } from '@/components';
 
 const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_API || '';
 
@@ -33,12 +33,12 @@ export const Contact = () => {
             contact='quirojairoterapia@gmail.com'
           />
           <div className='w-full h-64'>
-            <LoadScript googleMapsApiKey={googleMapsApiKey}>
+            <LoadScriptNext googleMapsApiKey={googleMapsApiKey}>
               <GoogleMap mapContainerStyle={mapContainerStyle} center={officeLocation} zoom={14}>
                 {/* //TODO: Replace the marker with your own */}
                 <Marker position={officeLocation} />
               </GoogleMap>
-            </LoadScript>
+            </LoadScriptNext>
           </div>
         </div>
         {/* //TODO: Replace the Facebook and Instagram links with your own */}
