@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Toaster } from 'react-hot-toast';
 import { ParsedUrlQuery } from 'querystring';
@@ -14,10 +13,11 @@ import {
   CommentBox,
   PostBody,
   CommentList,
+  Logo,
 } from '@/components';
 import { formatDate } from '@/helpers';
 import { useAuthStore } from '@/hooks';
-import { Post } from '@/interfaces';
+import { MenuItems, Post } from '@/interfaces';
 
 interface Params extends ParsedUrlQuery {
   slug: string;
@@ -27,34 +27,16 @@ interface BlogPostPageProps {
   post: Post;
 }
 
-const LogoBlock = () => {
-  return (
-    <>
-      <Image
-        src='/images/quirojairoterapialogo.jpeg'
-        alt='QuiroJairoTerapia'
-        width={95}
-        height={95}
-        className='rounded-full'
-        style={{ filter: 'drop-shadow(0 0 1px black)' }}
-      />
-
-      <div className='flex flex-col'>
-        <span className='mb-1 text-xl select-none text-navy-blue font-roboto'>QuiroJairoTerapia</span>
-        <span className='text-sm select-none text-navy-blue font-roboto'>Alivio y bienestar en tus manos</span>
-      </div>
-    </>
-  );
-};
-
 const BlogPostPage: NextPage<BlogPostPageProps> = ({ post }) => {
-  const router = useRouter();
-
   const { checkAuthToken } = useAuthStore();
+  const router = useRouter();
 
   const formattedDate = formatDate(new Date(post.publishedAt), 'published');
 
-  const handleGoToBlog = () => router.push({ pathname: '/', query: { section: 'consejos' } });
+  const handleGoToBlog = () => {
+    localStorage.setItem('activeSection', MenuItems.CONSEJOS);
+    router.push('/');
+  };
 
   useEffect(() => {
     checkAuthToken();
@@ -62,14 +44,20 @@ const BlogPostPage: NextPage<BlogPostPageProps> = ({ post }) => {
 
   return (
     <>
-      <div className='items-center justify-center hidden my-2 space-x-2 md:flex md:absolute top-2 left-2'>
-        <LogoBlock />
-      </div>
+      <button
+        onClick={handleGoToBlog}
+        className='items-center justify-center hidden my-2 space-x-2 cursor-pointer md:flex md:absolute top-2 left-2'
+      >
+        <Logo />
+      </button>
       <div className='p-4 bg-opacity-30 md:p-8 md:px-12 md:flex bg-light-gray'>
         <Toaster />
-        <div className='flex items-center justify-center my-2 space-x-2 md:hidden top-2 left-2'>
-          <LogoBlock />
-        </div>
+        <button
+          onClick={handleGoToBlog}
+          className='flex items-center justify-center my-2 space-x-2 cursor-pointer md:hidden top-2 left-2'
+        >
+          <Logo />
+        </button>
         <div className='md:mt-20 md:w-2/3'>
           <Breadcrumb categories={post.categories} onNavigate={handleGoToBlog} />
 
@@ -99,7 +87,7 @@ const BlogPostPage: NextPage<BlogPostPageProps> = ({ post }) => {
               <h3 className='font-sans text-xl italic font-medium md:text-2xl text-shadow text-light-gray'>
                 Comparte este artículo
               </h3>
-              <ShareButtons title={post.title} currentPath={router.asPath} />
+              <ShareButtons title={post.title} currentPath={''} />
 
               <h3 className='pt-4 mt-4 font-sans text-xl italic font-medium md:text-2xl text-shadow text-light-gray'>
                 Autor
@@ -130,12 +118,16 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 
   return {
     paths,
-    fallback: false,
+    fallback: 'blocking',
   };
 };
 
 export const getStaticProps: GetStaticProps<BlogPostPageProps, Params> = async ({ params }) => {
-  if (!params) throw new Error('Params is undefined');
+  if (!params) {
+    return {
+      notFound: true,
+    };
+  }
   const post = await getPostBySlug(params.slug);
 
   return {
