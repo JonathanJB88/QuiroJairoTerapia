@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { GetStaticProps, NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { Toaster } from 'react-hot-toast';
 import {
   Blog,
@@ -16,27 +15,27 @@ import {
 } from '@/components';
 import { useAuthStore, useSmoothScroll } from '@/hooks';
 import { getAllPosts } from '@/lib';
-import { IMenuItem, Id, LabelMap, Post } from '@/interfaces';
+import { IMenuItem, LabelMap, MenuItems, MenuLabels, Post, SectionRefs } from '@/interfaces';
 
 export const menuItems: IMenuItem[] = [
-  { id: 'inicio', label: 'Inicio' },
-  { id: 'servicios', label: 'Servicios' },
-  { id: 'conoce-al-terapeuta', label: 'Conoce al terapeuta' },
-  { id: 'experiencias', label: 'Experiencias' },
-  { id: 'consejos', label: 'Consejos' },
-  { id: 'contacto', label: 'Contacto' },
+  { id: MenuItems.INICIO, label: MenuLabels.INICIO },
+  { id: MenuItems.SERVICIOS, label: MenuLabels.SERVICIOS },
+  { id: MenuItems.CONOCE_AL_TERAPEUTA, label: MenuLabels.CONOCE_AL_TERAPEUTA },
+  { id: MenuItems.EXPERIENCIAS, label: MenuLabels.EXPERIENCIAS },
+  { id: MenuItems.CONSEJOS, label: MenuLabels.CONSEJOS },
+  { id: MenuItems.CONTACTO, label: MenuLabels.CONTACTO },
 ];
 
 const labelMap: LabelMap = {
-  inicio: 'Inicio',
-  servicios: 'Servicios',
-  'conoce-al-terapeuta': 'Conoce al terapeuta',
-  experiencias: 'Experiencias',
-  consejos: 'Consejos',
-  contacto: 'Contacto',
+  [MenuItems.INICIO]: MenuLabels.INICIO,
+  [MenuItems.SERVICIOS]: MenuLabels.SERVICIOS,
+  [MenuItems.CONOCE_AL_TERAPEUTA]: MenuLabels.CONOCE_AL_TERAPEUTA,
+  [MenuItems.EXPERIENCIAS]: MenuLabels.EXPERIENCIAS,
+  [MenuItems.CONSEJOS]: MenuLabels.CONSEJOS,
+  [MenuItems.CONTACTO]: MenuLabels.CONTACTO,
 };
 
-const getTitle = (activeSection: Id): string => {
+const getTitle = (activeSection: MenuItems): string => {
   return `${labelMap[activeSection]} - QuiroJairoTerapia`;
 };
 
@@ -45,53 +44,83 @@ interface HomePageProps {
 }
 
 const HomePage: NextPage<HomePageProps> = ({ posts }) => {
-  const { activeSection, isMenuOpen, scrollToSection, toggleMenu } = useSmoothScroll(menuItems);
   const { checkAuthToken } = useAuthStore();
-  const { query } = useRouter();
+
+  const headerRef = useRef<HTMLHeadingElement>(null);
+  const sectionRefs: SectionRefs = {
+    [MenuItems.INICIO]: useRef<HTMLElement>(null),
+    [MenuItems.SERVICIOS]: useRef<HTMLElement>(null),
+    [MenuItems.CONOCE_AL_TERAPEUTA]: useRef<HTMLElement>(null),
+    [MenuItems.EXPERIENCIAS]: useRef<HTMLElement>(null),
+    [MenuItems.CONSEJOS]: useRef<HTMLElement>(null),
+    [MenuItems.CONTACTO]: useRef<HTMLElement>(null),
+  };
+
+  const { activeSection, isMenuOpen, scrollToSection, setIsMenuOpen } = useSmoothScroll({
+    menuItems,
+    sectionRefs,
+    headerRef,
+  });
 
   const pageTitle = getTitle(activeSection);
   const pageDescription = `Descubre la sección ${activeSection} en QuiroJairoTerapia y encuentra el alivio y bienestar que buscas.`;
 
   useEffect(() => {
     checkAuthToken();
-    if (query.section) scrollToSection(query.section as Id);
-  }, [checkAuthToken, query.section]);
+  }, [checkAuthToken]);
 
   return (
     <div className='flex flex-col min-vh-screen'>
       <Toaster />
       <CustomHead title={pageTitle} description={pageDescription} />
       <Navbar
-        activeSection={activeSection}
-        handleClick={scrollToSection}
         menuItems={menuItems}
-        toggleMenu={toggleMenu}
+        headerRef={headerRef}
+        activeSection={activeSection}
         isMenuOpen={isMenuOpen}
+        toggleMenu={() => setIsMenuOpen(!isMenuOpen)}
+        handleClick={scrollToSection}
       />
       <main className='flex-grow'>
-        <section id='inicio' className='flex flex-col justify-start w-full py-4'>
+        <section ref={sectionRefs.inicio} id={MenuItems.INICIO} className='flex flex-col justify-start w-full py-4'>
           <Hero />
         </section>
 
-        <section id='servicios' className='flex flex-col justify-start w-full py-4'>
+        <section
+          ref={sectionRefs.servicios}
+          id={MenuItems.SERVICIOS}
+          className='flex flex-col justify-start w-full py-4'
+        >
           <Services />
         </section>
 
-        <section id='conoce-al-terapeuta' className='flex flex-col justify-start w-full py-4'>
+        <section
+          ref={sectionRefs['conoce-al-terapeuta']}
+          id={MenuItems.CONOCE_AL_TERAPEUTA}
+          className='flex flex-col justify-start w-full py-4'
+        >
           {/* Sección sobre mí con información del terapeuta - Jairo */}
         </section>
 
-        <section id='experiencias' className='flex flex-col justify-start w-full py-4'>
+        <section
+          ref={sectionRefs.experiencias}
+          id={MenuItems.EXPERIENCIAS}
+          className='flex flex-col justify-start w-full py-4'
+        >
           <Experiences />
         </section>
 
-        <section id='consejos' className='flex flex-col justify-start w-full py-4'>
+        <section ref={sectionRefs.consejos} id={MenuItems.CONSEJOS} className='flex flex-col justify-start w-full py-4'>
           <Blog posts={posts} scrollToSection={scrollToSection} />
         </section>
 
-        <section id='contacto' className='relative flex flex-col justify-start w-full py-4'>
+        <section
+          ref={sectionRefs.contacto}
+          id={MenuItems.CONTACTO}
+          className='relative flex flex-col justify-start w-full py-4'
+        >
           <Contact />
-          <ScrollToTopButton onClick={() => scrollToSection('inicio')} />
+          <ScrollToTopButton onClick={() => scrollToSection(MenuItems.INICIO)} />
         </section>
       </main>
       <Footer />
