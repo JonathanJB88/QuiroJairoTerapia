@@ -18,7 +18,7 @@ export const CommentList: React.FC<CommentListProps> = ({ postId }) => {
   };
 
   useEffect(() => {
-    if (errorMessage !== undefined && errorMessage !== 'No se encontraron comentarios') {
+    if (errorMessage !== undefined) {
       toastNotification('error', errorMessage);
     }
   }, [errorMessage, postId]);

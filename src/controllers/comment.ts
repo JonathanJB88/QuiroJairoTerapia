@@ -61,7 +61,7 @@ const getCommentsByTypeOrPost = async (req: NextApiRequest, res: NextApiResponse
       .populate('userId', '_id name')
       .lean();
     if (!comments.length) {
-      return errorResponse(res, 404, 'No se encontraron comentarios');
+      return res.status(200).json([]);
     }
 
     res.status(200).json(comments.map((comment) => formatComment(comment)));

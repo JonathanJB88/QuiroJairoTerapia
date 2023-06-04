@@ -155,6 +155,7 @@ export const useCommentStore = () => {
 
   const cleanCommentsState = useCallback(() => {
     dispatch(onGetComments([]));
+    dispatch(onCleanErrorMessage());
   }, [dispatch]);
 
   return {
