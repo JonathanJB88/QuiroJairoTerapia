@@ -1,53 +1,84 @@
-import { IMenuItem, Id } from '@/interfaces';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, RefObject } from 'react';
+import { scroller } from 'react-scroll';
+import { IMenuItem, MenuItems, SectionRefs } from '@/interfaces';
 
-export const useSmoothScroll = (menuItems: IMenuItem[]) => {
-  const [activeSection, setActiveSection] = useState(menuItems[0].id);
+interface HookProps {
+  menuItems: IMenuItem[];
+  sectionRefs: SectionRefs;
+  headerRef: RefObject<HTMLHeadingElement>;
+}
+
+export const useSmoothScroll = ({ menuItems, sectionRefs, headerRef }: HookProps) => {
+  const [activeSection, setActiveSection] = useState<MenuItems>(menuItems[0].id);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      let currentSection = menuItems[0].id;
-      const headerHeight = document.querySelector('header')?.clientHeight || 0;
+  const scrollToSection = useCallback(
+    (id: MenuItems) => {
+      setIsMenuOpen(false);
 
-      menuItems.forEach((item) => {
-        const element = document.getElementById(item.id) as HTMLElement;
-        if (!element) return;
-        const rect = element.getBoundingClientRect();
+      const headerHeight = headerRef.current ? headerRef.current.clientHeight : 0;
+      const element = sectionRefs[id]?.current;
 
-        if (rect.top <= headerHeight && rect.bottom >= headerHeight) {
-          currentSection = item.id;
+      if (element && headerHeight) {
+        scroller.scrollTo(id, { offset: -headerHeight, smooth: true });
+
+        setActiveSection(id);
+        localStorage.setItem('activeSection', id);
+      }
+    },
+    [headerRef, sectionRefs]
+  );
+
+  const onIntersect: IntersectionObserverCallback = useCallback(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const newActiveSection = entry.target.id as MenuItems;
+          setActiveSection(newActiveSection);
+          localStorage.setItem('activeSection', newActiveSection);
         }
       });
+    },
+    [setActiveSection]
+  );
 
-      setActiveSection(currentSection);
+  const handleScroll = useCallback(() => {
+    if (window.pageYOffset === 0) {
+      setActiveSection(MenuItems.INICIO);
+      localStorage.setItem('activeSection', MenuItems.INICIO);
+    }
+  }, [setActiveSection]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(onIntersect, { threshold: 0.75 });
+
+    menuItems.forEach((item) => {
+      const element = sectionRefs[item.id]?.current;
+      if (element) observer.observe(element);
+    });
+
+    return () => {
+      menuItems.forEach((item) => {
+        const element = sectionRefs[item.id]?.current;
+        if (element) observer.unobserve(element);
+      });
     };
+  }, [menuItems, sectionRefs, onIntersect]);
 
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [menuItems]);
+  }, [handleScroll]);
 
-  const scrollToSection = (id: Id) => {
-    const element = document.getElementById(id);
-    const headerHeight = document.querySelector('header')?.clientHeight || 0;
-    const topOffset = element?.getBoundingClientRect().top || 0;
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    if (element) {
-      window.scrollTo({
-        top: scrollTop + topOffset - headerHeight,
-        behavior: 'smooth',
-      });
-      setActiveSection(id);
+  useEffect(() => {
+    const lastActiveSection = localStorage.getItem('activeSection');
+    if (lastActiveSection) {
+      scrollToSection(lastActiveSection as MenuItems);
     }
-  };
+  }, [setActiveSection]);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  return { activeSection, isMenuOpen, scrollToSection, toggleMenu };
+  return { activeSection, isMenuOpen, setIsMenuOpen, scrollToSection };
 };

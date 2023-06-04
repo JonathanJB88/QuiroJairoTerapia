@@ -1,14 +1,33 @@
+import { RefObject } from 'react';
+
 export interface IMenuItem {
-  id: Id;
-  label: Label;
+  id: MenuItems;
+  label: MenuLabels;
 }
 
-export type Id = 'inicio' | 'servicios' | 'conoce-al-terapeuta' | 'experiencias' | 'consejos' | 'contacto';
-export type Label = 'Inicio' | 'Servicios' | 'Conoce al terapeuta' | 'Experiencias' | 'Consejos' | 'Contacto';
+export enum MenuItems {
+  INICIO = 'inicio',
+  SERVICIOS = 'servicios',
+  CONOCE_AL_TERAPEUTA = 'conoce-al-terapeuta',
+  EXPERIENCIAS = 'experiencias',
+  CONSEJOS = 'consejos',
+  CONTACTO = 'contacto',
+}
+
+export enum MenuLabels {
+  INICIO = 'Inicio',
+  SERVICIOS = 'Servicios',
+  CONOCE_AL_TERAPEUTA = 'Conoce al terapeuta',
+  EXPERIENCIAS = 'Experiencias',
+  CONSEJOS = 'Consejos',
+  CONTACTO = 'Contacto',
+}
 
 export type LabelMap = {
-  [key in Id]: Label;
+  [key in MenuItems]: MenuLabels;
 };
+
+export type SectionRefs = Record<MenuItems, RefObject<HTMLElement>>;
 
 export type Content = { title: string; text: string | JSX.Element };
 
