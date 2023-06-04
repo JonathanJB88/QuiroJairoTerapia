@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { AuthorType } from '@/interfaces';
-import { formatDate } from '@/helpers';
 
 interface PostAuthorInfoProps {
   author: AuthorType;
