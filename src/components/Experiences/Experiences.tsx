@@ -13,7 +13,7 @@ export const Experiences = () => {
   const windowSize = useWindowSize();
   const slidePercentage = windowSize.width >= 768 ? 33.33 : 100;
   const { user } = useAuthStore();
-  const { comments, errorMessage, getComments, cleanCommentsState } = useCommentStore();
+  const { comments, errorMessage, getComments } = useCommentStore();
   const { averageRating, formattedAverage, recentReviews } = useReviewsData(user, comments);
 
   const [expandedReviewId, setExpandedReviewId] = useState<string>('');
@@ -26,10 +26,6 @@ export const Experiences = () => {
 
   useEffect(() => {
     getComments('review');
-
-    return () => {
-      cleanCommentsState();
-    };
   }, [getComments]);
 
   return (
