@@ -1,26 +1,41 @@
-import { memo, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { AllBlogPosts, LatestPosts } from '@/components';
-import { Id, Post } from '@/interfaces';
+import { MenuItems, Post } from '@/interfaces';
 
 interface BlogProps {
   posts: Post[];
-  scrollToSection: (id: Id) => void;
+  scrollToSection: (id: MenuItems) => void;
 }
 
-export const Blog = ({ posts, scrollToSection }: BlogProps) => {
-  const [showAll, setShowAll] = useState(false);
+const BlogSection = ({ posts, scrollToSection }: BlogProps) => {
+  const [showAll, setShowAll] = useState<boolean>(false);
+  const firstUpdate = useRef(true);
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      const savedState = localStorage.getItem('showAllState');
+      if (savedState) setShowAll(JSON.parse(savedState));
+      firstUpdate.current = false;
+    } else {
+      localStorage.setItem('showAllState', JSON.stringify(showAll));
+    }
+  }, [showAll]);
 
   const toggleShowAll = () => {
     setShowAll(!showAll);
-    scrollToSection('consejos');
+    scrollToSection(MenuItems.CONSEJOS);
   };
 
-  const MemoizedAllBlogPosts = memo(AllBlogPosts);
-  const MemoizedLatestPosts = memo(LatestPosts);
-
-  return showAll ? (
-    <MemoizedAllBlogPosts handleLatestPosts={toggleShowAll} posts={posts} />
-  ) : (
-    <MemoizedLatestPosts handleAllPosts={toggleShowAll} posts={posts} />
+  const MemoizedAllBlogPosts = useMemo(
+    () => <AllBlogPosts handleLatestPosts={toggleShowAll} posts={posts} />,
+    [toggleShowAll, posts]
   );
+  const MemoizedLatestPosts = useMemo(
+    () => <LatestPosts handleAllPosts={toggleShowAll} posts={posts} />,
+    [toggleShowAll, posts]
+  );
+
+  return showAll ? MemoizedAllBlogPosts : MemoizedLatestPosts;
 };
+
+export const Blog = memo(BlogSection);
