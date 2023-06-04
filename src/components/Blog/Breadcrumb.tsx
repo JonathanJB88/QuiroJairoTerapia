@@ -9,7 +9,7 @@ export const Breadcrumb = ({ categories, onNavigate }: BreadcumbProps) => {
   return (
     <div className='px-2 mb-4 font-sans rounded-md text-start w-fit text-turquoise bg-navy-blue'>
       <button onClick={onNavigate} className='text-sm text-turquoise'>
-        Blog
+        Consejos
       </button>
 
       <span className='mx-2 text-sm text-turquoise'>&gt;</span>
