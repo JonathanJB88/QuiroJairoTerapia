@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { Post } from '@/interfaces';
-import Link from 'next/link';
 
 const imageSizes = '(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1280px';
 
