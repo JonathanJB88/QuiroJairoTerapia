@@ -13,6 +13,7 @@ export const CommentList: React.FC<CommentListProps> = ({ postId }) => {
   const { recentComments } = useCommentsData(user, comments);
 
   const handleLikeClick = async (commentId: string) => {
+    if(!user) return toastNotification('error', 'Debes iniciar sesión para poder dar like a un comentario')
     const { ok, msg } = await likeComment(commentId, user?.uid!);
     if (ok) return toastNotification('success', msg);
   };
