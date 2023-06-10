@@ -18,6 +18,8 @@ html,
 body,
 #__next {
   margin: 0;
+  padding: 0;
+  overflow-x: hidden;
   background: linear-gradient(135deg, #1c3d5a, #42b2a6);
   background-size: 200% 200%;
   animation: gradientBackground 10s ease infinite;
