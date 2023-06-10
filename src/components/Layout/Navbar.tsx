@@ -26,7 +26,7 @@ export const Navbar = ({
   return (
     <header
       ref={headerRef}
-      className='sticky top-0 left-0 z-50 w-full py-3 bg-white'
+      className='fixed top-0 left-0 z-50 w-full py-3 bg-white'
     >
       <nav className='container flex items-center justify-between mx-auto font-roboto'>
         <button
