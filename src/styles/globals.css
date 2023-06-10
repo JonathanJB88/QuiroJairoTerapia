@@ -4,26 +4,23 @@
 
 @keyframes gradientBackground {
   0% {
-    background-position: 0% 50%;
+    background-position: 0% 0%;
   }
   50% {
-    background-position: 100% 50%;
+    background-position: 100% 100%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 0% 0%;
   }
 }
 
-html {
-  height: 100%;
-}
-
-body {
-  height: 100%;
+html,
+body,
+#__next {
   margin: 0;
   background: linear-gradient(135deg, #1c3d5a, #42b2a6);
-  background-size: 400% 400%;
-  animation: gradientBackground 15s ease infinite;
+  background-size: 200% 200%;
+  animation: gradientBackground 10s ease infinite;
 }
 
 .min-vh-screen {

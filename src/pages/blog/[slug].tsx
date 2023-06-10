@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { Toaster } from 'react-hot-toast';
 import { ParsedUrlQuery } from 'querystring';
 import { getAllPosts, getPostBySlug } from '@/lib';
+import { BiLeftArrowAlt } from 'react-icons/bi';
 import {
   PostAuthorInfo,
   PostImage,
@@ -43,14 +44,14 @@ const BlogPostPage: NextPage<BlogPostPageProps> = ({ post }) => {
   }, [checkAuthToken]);
 
   return (
-    <>
+    <div className='p-4 bg-opacity-30 md:p-8 md:px-12 bg-light-gray'>
       <button
         onClick={handleGoToBlog}
         className='items-center justify-center hidden my-2 space-x-2 cursor-pointer md:flex md:absolute top-2 left-2'
       >
         <Logo />
       </button>
-      <div className='p-4 bg-opacity-30 md:p-8 md:px-12 md:flex bg-light-gray'>
+      <div className='md:flex'>
         <Toaster />
         <button
           onClick={handleGoToBlog}
@@ -58,7 +59,7 @@ const BlogPostPage: NextPage<BlogPostPageProps> = ({ post }) => {
         >
           <Logo />
         </button>
-        <div className='md:mt-20 md:w-2/3'>
+        <article className='md:mt-20 md:w-2/3'>
           <Breadcrumb categories={post.categories} onNavigate={handleGoToBlog} />
 
           <h1 className='mb-2 text-2xl italic font-extrabold md:mr-8 md:text-4xl font-roboto text-light-gray text-shadow'>
@@ -74,7 +75,7 @@ const BlogPostPage: NextPage<BlogPostPageProps> = ({ post }) => {
           <div className='mt-8'>
             <PostBody body={post.body} />
           </div>
-        </div>
+        </article>
 
         <div className='mt-8 md:w-1/3 md:mt-0'>
           {/* Desktop-only Image */}
@@ -106,7 +107,15 @@ const BlogPostPage: NextPage<BlogPostPageProps> = ({ post }) => {
           </div>
         </div>
       </div>
-    </>
+      <div className='flex justify-start mt-6 mb-4'>
+        <button
+          onClick={handleGoToBlog}
+          className='flex items-center space-x-2 cursor-pointer'
+        >
+          <BiLeftArrowAlt size={32} className='text-light-gray' style={{ filter: 'drop-shadow(0 0 1px black)', objectFit: 'cover' }} />
+        </button>
+      </div>
+    </div>
   );
 };
 

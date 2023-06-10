@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
-import { GetStaticProps, NextPage } from 'next';
-import { Toaster } from 'react-hot-toast';
+import { useEffect, useRef } from "react";
+import { GetStaticProps, NextPage } from "next";
+import { Toaster } from "react-hot-toast";
 import {
   Blog,
   ChatButton,
@@ -12,10 +12,18 @@ import {
   Navbar,
   ScrollToTopButton,
   Services,
-} from '@/components';
-import { useAuthStore, useSmoothScroll } from '@/hooks';
-import { getAllPosts } from '@/lib';
-import { IMenuItem, LabelMap, MenuItems, MenuLabels, Post, SectionRefs } from '@/interfaces';
+  Therapist,
+} from "@/components";
+import { useAuthStore, useSmoothScroll } from "@/hooks";
+import { getAllPosts } from "@/lib";
+import {
+  IMenuItem,
+  LabelMap,
+  MenuItems,
+  MenuLabels,
+  Post,
+  SectionRefs,
+} from "@/interfaces";
 
 export const menuItems: IMenuItem[] = [
   { id: MenuItems.INICIO, label: MenuLabels.INICIO },
@@ -56,11 +64,12 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
     [MenuItems.CONTACTO]: useRef<HTMLElement>(null),
   };
 
-  const { activeSection, isMenuOpen, scrollToSection, setIsMenuOpen } = useSmoothScroll({
-    menuItems,
-    sectionRefs,
-    headerRef,
-  });
+  const { activeSection, isMenuOpen, scrollToSection, setIsMenuOpen } =
+    useSmoothScroll({
+      menuItems,
+      sectionRefs,
+      headerRef,
+    });
 
   const pageTitle = getTitle(activeSection);
   const pageDescription = `Descubre la sección ${activeSection} en QuiroJairoTerapia y encuentra el alivio y bienestar que buscas.`;
@@ -70,7 +79,7 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
   }, [checkAuthToken]);
 
   return (
-    <div className='flex flex-col min-vh-screen'>
+    <div className="flex flex-col min-vh-screen">
       <Toaster />
       <CustomHead title={pageTitle} description={pageDescription} />
       <Navbar
@@ -81,46 +90,56 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
         toggleMenu={() => setIsMenuOpen(!isMenuOpen)}
         handleClick={scrollToSection}
       />
-      <main className='flex-grow'>
-        <section ref={sectionRefs.inicio} id={MenuItems.INICIO} className='flex flex-col justify-start w-full py-4'>
+      <main className="flex-grow">
+        <section
+          ref={sectionRefs.inicio}
+          id={MenuItems.INICIO}
+          className="flex flex-col justify-start w-full py-4"
+        >
           <Hero />
         </section>
 
         <section
           ref={sectionRefs.servicios}
           id={MenuItems.SERVICIOS}
-          className='flex flex-col justify-start w-full py-4'
+          className="flex flex-col justify-start w-full py-4"
         >
           <Services />
         </section>
 
         <section
-          ref={sectionRefs['conoce-al-terapeuta']}
+          ref={sectionRefs["conoce-al-terapeuta"]}
           id={MenuItems.CONOCE_AL_TERAPEUTA}
-          className='flex flex-col justify-start w-full py-4'
+          className="flex flex-col justify-start w-full py-4"
         >
-          {/* Sección sobre mí con información del terapeuta - Jairo */}
+          <Therapist />
         </section>
 
         <section
           ref={sectionRefs.experiencias}
           id={MenuItems.EXPERIENCIAS}
-          className='flex flex-col justify-start w-full py-4'
+          className="flex flex-col justify-start w-full py-4"
         >
           <Experiences />
         </section>
 
-        <section ref={sectionRefs.consejos} id={MenuItems.CONSEJOS} className='flex flex-col justify-start w-full py-4'>
+        <section
+          ref={sectionRefs.consejos}
+          id={MenuItems.CONSEJOS}
+          className="flex flex-col justify-start w-full py-4"
+        >
           <Blog posts={posts} scrollToSection={scrollToSection} />
         </section>
 
         <section
           ref={sectionRefs.contacto}
           id={MenuItems.CONTACTO}
-          className='relative flex flex-col justify-start w-full py-4'
+          className="relative flex flex-col justify-start w-full py-4"
         >
           <Contact />
-          <ScrollToTopButton onClick={() => scrollToSection(MenuItems.INICIO)} />
+          <ScrollToTopButton
+            onClick={() => scrollToSection(MenuItems.INICIO)}
+          />
         </section>
       </main>
       <Footer />
