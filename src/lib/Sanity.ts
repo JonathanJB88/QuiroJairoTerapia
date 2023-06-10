@@ -7,6 +7,7 @@ const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
 export const sanityClient = createClient({
   projectId,
   dataset,
+  apiVersion: '2023-05-20',
   useCdn: false,
 });
 
@@ -57,13 +58,18 @@ author->{
 `;
 
 export const getAllPosts = async (): Promise<Post[]> => {
-  const posts = await sanityClient.fetch<Post[]>(`*[_type == "post"]{${postSelection}} | order(publishedAt desc)`);
+  const posts = await sanityClient.fetch<Post[]>(
+    `*[_type == "post"]{${postSelection}} | order(publishedAt desc)`
+  );
   return posts;
 };
 
 export const getPostBySlug = async (slug: string): Promise<Post> => {
-  const post = await sanityClient.fetch<Post>(`*[_type == "post" && slug.current == $slug][0]{${postSelection}}`, {
-    slug,
-  });
+  const post = await sanityClient.fetch<Post>(
+    `*[_type == "post" && slug.current == $slug][0]{${postSelection}}`,
+    {
+      slug,
+    }
+  );
   return post;
 };
