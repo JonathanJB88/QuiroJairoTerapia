@@ -11,8 +11,9 @@ export const Hero = () => {
 
   const heroDescription = (
     <p className='py-1 font-sans text-sm leading-relaxed text-white md:text-lg'>
-      Despierta tus sentidos y libera tu cuerpo del estrés con los tratamientos especializados de Jairo, el experto en
-      quiromasaje que te ayudará a recuperar la armonía y el bienestar que te mereces.{' '}
+      Despierta tus sentidos y libera tu cuerpo del estrés con los tratamientos
+      especializados de Jairo, el experto en quiromasaje que te ayudará a
+      recuperar la armonía y el bienestar que te mereces.{' '}
       <Emoji label='star' symbol='🌟' />
       <Emoji label='raising hands' symbol='🙌' />
     </p>
@@ -20,10 +21,22 @@ export const Hero = () => {
 
   const benefitsList = (
     <ul className='flex flex-col space-y-2 font-sans text-left text-white md:space-y-4'>
-      <ListItem emoji={{ label: 'blue small square', symbol: '🔹' }} text='Alivio del dolor muscular' />
-      <ListItem emoji={{ label: 'blue small square', symbol: '🔹' }} text='Reducción de tensiones' />
-      <ListItem emoji={{ label: 'blue small square', symbol: '🔹' }} text='Mejora la circulación sanguínea' />
-      <ListItem emoji={{ label: 'blue small square', symbol: '🔹' }} text='Estimulación del sistema linfático' />
+      <ListItem
+        emoji={{ label: 'blue small square', symbol: '🔹' }}
+        text='Alivio del dolor muscular'
+      />
+      <ListItem
+        emoji={{ label: 'blue small square', symbol: '🔹' }}
+        text='Reducción de tensiones'
+      />
+      <ListItem
+        emoji={{ label: 'blue small square', symbol: '🔹' }}
+        text='Mejora la circulación sanguínea'
+      />
+      <ListItem
+        emoji={{ label: 'blue small square', symbol: '🔹' }}
+        text='Estimulación del sistema linfático'
+      />
     </ul>
   );
 

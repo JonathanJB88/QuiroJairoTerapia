@@ -40,7 +40,10 @@ export const LatestPosts = ({ posts, handleAllPosts }: LatestPostsProps) => {
           {/* Right column */}
           <div className='flex flex-col justify-center space-y-8 md:col-span-2'>
             {rightPosts.map((post) => (
-              <div key={post._id} className='flex flex-col space-x-0 space-y-4 md:flex-row md:space-x-4 md:space-y-0'>
+              <div
+                key={post._id}
+                className='flex flex-col space-x-0 space-y-4 md:flex-row md:space-x-4 md:space-y-0'
+              >
                 <Link href={`/blog/${post.slug}`}>
                   <div className='relative flex-shrink-0 w-full h-40 rounded-lg md:w-80'>
                     <PostImage post={post} />

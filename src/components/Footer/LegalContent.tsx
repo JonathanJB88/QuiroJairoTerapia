@@ -20,5 +20,9 @@ const LegalContent = ({ content }: ContentProps) => (
   </>
 );
 
-export const PrivacyPolicyContent = () => <LegalContent content={privacyPolicyContent} />;
-export const TermsOfServiceContent = () => <LegalContent content={termsOfServiceContent} />;
+export const PrivacyPolicyContent = () => (
+  <LegalContent content={privacyPolicyContent} />
+);
+export const TermsOfServiceContent = () => (
+  <LegalContent content={termsOfServiceContent} />
+);

@@ -6,7 +6,9 @@ interface ServiceCardProps {
   service: Iservice;
 }
 
-export const ServiceCard = ({ service: { backgroundImageUrl, title, price, description } }: ServiceCardProps) => {
+export const ServiceCard = ({
+  service: { backgroundImageUrl, title, price, description },
+}: ServiceCardProps) => {
   return (
     <div className='relative flex flex-col justify-between h-full p-4 mx-8 md:p-8 text-navy-blue'>
       <Image
@@ -20,7 +22,9 @@ export const ServiceCard = ({ service: { backgroundImageUrl, title, price, descr
       <div className='absolute inset-0 bg-black rounded-lg opacity-60 z-5' />
       <div className='relative z-10 flex flex-col h-full text-left text-light-gray'>
         <div className='flex-grow'>
-          <h3 className='mb-2 font-sans text-base font-semibold underline md:text-lg'>{title}</h3>
+          <h3 className='mb-2 font-sans text-base font-semibold underline md:text-lg'>
+            {title}
+          </h3>
           <p className='mb-2 text-base font-bold text-right md:text-lg font-roboto text-turquoise text-shadow'>
             {price}
           </p>

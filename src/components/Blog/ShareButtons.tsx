@@ -20,7 +20,10 @@ export const ShareButtons = ({ title, currentPath }: ShareButtonsProps) => {
   const twitterShareLink = `https://twitter.com/share?url=${url}&text=${text}`;
   const copyLinkToClipboard = () => {
     navigator.clipboard.writeText(copyShareLink).then(() => {
-      toastNotification('success', '¡Enlace copiado al portapapeles, listo para compartir!');
+      toastNotification(
+        'success',
+        '¡Enlace copiado al portapapeles, listo para compartir!'
+      );
     });
   };
 

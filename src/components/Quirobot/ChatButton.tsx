@@ -3,14 +3,17 @@ import { useCallback, useEffect, useState } from 'react';
 import { BubbleChat, QuirobotChat } from '@/components';
 import { useUIStore } from '@/hooks';
 
-const quirobotCta = '¡Hola!👋 Soy Quirobot. ¿Buscas el masaje ideal? ¡Chatea conmigo ahora! 😊';
+const quirobotCta =
+  '¡Hola!👋 Soy Quirobot. ¿Buscas el masaje ideal? ¡Chatea conmigo ahora! 😊';
 const baseClass = 'transition-all duration-200 ease-in-out opacity-0';
 
 export const ChatButton = () => {
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
   const { showChatBox, toggleChatBox } = useUIStore();
 
-  const bubbleClass = isBubbleVisible ? `${baseClass} opacity-100 visible` : `${baseClass} invisible`;
+  const bubbleClass = isBubbleVisible
+    ? `${baseClass} opacity-100 visible`
+    : `${baseClass} invisible`;
 
   const handleScroll = useCallback(() => {
     setIsBubbleVisible(false);

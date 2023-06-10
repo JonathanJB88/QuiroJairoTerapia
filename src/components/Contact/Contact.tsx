@@ -24,8 +24,15 @@ export const Contact = () => {
       <div className='grid grid-cols-1 gap-4 font-sans md:grid-cols-2 md:gap-8'>
         <ContactForm />
         <div className='space-y-4 font-sans'>
-          <p className='font-semibold text-navy-blue'>Dirección: Calle Alpujarras, Leganés, Madrid</p>
-          <ContactItem icon={<FaWhatsapp />} aria-label='Whatsapp Icon' type='whatsapp' contact='+34657326513' />
+          <p className='font-semibold text-navy-blue'>
+            Dirección: Calle Alpujarras, Leganés, Madrid
+          </p>
+          <ContactItem
+            icon={<FaWhatsapp />}
+            aria-label='Whatsapp Icon'
+            type='whatsapp'
+            contact='+34657326513'
+          />
           <ContactItem
             icon={<FaMailBulk />}
             aria-label='Email Icon'
@@ -34,7 +41,11 @@ export const Contact = () => {
           />
           <div className='w-full h-64'>
             <LoadScriptNext googleMapsApiKey={googleMapsApiKey}>
-              <GoogleMap mapContainerStyle={mapContainerStyle} center={officeLocation} zoom={14}>
+              <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                center={officeLocation}
+                zoom={14}
+              >
                 {/* //TODO: Replace the marker with your own */}
                 <Marker position={officeLocation} />
               </GoogleMap>
@@ -43,8 +54,14 @@ export const Contact = () => {
         </div>
         {/* //TODO: Replace the Facebook and Instagram links with your own */}
         <div className='flex space-x-4 font-sans'>
-          <Social Icon={FaTwitter} href='https://twitter.com/quirojairoterapia' />
-          <Social Icon={FaInstagram} href='https://www.instagram.com/quirojairoterapia/' />
+          <Social
+            Icon={FaTwitter}
+            href='https://twitter.com/quirojairoterapia'
+          />
+          <Social
+            Icon={FaInstagram}
+            href='https://www.instagram.com/quirojairoterapia/'
+          />
         </div>
       </div>
     </div>

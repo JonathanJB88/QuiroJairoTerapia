@@ -1,9 +1,15 @@
 import { useEffect, useRef } from 'react';
-import { BubbleChat, ChatHeader, Message, QuirobotChatForm } from '@/components';
+import {
+  BubbleChat,
+  ChatHeader,
+  Message,
+  QuirobotChatForm,
+} from '@/components';
 import { useSubmitChat } from '@/hooks';
 
 export const QuirobotChat = () => {
-  const { chatMessages, loading, isFormValid, formValidation } = useSubmitChat();
+  const { chatMessages, loading, isFormValid, formValidation } =
+    useSubmitChat();
 
   const chatBoxRef = useRef<HTMLDivElement>(null);
 
@@ -18,10 +24,19 @@ export const QuirobotChat = () => {
       <ChatHeader />
       <div ref={chatBoxRef} className='flex-grow p-2 overflow-y-auto'>
         {chatMessages.map((msg, index) => (
-          <Message msg={msg} index={index} isLast={index === chatMessages.length - 1} key={index} />
+          <Message
+            msg={msg}
+            index={index}
+            isLast={index === chatMessages.length - 1}
+            key={index}
+          />
         ))}
-        {loading && <BubbleChat animation message='Escribiendo...' direction='start' />}
-        {formValidation.message && <BubbleChat message={formValidation.message} direction='start' />}
+        {loading && (
+          <BubbleChat animation message='Escribiendo...' direction='start' />
+        )}
+        {formValidation.message && (
+          <BubbleChat message={formValidation.message} direction='start' />
+        )}
       </div>
       <div className='border-t border-navy-blue border-opacity-20' />
       <QuirobotChatForm />

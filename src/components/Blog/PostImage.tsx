@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import { Post } from '@/interfaces';
 
-const imageSizes = '(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1280px';
+const imageSizes =
+  '(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1280px';
 
 export const PostImage = ({ post }: { post: Post }) => (
   <Image

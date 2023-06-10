@@ -6,7 +6,11 @@ interface StarRatingProps {
   onRatingChange?: (rating: number) => void;
 }
 
-export const StarRating = ({ rating, readOnly, onRatingChange = () => {} }: StarRatingProps) => {
+export const StarRating = ({
+  rating,
+  readOnly,
+  onRatingChange = () => {},
+}: StarRatingProps) => {
   const handleClick = useCallback(
     (newRating: number) => {
       if (!readOnly) {
@@ -28,7 +32,9 @@ export const StarRating = ({ rating, readOnly, onRatingChange = () => {} }: Star
         aria-label={`Rate ${starRating} out of 5`}
       >
         <span className='absolute inset-0'>&#9733;</span>
-        {starRating <= Math.floor(rating) && <span className='absolute inset-0 text-yellow-500'>&#9733;</span>}
+        {starRating <= Math.floor(rating) && (
+          <span className='absolute inset-0 text-yellow-500'>&#9733;</span>
+        )}
         {starRating === Math.ceil(rating) && (
           <span
             className='absolute inset-0 text-yellow-500'

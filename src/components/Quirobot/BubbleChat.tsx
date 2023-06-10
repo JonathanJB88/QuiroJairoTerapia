@@ -9,18 +9,29 @@ interface BubbleChatProps {
   animation?: boolean;
 }
 
-export const BubbleChat = ({ message, direction, username, animation }: BubbleChatProps) => {
+export const BubbleChat = ({
+  message,
+  direction,
+  username,
+  animation,
+}: BubbleChatProps) => {
   const [time, setTime] = useState<string | null>(null);
 
   useEffect(() => {
-    setTime(new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' }));
+    setTime(
+      new Date().toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+      })
+    );
   }, []);
 
   const bubbleStyles = useMemo(() => {
     let styles = `flex p-2 flex-col shadow-sm text-xs md:text-sm rounded-xl bg-light-gray drop-shadow shadow-navy-blue-lighter ${
       animation ? 'animate-pulse-short' : ''
     }`;
-    styles += direction === 'end' ? ' items-end text-right' : ' items-start text-left';
+    styles +=
+      direction === 'end' ? ' items-end text-right' : ' items-start text-left';
     return styles;
   }, [direction, animation]);
 

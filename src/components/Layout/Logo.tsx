@@ -15,8 +15,12 @@ export const Logo = () => {
       </div>
 
       <div className='flex flex-col'>
-        <span className='mb-1 text-xl select-none text-navy-blue font-roboto'>QuiroJairoTerapia</span>
-        <span className='text-sm select-none text-navy-blue font-roboto'>Alivio y bienestar en tus manos</span>
+        <span className='mb-1 text-xl select-none text-navy-blue font-roboto'>
+          QuiroJairoTerapia
+        </span>
+        <span className='text-sm select-none text-navy-blue font-roboto'>
+          Alivio y bienestar en tus manos
+        </span>
       </div>
     </>
   );

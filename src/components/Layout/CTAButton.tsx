@@ -22,7 +22,10 @@ export const CTAButton = ({ label, className }: CTAButtonProps) => {
     window.Calendly.initPopupWidget(calendlyConfig);
   }, []);
   return (
-    <button onClick={handleButtonClick} className={className ? className : defaultClassName}>
+    <button
+      onClick={handleButtonClick}
+      className={className ? className : defaultClassName}
+    >
       {label} <Emoji label='calendar' symbol='📅' />
       <Emoji label='pointing right' symbol='👉' />
     </button>

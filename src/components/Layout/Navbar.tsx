@@ -11,15 +11,28 @@ interface NavbarProps {
   toggleMenu: () => void;
 }
 
-export const Navbar = ({ headerRef, menuItems, activeSection, isMenuOpen, handleClick, toggleMenu }: NavbarProps) => {
+export const Navbar = ({
+  headerRef,
+  menuItems,
+  activeSection,
+  isMenuOpen,
+  handleClick,
+  toggleMenu,
+}: NavbarProps) => {
   const activeSectionClass = (id: MenuItems) => {
     return activeSection === id ? 'text-turquoise underline' : 'text-navy-blue';
   };
 
   return (
-    <header ref={headerRef} className='sticky top-0 left-0 z-50 w-full py-3 bg-white'>
+    <header
+      ref={headerRef}
+      className='sticky top-0 left-0 z-50 w-full py-3 bg-white'
+    >
       <nav className='container flex items-center justify-between mx-auto font-roboto'>
-        <button onClick={() => handleClick(MenuItems.INICIO)} className='flex items-center ml-2'>
+        <button
+          onClick={() => handleClick(MenuItems.INICIO)}
+          className='flex items-center ml-2'
+        >
           <Logo />
         </button>
 
@@ -36,7 +49,11 @@ export const Navbar = ({ headerRef, menuItems, activeSection, isMenuOpen, handle
             </li>
           ))}
         </div>
-        <button className='pr-2 lg:hidden' onClick={toggleMenu} aria-label='Toggle menu'>
+        <button
+          className='pr-2 lg:hidden'
+          onClick={toggleMenu}
+          aria-label='Toggle menu'
+        >
           <svg viewBox='0 0 24 24' className='w-6 h-6 fill-current'>
             <path
               fillRule='evenodd'
@@ -45,7 +62,9 @@ export const Navbar = ({ headerRef, menuItems, activeSection, isMenuOpen, handle
           </svg>
         </button>
       </nav>
-      <nav className={`lg:hidden font-roboto ${isMenuOpen ? 'block' : 'hidden'}`}>
+      <nav
+        className={`lg:hidden font-roboto ${isMenuOpen ? 'block' : 'hidden'}`}
+      >
         {menuItems.map((item) => (
           <div key={item.id} className='py-2 bg-white'>
             <li

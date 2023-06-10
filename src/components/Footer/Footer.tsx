@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { FaRegFileAlt } from 'react-icons/fa';
-import { Modal, ContentModal, PrivacyPolicyContent, TermsOfServiceContent } from '@/components';
+import {
+  Modal,
+  ContentModal,
+  PrivacyPolicyContent,
+  TermsOfServiceContent,
+} from '@/components';
 
 const ModalContentTypes = ['privacy', 'terms', null] as const;
 type ModalContentType = (typeof ModalContentTypes)[number];
@@ -9,7 +14,8 @@ const currentYear = new Date().getFullYear();
 
 export const Footer = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContentType, setModalContentType] = useState<ModalContentType>(null);
+  const [modalContentType, setModalContentType] =
+    useState<ModalContentType>(null);
 
   const handleModal = (contentType: ModalContentType) => {
     setIsModalOpen(!isModalOpen);
@@ -22,7 +28,9 @@ export const Footer = () => {
         <div className='container px-4 mx-auto'>
           <div className='flex flex-col items-center md:flex-row md:justify-between'>
             <div className='text-center md:text-left'>
-              <span className='font-semibold font-roboto'>© {currentYear} QuiroJairoTerapia</span>
+              <span className='font-semibold font-roboto'>
+                © {currentYear} QuiroJairoTerapia
+              </span>
             </div>
             <div className='flex justify-center mt-4 space-x-3 text-xs md:text-sm md:space-x-0 md:space-y-2 md:mt-0 md:flex-col md:justify-start'>
               <button
@@ -46,10 +54,16 @@ export const Footer = () => {
       </footer>
       <Modal isOpen={isModalOpen} onClose={() => handleModal(null)}>
         {modalContentType === 'privacy' && (
-          <ContentModal title='Política de Privacidad' content={<PrivacyPolicyContent />} />
+          <ContentModal
+            title='Política de Privacidad'
+            content={<PrivacyPolicyContent />}
+          />
         )}
         {modalContentType === 'terms' && (
-          <ContentModal title='Términos de Servicio' content={<TermsOfServiceContent />} />
+          <ContentModal
+            title='Términos de Servicio'
+            content={<TermsOfServiceContent />}
+          />
         )}
       </Modal>
     </>

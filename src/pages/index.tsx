@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
-import { GetStaticProps, NextPage } from "next";
-import { Toaster } from "react-hot-toast";
+import { useEffect, useRef } from 'react';
+import { GetStaticProps, NextPage } from 'next';
+import { Toaster } from 'react-hot-toast';
 import {
   Blog,
   ChatButton,
@@ -13,9 +13,9 @@ import {
   ScrollToTopButton,
   Services,
   Therapist,
-} from "@/components";
-import { useAuthStore, useSmoothScroll } from "@/hooks";
-import { getAllPosts } from "@/lib";
+} from '@/components';
+import { useAuthStore, useSmoothScroll } from '@/hooks';
+import { getAllPosts } from '@/lib';
 import {
   IMenuItem,
   LabelMap,
@@ -23,7 +23,7 @@ import {
   MenuLabels,
   Post,
   SectionRefs,
-} from "@/interfaces";
+} from '@/interfaces';
 
 export const menuItems: IMenuItem[] = [
   { id: MenuItems.INICIO, label: MenuLabels.INICIO },
@@ -79,7 +79,7 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
   }, [checkAuthToken]);
 
   return (
-    <div className="flex flex-col min-vh-screen">
+    <div className='flex flex-col min-vh-screen'>
       <Toaster />
       <CustomHead title={pageTitle} description={pageDescription} />
       <Navbar
@@ -90,11 +90,11 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
         toggleMenu={() => setIsMenuOpen(!isMenuOpen)}
         handleClick={scrollToSection}
       />
-      <main className="flex-grow">
+      <main className='flex-grow'>
         <section
           ref={sectionRefs.inicio}
           id={MenuItems.INICIO}
-          className="flex flex-col justify-start w-full py-4"
+          className='flex flex-col justify-start w-full py-4'
         >
           <Hero />
         </section>
@@ -102,15 +102,15 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
         <section
           ref={sectionRefs.servicios}
           id={MenuItems.SERVICIOS}
-          className="flex flex-col justify-start w-full py-4"
+          className='flex flex-col justify-start w-full py-4'
         >
           <Services />
         </section>
 
         <section
-          ref={sectionRefs["conoce-al-terapeuta"]}
+          ref={sectionRefs['conoce-al-terapeuta']}
           id={MenuItems.CONOCE_AL_TERAPEUTA}
-          className="flex flex-col justify-start w-full py-4"
+          className='flex flex-col justify-start w-full py-4'
         >
           <Therapist />
         </section>
@@ -118,7 +118,7 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
         <section
           ref={sectionRefs.experiencias}
           id={MenuItems.EXPERIENCIAS}
-          className="flex flex-col justify-start w-full py-4"
+          className='flex flex-col justify-start w-full py-4'
         >
           <Experiences />
         </section>
@@ -126,7 +126,7 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
         <section
           ref={sectionRefs.consejos}
           id={MenuItems.CONSEJOS}
-          className="flex flex-col justify-start w-full py-4"
+          className='flex flex-col justify-start w-full py-4'
         >
           <Blog posts={posts} scrollToSection={scrollToSection} />
         </section>
@@ -134,7 +134,7 @@ const HomePage: NextPage<HomePageProps> = ({ posts }) => {
         <section
           ref={sectionRefs.contacto}
           id={MenuItems.CONTACTO}
-          className="relative flex flex-col justify-start w-full py-4"
+          className='relative flex flex-col justify-start w-full py-4'
         >
           <Contact />
           <ScrollToTopButton

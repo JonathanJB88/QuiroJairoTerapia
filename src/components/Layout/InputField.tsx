@@ -12,9 +12,19 @@ interface InputFieldProps {
   size?: 'small' | 'normal';
 }
 
-const inputClassName = 'w-full p-2 font-sans border rounded-md focus:outline-none';
+const inputClassName =
+  'w-full p-2 font-sans border rounded-md focus:outline-none';
 
-export const InputField = ({ name, type, placeholder, value, onChange, error, minLength, size }: InputFieldProps) => {
+export const InputField = ({
+  name,
+  type,
+  placeholder,
+  value,
+  onChange,
+  error,
+  minLength,
+  size,
+}: InputFieldProps) => {
   useEffect(() => {
     if (error) return toastNotification('error', error);
   }, [error]);
@@ -24,7 +34,9 @@ export const InputField = ({ name, type, placeholder, value, onChange, error, mi
         type={type}
         placeholder={placeholder}
         className={`${inputClassName} ${
-          error ? 'border-red-500' : 'focus:ring-2 focus:ring-turquoise border-navy-blue focus:border-transparent'
+          error
+            ? 'border-red-500'
+            : 'focus:ring-2 focus:ring-turquoise border-navy-blue focus:border-transparent'
         } ${size === 'small' ? 'text-sm' : 'text-base'}`}
         name={name}
         value={value}

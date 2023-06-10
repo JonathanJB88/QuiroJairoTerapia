@@ -1,15 +1,30 @@
 import Image from 'next/image';
-import { ChildType, BlockContentType, BlockType, StyleType } from '@/interfaces';
+import {
+  ChildType,
+  BlockContentType,
+  BlockType,
+  StyleType,
+} from '@/interfaces';
 
-type TypeHandler = Record<BlockType, (block: BlockContentType) => JSX.Element | JSX.Element[] | null>;
-type StyleHandler = Record<StyleType, (block: BlockContentType) => JSX.Element | JSX.Element[] | null>;
+type TypeHandler = Record<
+  BlockType,
+  (block: BlockContentType) => JSX.Element | JSX.Element[] | null
+>;
+type StyleHandler = Record<
+  StyleType,
+  (block: BlockContentType) => JSX.Element | JSX.Element[] | null
+>;
 
 const styleHandlers: StyleHandler = {
   [StyleType.H1]: (block) => (
-    <h1 className='my-4 font-sans text-xl font-bold md:text-3xl text-navy-blue'>{block.children[0].text}</h1>
+    <h1 className='my-4 font-sans text-xl font-bold md:text-3xl text-navy-blue'>
+      {block.children[0].text}
+    </h1>
   ),
   [StyleType.H2]: (block) => (
-    <h2 className='my-3 font-sans text-lg font-bold md:text-2xl text-navy-blue-lighter'>{block.children[0].text}</h2>
+    <h2 className='my-3 font-sans text-lg font-bold md:text-2xl text-navy-blue-lighter'>
+      {block.children[0].text}
+    </h2>
   ),
   [StyleType.H3]: (block) => (
     <h3 className='my-2 font-sans text-base font-semibold text-black text-opacity-75 md:text-xl'>
@@ -41,7 +56,8 @@ const styleHandlers: StyleHandler = {
         if (child.marks.includes('em')) styleClass += ' italic';
         if (child.marks.includes('strong')) styleClass += ' font-bold';
 
-        const { href } = markDefs.find((markDef) => markDef._key === child.marks[0]) || {};
+        const { href } =
+          markDefs.find((markDef) => markDef._key === child.marks[0]) || {};
         if (href) {
           return (
             <a

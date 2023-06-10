@@ -5,10 +5,20 @@ import { InputField } from '@/components';
 import { InputFieldType } from '@/interfaces';
 import { toastNotification } from '@/helpers';
 
-const textareaClassname = 'w-full p-2 font-sans border rounded-md focus:outline-none h-32';
+const textareaClassname =
+  'w-full p-2 font-sans border rounded-md focus:outline-none h-32';
 
 export const ContactForm = () => {
-  const { name, email, phone, message, loading, formValidation, onInputChange, handleSubmit } = useContact();
+  const {
+    name,
+    email,
+    phone,
+    message,
+    loading,
+    formValidation,
+    onInputChange,
+    handleSubmit,
+  } = useContact();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const inputFields: InputFieldType[] = [
@@ -52,7 +62,8 @@ export const ContactForm = () => {
   }, []);
 
   useEffect(() => {
-    if (formValidation.message) return toastNotification('error', formValidation.message);
+    if (formValidation.message)
+      return toastNotification('error', formValidation.message);
   }, [formValidation.message]);
 
   return (

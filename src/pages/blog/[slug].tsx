@@ -60,7 +60,10 @@ const BlogPostPage: NextPage<BlogPostPageProps> = ({ post }) => {
           <Logo />
         </button>
         <article className='md:mt-20 md:w-2/3'>
-          <Breadcrumb categories={post.categories} onNavigate={handleGoToBlog} />
+          <Breadcrumb
+            categories={post.categories}
+            onNavigate={handleGoToBlog}
+          />
 
           <h1 className='mb-2 text-2xl italic font-extrabold md:mr-8 md:text-4xl font-roboto text-light-gray text-shadow'>
             {post.title}
@@ -112,7 +115,11 @@ const BlogPostPage: NextPage<BlogPostPageProps> = ({ post }) => {
           onClick={handleGoToBlog}
           className='flex items-center space-x-2 cursor-pointer'
         >
-          <BiLeftArrowAlt size={32} className='text-light-gray' style={{ filter: 'drop-shadow(0 0 1px black)', objectFit: 'cover' }} />
+          <BiLeftArrowAlt
+            size={32}
+            className='text-light-gray'
+            style={{ filter: 'drop-shadow(0 0 1px black)', objectFit: 'cover' }}
+          />
         </button>
       </div>
     </div>
@@ -131,7 +138,10 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<BlogPostPageProps, Params> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<
+  BlogPostPageProps,
+  Params
+> = async ({ params }) => {
   if (!params) {
     return {
       notFound: true,

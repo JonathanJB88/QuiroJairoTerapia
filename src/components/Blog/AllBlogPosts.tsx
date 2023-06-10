@@ -1,5 +1,11 @@
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { InputField, PostImage, PostInfo, PostsLoading, SectionIntro } from '@/components';
+import {
+  InputField,
+  PostImage,
+  PostInfo,
+  PostsLoading,
+  SectionIntro,
+} from '@/components';
 import { useBlogPosts } from '@/hooks';
 import { Post } from '@/interfaces';
 import Link from 'next/link';
@@ -9,8 +15,12 @@ interface AllBlogPostsProps {
   handleLatestPosts: () => void;
 }
 
-export const AllBlogPosts: React.FC<AllBlogPostsProps> = ({ posts, handleLatestPosts }) => {
-  const { items, query, hasMore, onInputChange, fetchMoreData } = useBlogPosts(posts);
+export const AllBlogPosts: React.FC<AllBlogPostsProps> = ({
+  posts,
+  handleLatestPosts,
+}) => {
+  const { items, query, hasMore, onInputChange, fetchMoreData } =
+    useBlogPosts(posts);
 
   return (
     <div className='relative p-4 mx-auto'>
@@ -35,7 +45,12 @@ export const AllBlogPosts: React.FC<AllBlogPostsProps> = ({ posts, handleLatestP
         error={undefined}
       />
 
-      <InfiniteScroll dataLength={items.length} next={fetchMoreData} hasMore={hasMore} loader={<PostsLoading />}>
+      <InfiniteScroll
+        dataLength={items.length}
+        next={fetchMoreData}
+        hasMore={hasMore}
+        loader={<PostsLoading />}
+      >
         <div className='grid grid-cols-1 gap-2 md:gap-4 md:grid-cols-3'>
           {items.map((post) => (
             <div key={post._id} className='mb-4 md:mb-2'>

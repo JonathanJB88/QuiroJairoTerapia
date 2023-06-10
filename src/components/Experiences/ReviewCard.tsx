@@ -15,7 +15,11 @@ interface ReviewCardProps {
   setExpandedReviewId: Dispatch<SetStateAction<string>>;
 }
 
-export const ReviewCard = ({ review, expandedReviewId, setExpandedReviewId }: ReviewCardProps) => {
+export const ReviewCard = ({
+  review,
+  expandedReviewId,
+  setExpandedReviewId,
+}: ReviewCardProps) => {
   const {
     rating,
     createdAt,

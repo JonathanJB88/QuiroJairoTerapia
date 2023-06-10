@@ -9,8 +9,23 @@ interface ChatMessageProps {
 
 export const Message = ({ msg, index, isLast }: ChatMessageProps) => {
   if (msg.role === 'assistant')
-    return <BubbleChat message={msg.content} direction='start' animation={isLast} key={index} />;
+    return (
+      <BubbleChat
+        message={msg.content}
+        direction='start'
+        animation={isLast}
+        key={index}
+      />
+    );
   if (msg.role === 'user')
-    return <BubbleChat username='Cliente' message={msg.content} direction='end' animation={isLast} key={index} />;
+    return (
+      <BubbleChat
+        username='Cliente'
+        message={msg.content}
+        direction='end'
+        animation={isLast}
+        key={index}
+      />
+    );
   return null;
 };

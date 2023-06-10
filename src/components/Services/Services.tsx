@@ -1,6 +1,11 @@
 import { Carousel } from 'react-responsive-carousel';
 import { services } from '@/data';
-import { CustomArrow, DiscountPackages, ServiceCard, SectionIntro } from '@/components';
+import {
+  CustomArrow,
+  DiscountPackages,
+  ServiceCard,
+  SectionIntro,
+} from '@/components';
 import { useWindowSize } from '@/hooks';
 
 const title = 'Servicios de QuiroJairoTerapia';
@@ -29,10 +34,18 @@ export const Services = () => {
         centerMode
         centerSlidePercentage={slidePercentage}
         renderArrowPrev={(clickHanler, hasPrev, label) => (
-          <CustomArrow clickHandler={clickHanler} hasArrow={hasPrev} label={label} />
+          <CustomArrow
+            clickHandler={clickHanler}
+            hasArrow={hasPrev}
+            label={label}
+          />
         )}
         renderArrowNext={(clickHanler, hasNext, label) => (
-          <CustomArrow clickHandler={clickHanler} hasArrow={hasNext} label={label} />
+          <CustomArrow
+            clickHandler={clickHanler}
+            hasArrow={hasNext}
+            label={label}
+          />
         )}
       >
         {services.map((service, index) => (

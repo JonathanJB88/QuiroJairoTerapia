@@ -91,9 +91,13 @@ export const AuthForm = ({ type, toogleIsFlipped }: FormProps) => {
     },
   ];
 
-  const h2 = isLogin ? 'Acceder para dejar una reseña' : 'Registrarse y dejar una reseña';
+  const h2 = isLogin
+    ? 'Acceder para dejar una reseña'
+    : 'Registrarse y dejar una reseña';
   const button = isLogin ? 'Acceder' : 'Registrarse';
-  const ctaButton = isLogin ? '¿No tienes una cuenta?, Regístrate' : '¿Ya tienes una cuenta?, Accede';
+  const ctaButton = isLogin
+    ? '¿No tienes una cuenta?, Regístrate'
+    : '¿Ya tienes una cuenta?, Accede';
   const buttonText = status === 'checking' ? 'Validando...' : button;
 
   const handleFlipResetForm = () => {
@@ -104,7 +108,10 @@ export const AuthForm = ({ type, toogleIsFlipped }: FormProps) => {
 
   return (
     <div className='p-4 bg-light-gray rounded-xl'>
-      <button className='absolute top-0 right-0 mt-2 mr-4 text-xl font-semibold' onClick={toggleAuthModal}>
+      <button
+        className='absolute top-0 right-0 mt-2 mr-4 text-xl font-semibold'
+        onClick={toggleAuthModal}
+      >
         &times;
       </button>
       <div className='flex flex-col items-center mb-4'>

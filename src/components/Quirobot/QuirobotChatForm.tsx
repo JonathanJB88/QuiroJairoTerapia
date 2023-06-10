@@ -5,7 +5,8 @@ import { IoIosSend } from 'react-icons/io';
 import { useSubmitChat } from '@/hooks';
 import { toastNotification } from '@/helpers';
 
-const textareaClassname = 'flex-1 p-2 font-sans text-sm border rounded-md focus:outline-none';
+const textareaClassname =
+  'flex-1 p-2 font-sans text-sm border rounded-md focus:outline-none';
 
 export const QuirobotChatForm = () => {
   const {
@@ -40,8 +41,14 @@ export const QuirobotChatForm = () => {
   }, [errorMessage]);
 
   return (
-    <form onSubmit={handleSubmit} className='flex items-center p-2 space-x-1 bg-light-gray md:rounded-b-xl'>
-      <HiHome className='w-8 h-8 cursor-pointer text-turquoise' onClick={handleResetChat} />
+    <form
+      onSubmit={handleSubmit}
+      className='flex items-center p-2 space-x-1 bg-light-gray md:rounded-b-xl'
+    >
+      <HiHome
+        className='w-8 h-8 cursor-pointer text-turquoise'
+        onClick={handleResetChat}
+      />
       <textarea
         className={`${textareaClassname} ${
           formValidation.message
@@ -63,7 +70,9 @@ export const QuirobotChatForm = () => {
           }
         }}
       />
-      <span className='p-1 text-xs opacity-50 text-navy-blue'>{message.length}/300</span>
+      <span className='p-1 text-xs opacity-50 text-navy-blue'>
+        {message.length}/300
+      </span>
       <button type='submit'>
         <IoIosSend className='w-8 h-8 cursor-pointer text-turquoise' />
       </button>

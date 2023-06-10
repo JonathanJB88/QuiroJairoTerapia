@@ -1,8 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { AiFillSafetyCertificate } from 'react-icons/ai';
-import { CustomArrow, SectionIntro, StarRating, ReviewCard, CommentBox } from '@/components';
-import { useAuthStore, useCommentStore, useReviewsData, useWindowSize } from '@/hooks';
+import {
+  CustomArrow,
+  SectionIntro,
+  StarRating,
+  ReviewCard,
+  CommentBox,
+} from '@/components';
+import {
+  useAuthStore,
+  useCommentStore,
+  useReviewsData,
+  useWindowSize,
+} from '@/hooks';
 import { toastNotification } from '@/helpers';
 
 const title = 'Experiencias de QuiroJairoTerapia';
@@ -14,7 +25,10 @@ export const Experiences = () => {
   const slidePercentage = windowSize.width >= 768 ? 33.33 : 100;
   const { user } = useAuthStore();
   const { comments, errorMessage, getComments } = useCommentStore();
-  const { averageRating, formattedAverage, recentReviews } = useReviewsData(user, comments);
+  const { averageRating, formattedAverage, recentReviews } = useReviewsData(
+    user,
+    comments
+  );
 
   const [expandedReviewId, setExpandedReviewId] = useState<string>('');
 
@@ -35,7 +49,9 @@ export const Experiences = () => {
         <div className='inline-block mr-2 font-sans'>
           <StarRating rating={averageRating} readOnly />
         </div>
-        <div className='inline-block font-sans text-2xl font-bold text-light-gray'>{formattedAverage}</div>
+        <div className='inline-block font-sans text-2xl font-bold text-light-gray'>
+          {formattedAverage}
+        </div>
         <AiFillSafetyCertificate size={24} className='ml-2' />
       </div>
       <Carousel
@@ -50,10 +66,18 @@ export const Experiences = () => {
         centerMode
         centerSlidePercentage={slidePercentage}
         renderArrowPrev={(clickHandler, hasPrev, label) => (
-          <CustomArrow clickHandler={clickHandler} hasArrow={hasPrev} label={label} />
+          <CustomArrow
+            clickHandler={clickHandler}
+            hasArrow={hasPrev}
+            label={label}
+          />
         )}
         renderArrowNext={(clickHandler, hasNext, label) => (
-          <CustomArrow clickHandler={clickHandler} hasArrow={hasNext} label={label} />
+          <CustomArrow
+            clickHandler={clickHandler}
+            hasArrow={hasNext}
+            label={label}
+          />
         )}
       >
         {recentReviews.map((review) => (

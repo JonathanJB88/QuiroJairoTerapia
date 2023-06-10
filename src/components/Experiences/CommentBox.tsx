@@ -16,11 +16,22 @@ const textareaClass =
 
 export const CommentBox = ({ type, postId }: CommentBoxProps) => {
   const { status, user, logout } = useAuthStore();
-  const { showAuthModal, showDropdown, toggleAuthModal, toggleDropdown, resetUI } = useUIStore();
-  const { content, rating, isPosting, onInputChange, handleRatingChange, handleSubmit, onResetForm } = useSubmitComment(
-    type,
-    postId
-  );
+  const {
+    showAuthModal,
+    showDropdown,
+    toggleAuthModal,
+    toggleDropdown,
+    resetUI,
+  } = useUIStore();
+  const {
+    content,
+    rating,
+    isPosting,
+    onInputChange,
+    handleRatingChange,
+    handleSubmit,
+    onResetForm,
+  } = useSubmitComment(type, postId);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -126,21 +137,39 @@ export const CommentBox = ({ type, postId }: CommentBoxProps) => {
         </h3>
         <textarea
           className={`${textareaClass} ${!user ? 'cursor-not-allowed' : ''}`}
-          placeholder={user ? 'Describe tu experiencia aquí...' : 'Inicia sesión para escribir un comentario.'}
+          placeholder={
+            user
+              ? 'Describe tu experiencia aquí...'
+              : 'Inicia sesión para escribir un comentario.'
+          }
           rows={2}
-          aria-label={user ? 'Describe tu experiencia aquí' : 'Inicia sesión para escribir un comentario.'}
+          aria-label={
+            user
+              ? 'Describe tu experiencia aquí'
+              : 'Inicia sesión para escribir un comentario.'
+          }
           disabled={!user}
           ref={textareaRef}
           name='content'
           value={content}
           onChange={onInputChange}
         />
-        <div className={`flex flex-row items-center ${type === 'review' ? 'justify-between' : 'justify-end'}`}>
+        <div
+          className={`flex flex-row items-center ${
+            type === 'review' ? 'justify-between' : 'justify-end'
+          }`}
+        >
           {type === 'review' && (
             <div className='flex flex-col items-center justify-center md:flex-row'>
-              <h2 className='font-bold md:text-xl font-roboto text-navy-blue md:px-2'>Califica el Servicio</h2>
+              <h2 className='font-bold md:text-xl font-roboto text-navy-blue md:px-2'>
+                Califica el Servicio
+              </h2>
               <div>
-                <StarRating rating={rating || 5} onRatingChange={handleRatingChange} readOnly={!user} />
+                <StarRating
+                  rating={rating || 5}
+                  onRatingChange={handleRatingChange}
+                  readOnly={!user}
+                />
               </div>
             </div>
           )}
