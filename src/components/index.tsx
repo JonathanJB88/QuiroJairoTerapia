@@ -50,3 +50,4 @@ export * from './Blog/LikeButton';
 export * from './Contact/ScrollToTopButton';
 export * from './Layout/Logo';
 export * from './Conoce_al_terapueta/Therapist';
+export * from './Footer/LegalContent';
