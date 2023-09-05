@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { Therapist } from '@/components';
 
-describe('Therapist Component', () => {
+describe('Conoce_al_terapeuta/Therapist Component', () => {
 	beforeEach(() => {
 		render(<Therapist />);
 	});

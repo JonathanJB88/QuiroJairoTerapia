@@ -41,7 +41,7 @@ export const useBlogPosts = (posts: Post[]) => {
         stringContains(post.author.name, debouncedValue)
     );
     setFilteredPosts(filtered);
-    setItems(filtered.slice(0, 3));
+    setItems(filtered.slice(0, 6));
     setHasMore(true);
   }, [posts, debouncedValue]);
 

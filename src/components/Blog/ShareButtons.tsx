@@ -32,6 +32,7 @@ export const ShareButtons = ({ title, currentPath }: ShareButtonsProps) => {
       <div className='flex items-center space-x-3'>
         <div className='p-1 rounded-md shadow-md bg-light-gray'>
           <IoIosCopy
+          data-testid='copy-link-icon'
             size={32}
             className='transition-all duration-200 ease-in-out cursor-pointer text-turquoise hover:text-navy-blue'
             onClick={copyLinkToClipboard}
